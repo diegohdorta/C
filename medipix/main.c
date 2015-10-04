@@ -1,8 +1,11 @@
-/* How to compile: scan-build clang -Wall -Wextra -Werror -Wno-unused-parameter -std=c11 -g -DDEBUG main.c network.c image.c thread.c utils.c -o server */
-/* Medipix Server - Developed by Diego Dorta */
-/* O motivo para se usar processos ao invés de threads é que este não é um problema paralelo fortemente acoplado ou, a quantidade de comunicação entre processos
-   é pequena. Desta forma não é necessário se preocupar com race conditions. Este servidor é I/O bound, isto é, a maior parte do tempo é gasta fazendo I/O e
-   a quantidade de processamento é pequena. */
+/* How to compile: scan-build clang -Wall -Wextra -Werror -Wno-unused-parameter -std=c11 -g -DDEBUG main.c network.c image.c medipix.c utils.c -o server */
+/* Medipix Server - Developed by Diego Dorta 
+
+   Usa-se processos ao invés de threads neste programa, pois este não é um problema paralelo
+   fortemente acoplado ou, a quantidade de comunicação entre processos é pequena.
+   Desta forma, não é necessário se preocupar com race conditions. Este servidor é I/O bound,
+   isto é, a maior parte do tempo é gasta fazendo I/O e a quantidade de processamento é pequena.
+*/
 #define _POSIX_C_SOURCE 200809L
 #define _BSD_SOURCE
 #include <stdio.h>

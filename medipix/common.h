@@ -23,6 +23,11 @@
 #define MAXIMUM_IMAGE_COUNT	100
 #define MINIMUM_BIT_COUNT	0
 #define MAXIMUM_BIT_COUNT	3
+#define NUMBER_OF_BROTHERS	2
+#define WIDTH			256
+#define HEIGHT			256
+#define MAXIMUM_NUMBER_OF_BYTES 3
+#define IMAGE_BUFFER_SIZE	(WIDTH*HEIGHT*MAXIMUM_NUMBER_OF_BYTES)
 
 extern FILE *log_error;
 
@@ -38,18 +43,25 @@ struct process_arguments {
 	int remote_socket;
 };
 
+struct medipix_header {
+	char sync_1;
+	char sync_2;
+	char sync_3;
+	char sync_4;
+};
+
 typedef void (*start_routine_t)(struct process_arguments *);
 
-struct sockaddr_in binding_udp_socket(int s_udp, uint16_t port);
+void binding_udp_socket(int s_udp, uint16_t port);
 int create_tcp_socket(void);
 int accept_new_connection(int s);
 int create_udp_socket(void);
 void receive_variables(struct process_arguments *args);
-void receive_bytes_from_medipix(int s_udp, struct sockaddr_in medipix, struct acquisition_info  *fl);
+void receive_bytes_from_medipix(int s_udp, struct acquisition_info  *fl);
 void communication_medipix(struct process_arguments *args) __attribute__ ((noreturn));
 pid_t create_process(start_routine_t start_routine, struct process_arguments *args);
 void create_socketpair(int *sv);
-void send_or_panic(int socket, const char * text, size_t length);
+void send_or_panic(int socket, const void *text, size_t length);
 
 #ifdef __GNUC__ /* The __GNUC__ also works with clang compiler */
 void debug(FILE *output, const char *format, ...) __attribute__((format (printf, 2, 3)));

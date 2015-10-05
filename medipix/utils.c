@@ -77,7 +77,7 @@ void create_socketpair(int *sv)
 	}
 }
 
-void send_or_panic(int socket, const char * text, size_t length)
+void send_or_panic(int socket, const void *text, size_t length)
 {
 	if (send(socket, text, length, 0) < 0) {
 		debug(log_error, "Send: %s\n", strerror(errno));

@@ -29,7 +29,7 @@ int main(void)
 {
 	int sock;
 	int remote_socket;
-	int brothers[2];
+	int brothers[NUMBER_OF_BROTHERS];
 	
 	pid_t ioc_listener;
 	pid_t medipix_listener;

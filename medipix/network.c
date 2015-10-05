@@ -73,6 +73,7 @@ void receive_variables(struct process_arguments *args)
 {
 	int x;
 	int aux;
+	const int bit_count_dict[] = {1, 12, 6, 24};
 	ssize_t size = 0;	
 	bool done;
 	size_t i = 0; 
@@ -87,6 +88,8 @@ void receive_variables(struct process_arguments *args)
 	};
 	
 	debug(stderr, "The filename is by default: %s\n", info.filename);
+	debug(stderr, "The number of bits is by default: %d\n", bit_count_dict[info.number_bits]);
+	debug(stderr, "The number of frames is by default: %d\n", info.number_frames);
 
 	do {
 		debug(stderr, "Waiting for variables...\n");
@@ -155,12 +158,11 @@ void receive_variables(struct process_arguments *args)
 					
 				break;
 			case ID_ACQUIRE:
-				/*
+			
+				debug(stderr, "Sending acquisition request to brother\n");
+				send_or_panic(args->brother_socket, &info, sizeof(info));
 
-				send_or_panic(args->remote_socket, FAILURE, sizeof(FAILURE)-1));
-				
-				*/
-				
+				break;				
 			default:
 				debug(log_error, "Invalid variables types\n");
 				debug(stderr, "Sending message error to IOC\n");
@@ -187,7 +189,7 @@ int create_udp_socket(void)
 	return s_udp;
 }
 
-struct sockaddr_in binding_udp_socket(int s_udp, uint16_t port)
+void binding_udp_socket(int s_udp, uint16_t port)
 {
 	int enable = 1;
 	socklen_t namelen;
@@ -215,6 +217,4 @@ struct sockaddr_in binding_udp_socket(int s_udp, uint16_t port)
 		exit(EXIT_FAILURE);
 	}
 	debug(stderr, "The port is %d\n", ntohs(medipix.sin_port));
-
-	return medipix;
 }

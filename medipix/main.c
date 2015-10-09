@@ -1,4 +1,3 @@
-/* How to compile: scan-build clang -Wall -Wextra -Werror -Wno-unused-parameter -std=c11 -g -DDEBUG main.c network.c image.c medipix.c utils.c -o server */
 /* Medipix Server - Developed by Diego Dorta 
 
    Usa-se processos ao invés de threads neste programa, pois este não é um problema paralelo

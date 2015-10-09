@@ -59,7 +59,7 @@ int accept_new_connection(int s)
 	struct sockaddr_in ioc;
 
 	length = sizeof(ioc);
-	debug(stderr, "Accepting new connection...\n");
+	debug(stderr, "Waiting for IOC to connect on server...\n");
 
 	if ((ns = accept(s, (struct sockaddr *)&ioc, &length)) == -1) {
 		debug(log_error, "Accept: %s\n", strerror(errno));
@@ -92,7 +92,7 @@ void receive_variables(struct process_arguments *args)
 	debug(stderr, "The number of frames is by default: %d\n", info.number_frames);
 
 	do {
-		debug(stderr, "Waiting for variables...\n");
+		debug(stderr, "Waiting for variables [file name, number of bits, number of frames]...\n");
 		done = false;
 		i = 0;
 		do {
@@ -123,13 +123,13 @@ void receive_variables(struct process_arguments *args)
 			} /* for */
 		} while (!done);		
 		
-		debug(stderr, "Content of buffer: %s\n", variable);
+		debug(stderr, "Content of buffer received from IOC: %s\n", variable);
 
 		switch(variable[0]) {
 
 			case ID_FILENAME:
 				strcpy(info.filename,(&(variable[1])));
-				debug(stderr, "Filename: %s\n",info.filename);			
+				debug(stderr, "Current file name: %s\n",info.filename);			
 				break;
 			case ID_FRAMES:
 				aux = atoi(&(variable[1]));
@@ -141,7 +141,7 @@ void receive_variables(struct process_arguments *args)
 				}
 				
 				info.number_frames = atoi(&(variable[1]));
-				debug(stderr, "Frames: %d\n",info.number_frames);
+				debug(stderr, "Current number of frames: %d\n",info.number_frames);
 							
 				break;
 			case ID_BITS:			
@@ -154,11 +154,10 @@ void receive_variables(struct process_arguments *args)
 				}
 							
 				info.number_bits = atoi(&(variable[1]));
-				debug(stderr, "Bits: %d\n",info.number_bits);			
+				debug(stderr, "Current number of bits: %d\n",info.number_bits);			
 					
 				break;
-			case ID_ACQUIRE:
-			
+			case ID_ACQUIRE:			
 				debug(stderr, "Sending acquisition request to brother\n");
 				send_or_panic(args->brother_socket, &info, sizeof(info));
 
@@ -171,7 +170,7 @@ void receive_variables(struct process_arguments *args)
 		}
 
 		/* Enviando mensagem para o IOC que o nome foi recebido com sucesso */
-		debug(stderr, "Sending message to IOC...\n");
+		debug(stderr, "Sending SUCCESS message to IOC...\n");
 		send_or_panic(args->remote_socket, SUCCESS, sizeof(SUCCESS)-1);
 
 	} while (true);
@@ -201,7 +200,7 @@ void binding_udp_socket(int s_udp, uint16_t port)
 	medipix.sin_addr.s_addr = INADDR_ANY;
 	
 	if (setsockopt(s_udp, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0) {
-		debug(log_error, "Setsockopt(SO_REUSEADDR) Failed: %s\n", strerror(errno));
+		debug(log_error, "Set sock opt (SO_REUSEADDR) Failed: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 
@@ -213,8 +212,8 @@ void binding_udp_socket(int s_udp, uint16_t port)
 
 	namelen = sizeof(medipix);
 	if (getsockname(s_udp, (struct sockaddr *)&medipix, &namelen) < 0) {
-		debug(log_error, "getsockname: %s\n", strerror(errno));
+		debug(log_error, "Get sock name: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
-	debug(stderr, "The port is %d\n", ntohs(medipix.sin_port));
+	debug(stderr, "The port to receive the image bytes is %d\n", ntohs(medipix.sin_port));
 }

@@ -28,6 +28,7 @@ void communication_medipix(struct process_arguments *args)
 			debug(log_error, "Recv: %s\n", strerror(errno));	
 			exit(EXIT_FAILURE);
 		}
+		debug(stderr, "Received acquisition requested!\n");
 		receive_bytes_from_medipix(socket_udp, &info);
 		
 	} while(true);

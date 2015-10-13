@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <errno.h>
+#include <sys/time.h>
 
 #include "common.h"
 
@@ -84,15 +85,17 @@ void receive_variables(struct process_arguments *args)
 	struct acquisition_info info = {
 		.filename = DEFAULT_FILE_NAME,
 		.number_frames = MINIMUM_IMAGE_COUNT,
-		.number_bits = 0
+		.number_bits = 0,
+		.read_counter = 0
 	};
 	
 	debug(stderr, "The filename is by default: %s\n", info.filename);
 	debug(stderr, "The number of bits is by default: %d\n", bit_count_dict[info.number_bits]);
 	debug(stderr, "The number of frames is by default: %d\n", info.number_frames);
+	debug(stderr, "The read counter is by default: %d\n", info.read_counter);
 
 	do {
-		debug(stderr, "Waiting for variables [file name, number of bits, number of frames]...\n");
+		debug(stderr, "Waiting for variables...\n");
 		done = false;
 		i = 0;
 		do {
@@ -125,51 +128,63 @@ void receive_variables(struct process_arguments *args)
 		
 		debug(stderr, "Content of buffer received from IOC: %s\n", variable);
 
+		aux = atoi(&(variable[1]));
+		
 		switch(variable[0]) {
-
+		
 			case ID_FILENAME:
+						
 				strcpy(info.filename,(&(variable[1])));
-				debug(stderr, "Current file name: %s\n",info.filename);			
+				debug(stderr, "Current file name: %s\n",info.filename);		
 				break;
-			case ID_FRAMES:
-				aux = atoi(&(variable[1]));
 				
+			case ID_FRAMES:	
+					
 				if(aux < MINIMUM_IMAGE_COUNT || aux > MAXIMUM_IMAGE_COUNT) {
 					debug(log_error, "Invalid number of frames: %s\n", &variable[1]);
 					send_or_panic(args->remote_socket, FAILURE, sizeof(FAILURE)-1);				
 					continue;
-				}
-				
-				info.number_frames = atoi(&(variable[1]));
-				debug(stderr, "Current number of frames: %d\n",info.number_frames);
-							
+				}				
+				info.number_frames = aux;
+				debug(stderr, "Current number of frames: %d\n",info.number_frames);							
 				break;
-			case ID_BITS:			
-				aux = atoi(&(variable[1]));
 				
+			case ID_BITS:	
+					
 				if(aux < MINIMUM_BIT_COUNT || aux > MAXIMUM_BIT_COUNT) {
 					debug(log_error, "Invalid number of bits: %s\n", &variable[1]);
 					send_or_panic(args->remote_socket, FAILURE, sizeof(FAILURE)-1);				
 					continue;
-				}
-							
-				info.number_bits = atoi(&(variable[1]));
-				debug(stderr, "Current number of bits: %d\n",info.number_bits);			
-					
+				}							
+				info.number_bits = aux;
+				debug(stderr, "Current number of bits: %d\n",info.number_bits);						
 				break;
-			case ID_ACQUIRE:			
+				
+			case ID_ACQUIRE:
+						
 				debug(stderr, "Sending acquisition request to brother\n");
 				send_or_panic(args->brother_socket, &info, sizeof(info));
-
-				break;				
+				break;
+				
+			case ID_READING_COUNT:
+				
+				if(aux < MINIMUM_READING_COUNT || aux > MAXIMUM_READING_COUNT) {
+					debug(log_error, "Invalid reading count: %s\n", &variable[1]);
+					send_or_panic(args->remote_socket, FAILURE, sizeof(FAILURE)-1);				
+					continue;
+				}		
+				info.read_counter = aux;		
+				debug(stderr, "Current read counter: %d\n", info.read_counter);
+				break;
+				
 			default:
+			
 				debug(log_error, "Invalid variables types\n");
-				debug(stderr, "Sending message error to IOC\n");
+				debug(stderr, "Sending error message to IOC\n");
 				send_or_panic(args->remote_socket, FAILURE, sizeof(FAILURE)-1);
 				continue;
 		}
 
-		/* Enviando mensagem para o IOC que o nome foi recebido com sucesso */
 		debug(stderr, "Sending SUCCESS message to IOC...\n");
 		send_or_panic(args->remote_socket, SUCCESS, sizeof(SUCCESS)-1);
 
@@ -194,6 +209,11 @@ void binding_udp_socket(int s_udp, uint16_t port)
 	socklen_t namelen;
 	
 	struct sockaddr_in medipix;
+	
+	struct timeval timeout = {
+		.tv_sec = MEDIPIX_TIMEOUT,
+		.tv_usec = 0	
+	};
 
 	medipix.sin_family      = AF_INET;  
 	medipix.sin_port        = htons(port);   
@@ -203,7 +223,12 @@ void binding_udp_socket(int s_udp, uint16_t port)
 		debug(log_error, "Set sock opt (SO_REUSEADDR) Failed: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
-
+	
+	if (setsockopt(s_udp, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(struct timeval)) < 0) {
+		debug(log_error, "Set sock opt (SO_RCVTIMEO) Failed: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+	
 	debug(stderr, "Binding UDP...\n");
 	if (bind(s_udp, (struct sockaddr *)&medipix, sizeof(medipix)) < 0) {
 		debug(log_error, "Bind: %s\n", strerror(errno));

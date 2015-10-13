@@ -19,24 +19,29 @@
 #define ID_FRAMES 		'B'
 #define ID_BITS 		'C'
 #define ID_ACQUIRE 		'D'
+#define ID_READING_COUNT	'E'
 #define DEBUG_MESSAGE		"This log is only for debbuging in case something stops working.\n\n"
 #define SENTINEL		-1
 #define MINIMUM_IMAGE_COUNT	1
 #define MAXIMUM_IMAGE_COUNT	100
 #define MINIMUM_BIT_COUNT	0
 #define MAXIMUM_BIT_COUNT	3
+#define MINIMUM_READING_COUNT	0
+#define MAXIMUM_READING_COUNT	2
 #define NUMBER_OF_BROTHERS	2
 #define WIDTH			256
 #define HEIGHT			256
 #define MAXIMUM_NUMBER_OF_BYTES 3
 #define IMAGE_BUFFER_SIZE	(WIDTH*HEIGHT*MAXIMUM_NUMBER_OF_BYTES)
 #define NUMBER_OF_IO_ELEMENTS	2
+#define MEDIPIX_TIMEOUT		5
 
 extern FILE *log_error;
 
 struct acquisition_info {
 	int number_bits;
 	int number_frames;
+	int read_counter;
 	char filename[FILENAME_SIZE];
 };
 

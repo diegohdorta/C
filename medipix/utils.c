@@ -54,7 +54,7 @@ pid_t create_process(start_routine_t start_routine, struct process_arguments *ar
 
 	if(pid > 0) {
 		/* I am a parent */
-		close(args->brother_socket);	
+		//close(args->brother_socket);	
 		return pid;
 	} 
 	else if (pid < 0) {

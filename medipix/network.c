@@ -86,13 +86,15 @@ void receive_variables(struct process_arguments *args)
 		.filename = DEFAULT_FILE_NAME,
 		.number_frames = MINIMUM_IMAGE_COUNT,
 		.number_bits = 0,
-		.read_counter = 0
+		.read_counter = 0,
+		.acquisition_time_us = MEDIPIX_TIMEOUT
 	};
 	
 	debug(stderr, "The filename is by default: %s\n", info.filename);
 	debug(stderr, "The number of bits is by default: %d\n", bit_count_dict[info.number_bits]);
 	debug(stderr, "The number of frames is by default: %d\n", info.number_frames);
 	debug(stderr, "The read counter is by default: %d\n", info.read_counter);
+	debug(stderr, "The acquisition time is by default: %d\n", info.acquisition_time_us);
 
 	do {
 		debug(stderr, "Waiting for variables...\n");
@@ -159,7 +161,7 @@ void receive_variables(struct process_arguments *args)
 				info.number_bits = aux;
 				debug(stderr, "Current number of bits: %d\n",info.number_bits);						
 				break;
-				
+								
 			case ID_ACQUIRE:
 						
 				debug(stderr, "Sending acquisition request to brother\n");
@@ -176,7 +178,18 @@ void receive_variables(struct process_arguments *args)
 				info.read_counter = aux;		
 				debug(stderr, "Current read counter: %d\n", info.read_counter);
 				break;
-				
+
+			case ID_TIME_COUNT:
+
+				if(aux < MINIMUM_TIME_COUNT || aux > MAXIMUM_TIME_COUNT) {
+					debug(log_error, "Invalid acquisition time: %s\n", &variable[1]);
+					send_or_panic(args->remote_socket, FAILURE, sizeof(FAILURE)-1);				
+					continue;
+				}		
+				info.acquisition_time_us = aux;		
+				debug(stderr, "Current acquisition time: %d\n", info.acquisition_time_us);
+				break;
+			
 			default:
 			
 				debug(log_error, "Invalid variables types\n");
@@ -203,6 +216,22 @@ int create_udp_socket(void)
 	return s_udp;
 }
 
+void set_socket_timeout(int socket, unsigned timeout_us)
+{
+	struct timeval timeout;
+	
+	timeout.tv_sec = timeout_us / MICRO_PER_SECOND;
+	timeout.tv_usec = timeout_us % MICRO_PER_SECOND;
+
+	if (setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(struct timeval)) < 0) {
+		debug(log_error, "Set sock opt (SO_RCVTIMEO) Failed: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+	
+	debug(stderr,"The medipix has %ld seconds to send the bytes!\n", timeout.tv_sec + timeout.tv_usec);
+	
+}
+
 void binding_udp_socket(int s_udp, uint16_t port)
 {
 	int enable = 1;
@@ -210,22 +239,12 @@ void binding_udp_socket(int s_udp, uint16_t port)
 	
 	struct sockaddr_in medipix;
 	
-	struct timeval timeout = {
-		.tv_sec = MEDIPIX_TIMEOUT,
-		.tv_usec = 0	
-	};
-
 	medipix.sin_family      = AF_INET;  
 	medipix.sin_port        = htons(port);   
 	medipix.sin_addr.s_addr = INADDR_ANY;
 	
 	if (setsockopt(s_udp, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0) {
 		debug(log_error, "Set sock opt (SO_REUSEADDR) Failed: %s\n", strerror(errno));
-		exit(EXIT_FAILURE);
-	}
-	
-	if (setsockopt(s_udp, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(struct timeval)) < 0) {
-		debug(log_error, "Set sock opt (SO_RCVTIMEO) Failed: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 	

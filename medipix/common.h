@@ -20,6 +20,7 @@
 #define ID_BITS 		'C'
 #define ID_ACQUIRE 		'D'
 #define ID_READING_COUNT	'E'
+#define ID_TIME_COUNT		'F'    //isto msm????
 #define DEBUG_MESSAGE		"This log is only for debbuging in case something stops working.\n\n"
 #define SENTINEL		-1
 #define MINIMUM_IMAGE_COUNT	1
@@ -28,13 +29,17 @@
 #define MAXIMUM_BIT_COUNT	3
 #define MINIMUM_READING_COUNT	0
 #define MAXIMUM_READING_COUNT	2
+#define MINIMUM_TIME_COUNT	1*MICRO_PER_SECOND
+#define MAXIMUM_TIME_COUNT	100*MICRO_PER_SECOND
 #define NUMBER_OF_BROTHERS	2
 #define WIDTH			256
 #define HEIGHT			256
 #define MAXIMUM_NUMBER_OF_BYTES 3
 #define IMAGE_BUFFER_SIZE	(WIDTH*HEIGHT*MAXIMUM_NUMBER_OF_BYTES)
+#define MAXIMUM_PACKET_COUNT	(IMAGE_BUFFER_SIZE*MAXIMUM_IMAGE_COUNT/SIZE_IMAGE_DATA)
 #define NUMBER_OF_IO_ELEMENTS	2
 #define MEDIPIX_TIMEOUT		5
+#define MICRO_PER_SECOND	1000000
 
 extern FILE *log_error;
 
@@ -42,6 +47,7 @@ struct acquisition_info {
 	int number_bits;
 	int number_frames;
 	int read_counter;
+	int acquisition_time_us; // vai influenciar no tamanho???
 	char filename[FILENAME_SIZE];
 };
 
@@ -56,7 +62,7 @@ struct medipix_header {
 	char sync_1;
 	char sync_2;
 	char sync_3;
-	char sync_4;
+	char packet_number;
 };
 
 typedef void (*start_routine_t)(struct process_arguments *);
@@ -71,6 +77,7 @@ void communication_medipix(struct process_arguments *args) __attribute__ ((noret
 pid_t create_process(start_routine_t start_routine, struct process_arguments *args);
 void create_socketpair(int *sv);
 void send_or_panic(int socket, const void *text, size_t length);
+void set_socket_timeout(int socket, unsigned timeout_us);
 
 #ifdef __GNUC__ /* The __GNUC__ also works with clang compiler */
 void debug(FILE *output, const char *format, ...) __attribute__((format (printf, 2, 3)));

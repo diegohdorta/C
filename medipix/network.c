@@ -87,14 +87,14 @@ void receive_variables(struct process_arguments *args)
 		.number_frames = MINIMUM_IMAGE_COUNT,
 		.number_bits = 0,
 		.read_counter = 0,
-		.acquisition_time_us = MEDIPIX_TIMEOUT
+		.gap_us = MEDIPIX_TIMEOUT
 	};
 	
 	debug(stderr, "The filename is by default: %s\n", info.filename);
 	debug(stderr, "The number of bits is by default: %d\n", bit_count_dict[info.number_bits]);
 	debug(stderr, "The number of frames is by default: %d\n", info.number_frames);
 	debug(stderr, "The read counter is by default: %d\n", info.read_counter);
-	debug(stderr, "The acquisition time is by default: %d\n", info.acquisition_time_us);
+	debug(stderr, "The acquisition time is by default: %d\n", info.gap_us);
 
 	do {
 		debug(stderr, "Waiting for variables...\n");
@@ -179,15 +179,15 @@ void receive_variables(struct process_arguments *args)
 				debug(stderr, "Current read counter: %d\n", info.read_counter);
 				break;
 
-			case ID_TIME_COUNT:
+			case ID_GAP_TIME_COUNT:
 
-				if(aux < MINIMUM_TIME_COUNT || aux > MAXIMUM_TIME_COUNT) {
-					debug(log_error, "Invalid acquisition time: %s\n", &variable[1]);
+				if(aux < MINIMUM_GAP_TIME_COUNT || aux > MAXIMUM_GAP_TIME_COUNT) {
+					debug(log_error, "Invalid gap time: %s\n", &variable[1]);
 					send_or_panic(args->remote_socket, FAILURE, sizeof(FAILURE)-1);				
 					continue;
 				}		
-				info.acquisition_time_us = aux;		
-				debug(stderr, "Current acquisition time: %d\n", info.acquisition_time_us);
+				info.gap_us = aux;		
+				debug(stderr, "Current gap time: %d\n", info.gap_us);
 				break;
 			
 			default:

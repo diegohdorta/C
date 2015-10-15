@@ -51,7 +51,7 @@ void receive_bytes_from_medipix(int s_udp, struct acquisition_info *info)
 	
 	aux = info->number_frames * number_of_readings[info->read_counter];
 
-	set_socket_timeout(s_udp, info->acquisition_time_us + MEDIPIX_TIMEOUT * MICRO_PER_SECOND);
+	set_socket_timeout(s_udp, info->gap_us + MEDIPIX_TIMEOUT * MICRO_PER_SECOND);
 	
 	for(j = 0; j < aux; j++) {
 	
@@ -72,11 +72,11 @@ void receive_bytes_from_medipix(int s_udp, struct acquisition_info *info)
 			iovec[0].iov_base += sizeof(struct medipix_header);			
 			iovec[1].iov_base += SIZE_IMAGE_DATA;
 
-			printf("aaaaaaaaaaaa\n");
-		} /* for i */
+			debug(stderr, "Receiving packets: %d\n", i);
+		} 
 	} /* for j */
 	
-	/* Insertion sort is used because most of the time the array is already ordered */
+	/* Ordering packets - Insertion sort is used because most of the time the array is already ordered */
 	/*for (i = 1; i < aux*number_of_packets[info->number_bits]; i++) {
 		j = i;
 		while (j > 0 && header[j-1].packet_number > header[j].packet_number) {
@@ -97,5 +97,5 @@ void receive_bytes_from_medipix(int s_udp, struct acquisition_info *info)
 	fwrite(info, sizeof(struct acquisition_info), 1, output);
 	fwrite(image, SIZE_IMAGE_DATA, number_of_packets[info->number_bits]*aux, output);
 	fclose(output);
-	printf("DONE!!!!!!!!!!!!!!\n");
+	debug(stderr, "Image done!\n");
 }

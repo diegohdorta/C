@@ -20,7 +20,7 @@
 #define ID_BITS 		'C'
 #define ID_ACQUIRE 		'D'
 #define ID_READING_COUNT	'E'
-#define ID_TIME_COUNT		'F'    //isto msm????
+#define ID_GAP_TIME_COUNT	'F'
 #define DEBUG_MESSAGE		"This log is only for debbuging in case something stops working.\n\n"
 #define SENTINEL		-1
 #define MINIMUM_IMAGE_COUNT	1
@@ -29,8 +29,8 @@
 #define MAXIMUM_BIT_COUNT	3
 #define MINIMUM_READING_COUNT	0
 #define MAXIMUM_READING_COUNT	2
-#define MINIMUM_TIME_COUNT	1*MICRO_PER_SECOND
-#define MAXIMUM_TIME_COUNT	100*MICRO_PER_SECOND
+#define MINIMUM_GAP_TIME_COUNT	1*MICRO_PER_SECOND
+#define MAXIMUM_GAP_TIME_COUNT	10*MICRO_PER_SECOND
 #define NUMBER_OF_BROTHERS	2
 #define WIDTH			256
 #define HEIGHT			256
@@ -47,7 +47,7 @@ struct acquisition_info {
 	int number_bits;
 	int number_frames;
 	int read_counter;
-	int acquisition_time_us; // vai influenciar no tamanho???
+	int gap_us;
 	char filename[FILENAME_SIZE];
 };
 

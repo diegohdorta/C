@@ -5,106 +5,97 @@
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <sys/types.h>
 #include <sys/socket.h>
+#include <errno.h>
 
 #include "common.h"
 
-void receive_bytes_from_medipix(int s_udp, struct sockaddr_in medipix, struct acquisition_info *fl)
+/* 1 byte swap 
+void swap (char *a, char *b)
 {
-	int counter_bytes;
+	char tmp;
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+} */
+
+void receive_bytes_from_medipix(int s_udp, struct acquisition_info *info)
+{
 	int i;
 	int j;
-	int increase = 0;
-	int flip_image [256][256];
-	int counter = 0;
-
-	char image_one [65536];
-	char image_two [65536];
-	const char *extension = ".ppm";        
-        char file_name_image[strlen(fl->filename) + strlen(extension) + 10];
-
-	typedef int buffer[257];
-	buffer buffer_one_bit[64];	
-	FILE *fp;
-	socklen_t namelen;
+	int aux;
+	const int number_of_packets[] = {8, 96, 48, 96}; 
+	const int number_of_readings[] = {1, 1, 2};
+	static char image[IMAGE_BUFFER_SIZE * MAXIMUM_IMAGE_COUNT];
 	
-	debug(stderr, "Waiting for medipix sending the bytes image...\n");
+	FILE *output;	
+	static struct medipix_header header[MAXIMUM_PACKET_COUNT];
+	
+	struct iovec iovec[NUMBER_OF_IO_ELEMENTS] = {
+		{ .iov_base = &header,	.iov_len = sizeof(struct medipix_header) },
+		{ .iov_base = &image,	.iov_len = SIZE_IMAGE_DATA }
+	};
+	
+	struct msghdr msg = {
+		.msg_name = NULL, 
+		.msg_namelen = 0,
+		.msg_iov = iovec,
+		.msg_iovlen = NUMBER_OF_IO_ELEMENTS, 
+		.msg_control = NULL, 
+		.msg_controllen = 0,
+		.msg_flags = 0,	
+	};
 
-	namelen = sizeof(medipix);
+	debug(stderr, "Waiting for medipix sending the image bytes...\n");
+	
+	aux = info->number_frames * number_of_readings[info->read_counter];
 
-	// for(conta_img=1;conta_img<=nimagens;conta_img++)
-
-	for (counter_bytes = 0; counter_bytes <= 63; counter_bytes++) {
-
-		if (recvfrom(s_udp, &buffer_one_bit[counter_bytes], SIZE_PACKET, 0, 
-						(struct sockaddr *)&medipix, &namelen) < 0) {
-			perror("recvfrom()");
-			exit(EXIT_FAILURE);
-		}
-	}
-	//printf("Received data from medipix, closing socket...\n");
-	//close(s_udp);
-
-	debug(stderr, "Treatment of the received data...\n");
-
-	memmove(image_two, buffer_one_bit, 257*64*sizeof(int));
-
-	for (i = 0; i < 64; i++) {
-		for (j = 0; j < 257; j++) {
-			if (j > 0) {
-				image_one[increase + 0] = (buffer_one_bit[i][j] & 0x000000FF) >> 0;
-				if (image_one[increase] != 0)
-					printf("image_one0 = %hhx, buffer_one_bit = %x\n", image_one[increase], buffer_one_bit[i][j]);
-				image_one[increase + 1] = (buffer_one_bit[i][j] & 0x0000FF00) >> 8;
-				if (image_one[increase+1] != 0)
-					printf("image_one1 = %hhx, buffer_one_bit = %x\n", image_one[increase+1], buffer_one_bit[i][j]);
-				image_one[increase + 2] = (buffer_one_bit[i][j] & 0x00FF0000) >> 16;
-				if (image_one[increase+2] != 0)
-					printf("image_one2 = %hhx, buffer_one_bit = %x\n", image_one[increase+2], buffer_one_bit[i][j]);
-				image_one[increase + 3] = (buffer_one_bit[i][j] & 0xFF000000) >> 24;
-				if (image_one[increase+3] != 0)
-					printf("image_one3 = %hhx, buffer_one_bit = %x\n", image_one[increase+3], buffer_one_bit[i][j]);
-				increase = increase + 4;
+	set_socket_timeout(s_udp, info->gap_us + MEDIPIX_TIMEOUT * MICRO_PER_SECOND);
+	
+	for(j = 0; j < aux; j++) {
+	
+		for(i = 0; i < number_of_packets[info->number_bits]; i++ ) {	
+	
+			if(recvmsg(s_udp, &msg, 0) < 0) {
+			
+				if(errno == EAGAIN) {
+					debug(log_error, "Timeout waiting for medipix!\n");
+					debug(stderr, "Timeout waiting for medipix!\n");
+					return;
+				}				
+			
+				debug(log_error, "Recvmsg: %s\n", strerror(errno));
+			        exit(EXIT_FAILURE);
 			}
-		}
-	}
-	debug(stderr, "MEMCMP TESTE\n");
-	printf("%d\n", memcmp(image_two, image_one, 65536));
 
-	fprintf(stderr, "Flipping image...\n");
-	increase = 65535;
-	for (i = 0; i <= 255; i++) {
-		for (j = 0; j <= 255; j++) {
-			flip_image[i][j]=image_one[increase];
-			increase--;
-		}
-	}
+			iovec[0].iov_base += sizeof(struct medipix_header);			
+			iovec[1].iov_base += SIZE_IMAGE_DATA;
 
-	debug(stderr, "Creating file...\n");
+			debug(stderr, "Receiving packets: %d\n", i);
+		} 
+	} /* for j */
 	
-	snprintf(file_name_image, sizeof(file_name_image), "%s_%d%s", fl->filename, counter, extension);
-
-	fprintf(stderr, "Nome: %s\nContador: %d\n", file_name_image, counter);
-	fp = fopen(file_name_image, "w+");
-	
-    	if (fp == NULL) {    
-    	   	 perror("fopen()");
-		 exit(EXIT_FAILURE);
-    	}
-
-	fprintf(fp, "P1\n");
-    	fprintf(fp, "256 256\n");
-
-	for (i = 0; i <= 255; i++) {
-		for (j = 0; j <= 255; j++) {
-			fprintf(fp, "%x ", flip_image[i][j]);
-			if (j == 255)
-				fprintf(fp,"\n");
+	/* Ordering packets - Insertion sort is used because most of the time the array is already ordered */
+	/*for (i = 1; i < aux*number_of_packets[info->number_bits]; i++) {
+		j = i;
+		while (j > 0 && header[j-1].packet_number > header[j].packet_number) {
+			swap(&images[j], &images[j-1]);
+			swap(&header[j], &header[j-1]);
+			j--;
 		}
-    	}
-    	debug(stderr, "File created with SUCCESS...\n");
-
-	sleep(1);
+	}*/
+	
+	debug(stderr, "Saving file...\n");
+	output = fopen(info->filename, "w");
+        
+        if (output == NULL) {    
+        	debug(log_error, "Fopen(): %s\n", strerror(errno));
+                exit(EXIT_FAILURE);
+        }
+	
+	fwrite(info, sizeof(struct acquisition_info), 1, output);
+	fwrite(image, SIZE_IMAGE_DATA, number_of_packets[info->number_bits]*aux, output);
+	fclose(output);
+	debug(stderr, "Image done!\n");
 }
-
-

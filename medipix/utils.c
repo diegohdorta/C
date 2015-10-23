@@ -30,7 +30,7 @@ void debug(FILE *output, const char *format, ...)
 	
 	time(&now);
 	localtime_r(&now, &now_struct);
-	strftime(now_text, sizeof(now_text), "Date: %d/%m/%y Hour: %H:%M:%S # ", &now_struct);
+	strftime(now_text, sizeof(now_text), "%A %d %B %Y - %H:%M:%S %Z # ", &now_struct);
 		
 	va_start(args, format);
 	r = vsnprintf(buffer, BUFFER_SIZE, format, args);
@@ -43,8 +43,9 @@ void debug(FILE *output, const char *format, ...)
 #endif
 }
 
-/* void(*start_routine)(int, struct data*) = representa uma função 'start_routine' qualquer que aceita um parâmetro int e struct data* e retorna void. */
-/* create_process é uma função que recebe uma função como parâmetro. */
+/* void(*start_routine)(struct process_arguments *) = representa uma função 'start_routine' 
+   qualquer que aceita uma struct process_arguments* e retorna void.
+   create_process é uma função que recebe uma função como parâmetro. */
 pid_t create_process(start_routine_t start_routine, struct process_arguments *args)
 {
 	pid_t pid;
@@ -53,16 +54,14 @@ pid_t create_process(start_routine_t start_routine, struct process_arguments *ar
 
 	if(pid > 0) {
 		/* I am a parent */
-		close(args->brother_socket);	
+		//close(args->brother_socket);	
 		return pid;
 	} 
 	else if (pid < 0) {
 		debug(stderr, "Creating process: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
-	}
-	
-	/* I am a child*/
-	/* Passo o socket do filho e os argumentos opcionais */
+	}	
+	/* I am a child. Passing the optional arguments */
 	start_routine(args);
 	exit(EXIT_SUCCESS);
 	
@@ -77,12 +76,10 @@ void create_socketpair(int *sv)
 	}
 }
 
-void send_or_panic(int socket, const char * text, size_t length)
+void send_or_panic(int socket, const void *text, size_t length)
 {
 	if (send(socket, text, length, 0) < 0) {
 		debug(log_error, "Send: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 }
-
-

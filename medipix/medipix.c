@@ -9,6 +9,7 @@
 #include <netdb.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <errno.h>
 
 #include "common.h"
 
@@ -16,19 +17,19 @@ void communication_medipix(struct process_arguments *args)
 {
 	uint16_t port = PORT_TO_RECEIVE_BYTES;
 	int socket_udp;
+		
+	struct acquisition_info info;
 	
-	struct sockaddr_in med;
-
 	socket_udp = create_udp_socket();
-	med = binding_udp_socket(socket_udp, port);
+	binding_udp_socket(socket_udp, port);
 
 	do {			
-		/* DECLAREI TEMPORARIAMENTE */
-	
-		struct acquisition_info fl;
-		/* O RECV VAI FICAR AQUI, TALVEZ.... */
-	
-		receive_bytes_from_medipix(socket_udp, med, &fl);
+		if (recv(args->brother_socket, &info, sizeof(struct acquisition_info), 0) < 0) {
+			debug(log_error, "Recv: %s\n", strerror(errno));	
+			exit(EXIT_FAILURE);
+		}
+		debug(stderr, "Received acquisition requested!\n");
+		receive_bytes_from_medipix(socket_udp, &info);
 		
 	} while(true);
 }

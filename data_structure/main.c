@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdio_ext.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -14,7 +15,7 @@ int main(void)
 	
 	do {
 		menu(&option);	
-		getchar();	
+		__fpurge(stdin);	
 		switch(option) {
 			case 1:	/* Inclusão de novos contatos */			
 				get_info(name);				

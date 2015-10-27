@@ -30,7 +30,7 @@ void get_info(char *name)
 {
 	tittle();
 	printf("\nDigite o nome: ");
-	fgets(name, sizeof(name), stdin);	
+	fgets(name, SIZE_NAME, stdin);	
 	printf("O nome foi salvo com sucesso: %s\n", name);
 	sleep(1);
 }

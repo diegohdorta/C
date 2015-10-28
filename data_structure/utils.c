@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdio_ext.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -23,56 +24,69 @@ void menu(int *option)
 void tittle(void)
 {
 	printf(CLEAR);
-	printf(GREEN "\t Agenda em Árvore Binária - By R.Busch " RED "s2" GREEN " T.Yarid\n\n" NORMAL);
+	printf(GREEN "\t Agenda em Árvore Binária - " RED " By R.Busch\n\n" NORMAL);
 }
 
-void get_info(char *name)
+void get_name(char *name) 
 {
-	tittle();
-	printf("\nDigite o nome: ");
-	fgets(name, SIZE_NAME, stdin);	
-	printf("O nome foi salvo com sucesso: %s\n", name);
-	sleep(1);
+	printf("Nome do contato: ");
+	__fpurge(stdin);
+	fgets(name, SIZE_NAME, stdin);
 }
 
+void get_address(char *address) 
+{
+	printf("Endereço: ");
+	__fpurge(stdin);
+	fgets(address, SIZE_ADDRESS, stdin);
+}
 
+void get_email(char *email) 
+{
+	printf("E-mail: ");
+	__fpurge(stdin);
+	fgets(email, SIZE_EMAIL, stdin);
+}
 
+void get_phone(int *phone) 
+{
+	printf("Telefone: ");
+	__fpurge(stdin);
+	scanf("%d", phone);
+}
 
+tree_node_t *get_info(void)
+{
+	char name[SIZE_NAME];
+	char address[SIZE_ADDRESS];
+	char email[SIZE_EMAIL];
+	int phone;	
 
+	tree_node_t *new_node;
+	new_node = (tree_node_t*) malloc(sizeof(tree_node_t));
 
+	tittle();
+	get_name(name);
+	get_address(address);
+	get_email(email);
+	get_phone(&phone);
 
+	strcpy(new_node->name, name);
+	strcpy(new_node->address, address);
+	strcpy(new_node->email, email);
+	new_node->phone = phone;
+	new_node->left = NULL;
+	new_node->right = NULL;
 
+	printf("Dados coletados e serão inseridos na árvore!\n");
+	sleep(TIME_IN_SECONDS);
 
+	return new_node;
+}
 
+void get_contact_to_remove(char *name) 
+{
+	printf("\nExclusão\n\n");
+	get_name(name);
+}
 
-
-
-
-// Inclusão de novos contatos (20% do projeto básico);
-
-// Remoção de contatos (20% do projeto básico);
-
-// Listagem de todos os contatos (20% do projeto básico);
-
-// Busca de um contato a partir do seu nome, permitindo a alteração de informações do contato encontrado (20% do projeto básico);        
-
-// Importar e exportar a agenda para arquivo (20% do projeto básico).
-
-				
-/*
-OPCIONAL 1 (2 pontos)
-	O acesso aos registros da agenda começará por uma função de espalhamento (hash)
-	proposta pelo grupo. A cada valor da função hash deverá estar associada uma árvore
-	binária de busca.
-OPCIONAL 2 (2 pontos)
-	O sistema deverá garantir o balanceamento das árvores utilizadas para armazenar
-	informações.
-OPCIONAL 3 (1 ponto)
-	O sistema permitirá emitir um relatório de busca, que deve informar quais foram os
-	10 contatos mais buscados e quantas vezes tal contato foi procurado.
-OPCIONAL 4 (1 ponto)
-	O sistema permitirá listar os últimos 10 contatos acessados, sem que seja feita cópia
-	adicional dos dados.
-OPCIONAL 5 (1 ponto)
-	O sistema permitirá listar e recuperar os 5 últimos contatos apagados.
-*/

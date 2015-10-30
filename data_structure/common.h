@@ -11,6 +11,7 @@
 #define SIZE_ADDRESS	100
 #define SIZE_EMAIL	100
 #define TIME_IN_SECONDS	1
+#define YES		'S'
 
 typedef struct tree_node tree_node_t;
 
@@ -32,6 +33,7 @@ void get_address(char address[]);
 void get_email(char email[]);
 void get_phone(int *phone);
 void get_contact_to_remove(char *name);
+void get_contact_to_change(char *name);
 
 /* tree.c */
 void insert(tree_node_t **root, tree_node_t **new_node);
@@ -39,4 +41,5 @@ void print(tree_node_t *root);
 void remove_contact(tree_node_t **root, char *name_to_remove);
 tree_node_t** high_search(tree_node_t *root);
 tree_node_t** low_search(tree_node_t *root);
+void change_contact(tree_node_t **root, char *name_to_change);
 #endif /* _COMMON_H_DEFINED_ */

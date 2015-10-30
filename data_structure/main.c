@@ -8,7 +8,7 @@
 int main(void)
 {
 	int option;
-	char name_to_remove[SIZE_NAME];
+	char local_name[SIZE_NAME];
 	
 	tree_node_t *root;
 	tree_node_t *new_node;
@@ -29,12 +29,14 @@ int main(void)
 			case 3:
 				break;
 			case 4:
+				get_contact_to_change(local_name);
+				sleep(TIME_IN_SECONDS*2);
+				change_contact(&root, local_name);
 				break;
 			case 5:
-				get_contact_to_remove(name_to_remove);
-				printf("NOME A SER REMOVIDO: %s", name_to_remove);
+				get_contact_to_remove(local_name);
 				sleep(TIME_IN_SECONDS*2);
-				remove_contact(&root, name_to_remove);
+				remove_contact(&root, local_name);
 				break;
 			case 6:
 				break;

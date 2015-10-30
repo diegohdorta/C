@@ -2,6 +2,7 @@
 #include <stdio_ext.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <unistd.h>
 
 #include "common.h"
@@ -27,12 +28,18 @@ void insert(tree_node_t **root, tree_node_t **new_node)
 
 void print(tree_node_t *root)
 {
-	if(root != NULL) {
+	if(root == NULL) {
+		fprintf(stderr, "Lista vazia!\n");
+		sleep(TIME_IN_SECONDS*2);
+	}
+	else {
 		print((root)->left);
-		printf("\nNome do contato: %s",(root)->name);
-		printf("\nEndereço: %s",(root)->address);
-		printf("\nE-mail: %s",(root)->email);
-		printf("\nTelefone: %d",(root)->phone);
+		printf("\n");
+		printf("Nome do contato: %s",(root)->name);
+		printf("Endereço: %s",(root)->address);
+		printf("E-mail: %s",(root)->email);
+		printf("Telefone: %d",(root)->phone);
+		printf("\n");
 		print((root)->right);		
 	}
 }
@@ -64,16 +71,16 @@ void remove_contact(tree_node_t **root, char *name_to_remove)
 				(*aux2) = (*aux2)->right;
 			}
 
-			tree_node_t *copy = (tree_node_t*) malloc(sizeof(tree_node_t));
+		/*	tree_node_t *copy = (tree_node_t*) malloc(sizeof(tree_node_t));
 			
 			strcpy(copy->name, (*root)->name);
 			strcpy(copy->address, (*root)->address);
 			strcpy(copy->email, (*root)->email);
-			copy->phone = (*root)->phone;
+			copy->phone = (*root)->phone;*/
 
-			strcpy((*root)->name, aux3->name);
-			strcpy((*root)->address, aux3->address);
-			strcpy((*root)->email, aux3->email);
+			strncpy((*root)->name, aux3->name, SIZE_NAME);
+			strncpy((*root)->address, aux3->address, SIZE_ADDRESS);
+			strncpy((*root)->email, aux3->email, SIZE_EMAIL);
 			(*root)->phone = aux3->phone;				
 	
 			aux3 = NULL;
@@ -82,7 +89,7 @@ void remove_contact(tree_node_t **root, char *name_to_remove)
 		sleep(TIME_IN_SECONDS*2);
 	} 
 	else {
-		if (strcasecmp(name_to_remove, (*root)->name) > 0) {
+		if (strcasecmp(name_to_remove, (*root)->name) < 0) {
 			remove_contact(&(*root)->left, name_to_remove);
 		} 
 		else {
@@ -95,7 +102,7 @@ tree_node_t** high_search(tree_node_t *root)
 {
 	tree_node_t **aux = &(root);
 
-	if ((*aux)->name != NULL) {
+	if ((*aux)->left != NULL) {
 		aux = &(*aux)->left;
 		
 		while ((*aux)->right != NULL)
@@ -117,5 +124,53 @@ tree_node_t** low_search(tree_node_t *root)
 	return aux;
 }
 
+void change_contact(tree_node_t **root, char *name_to_change) 
+{
+	char option;
+	char address[SIZE_ADDRESS];
+	char email[SIZE_EMAIL];
+	int phone;
+	
+	if (*root == NULL) {
+		fprintf(stderr, "Contato não encontrado!\n");
+		sleep(TIME_IN_SECONDS*2);
+		return;
+	}
+	
+	if (strcmp((*root)->name, name_to_change) == 0) {
+			
+		printf("Contato encontrado!\n\n");
+		printf("\nNome do contato: %s",(*root)->name);
+		printf("\nEndereço: %s",(*root)->address);
+		printf("\nE-mail: %s",(*root)->email);
+		printf("\nTelefone: %d",(*root)->phone);
+		printf("\n");
+
+		printf("\nDeseja alterar os dados do contato? S/N");
+		scanf("%c", &option);
+
+		if (option == YES) { 
+		
+			printf("\n\nAtualize os dados:\n");
+
+			get_address(address);
+			get_email(email);
+			get_phone(&phone);
+
+			strcpy((*root)->address, address);
+			strcpy((*root)->email, email);
+			(*root)->phone = phone;			
+
+			printf("Dados atualizados!\n");
+			sleep(TIME_IN_SECONDS*2);
+		}
+	}
+	else {
+		if (strcasecmp((*root)->name, name_to_change) < 0)
+			change_contact(&(*root)->left, name_to_change);
+		else
+			change_contact(&(*root)->right, name_to_change);
+	}
+}
 
 

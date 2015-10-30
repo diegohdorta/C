@@ -24,7 +24,7 @@ void menu(int *option)
 void tittle(void)
 {
 	printf(CLEAR);
-	printf(GREEN "\t Agenda em Árvore Binária - " RED " By R.Busch\n\n" NORMAL);
+	printf(GREEN "\t Agenda em Árvore Binária - " RED " By D.Dorta\n\n" NORMAL);
 }
 
 void get_name(char *name) 
@@ -86,7 +86,15 @@ tree_node_t *get_info(void)
 
 void get_contact_to_remove(char *name) 
 {
-	printf("\nExclusão\n\n");
+	tittle();
+	printf("\n# EXCLUSÃO #\n\n");
+	get_name(name);
+}
+
+void get_contact_to_change(char *name)
+{
+	tittle();
+	printf("\n# ALTERAR #\n\n");
 	get_name(name);
 }
 

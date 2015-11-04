@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdio_ext.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <strings.h>
 #include <unistd.h>
 
 #include "common.h"
-
+/*
 void insert(tree_node_t **root, tree_node_t **new_node)
 {
 	if(*root == NULL) 
@@ -24,15 +25,32 @@ void insert(tree_node_t **root, tree_node_t **new_node)
 			}
 		}
 	} 
+}*/
+
+void insert(tree_node_t **root, tree_node_t *new_node)
+{
+        if(*root == NULL) {
+                *root = new_node;
+                return;
+        }
+
+        if(strcasecmp((*root)->name, new_node->name) > 0) {
+                insert(&(*root)->left, new_node);
+                return;
+        }
+
+        if(strcasecmp((*root)->name, new_node->name) < 0) {
+                insert(&(*root)->right, new_node);
+                return;
+        }
+	
+        fprintf(stderr, "Nome já existe na agenda: %s", new_node->name);
+        sleep(TIME_IN_SECONDS*3);
 }
 
 void print(tree_node_t *root)
 {
-	if(root == NULL) {
-		fprintf(stderr, "Lista vazia!\n");
-		sleep(TIME_IN_SECONDS*2);
-	}
-	else {
+	if(root != NULL) {
 		print((root)->left);
 		printf("\n");
 		printf("Nome do contato: %s",(root)->name);
@@ -40,13 +58,23 @@ void print(tree_node_t *root)
 		printf("E-mail: %s",(root)->email);
 		printf("Telefone: %d",(root)->phone);
 		printf("\n");
-		print((root)->right);		
+		print((root)->right);	
 	}
+}	
+
+bool verify_empty_tree(tree_node_t *root)
+{
+	if(root == NULL) {
+		fprintf(stderr, "Lista vazia!\n");
+		sleep(TIME_IN_SECONDS*2);
+		return true;	
+	}
+	return false;
 }
 
 void remove_contact(tree_node_t **root, char *name_to_remove) 
 {
-	tree_node_t **aux2 = NULL;
+	tree_node_t *aux2 = NULL;
 	tree_node_t *aux3;
 
 	if (*root == NULL) {
@@ -62,21 +90,14 @@ void remove_contact(tree_node_t **root, char *name_to_remove)
 		else {
 			if ((*root)->left != NULL) {
 				aux2 = high_search(*root);
-				aux3 = *aux2;
-				(*aux2) = (*aux2)->left;
+				aux3 = aux2;
+				(aux2) = (aux2)->left;
 			} 
 			else {
 				aux2 = low_search(*root);
-				aux3 = *aux2;
-				(*aux2) = (*aux2)->right;
+				aux3 = aux2;
+				(aux2) = (aux2)->right;
 			}
-
-		/*	tree_node_t *copy = (tree_node_t*) malloc(sizeof(tree_node_t));
-			
-			strcpy(copy->name, (*root)->name);
-			strcpy(copy->address, (*root)->address);
-			strcpy(copy->email, (*root)->email);
-			copy->phone = (*root)->phone;*/
 
 			strncpy((*root)->name, aux3->name, SIZE_NAME);
 			strncpy((*root)->address, aux3->address, SIZE_ADDRESS);
@@ -98,29 +119,39 @@ void remove_contact(tree_node_t **root, char *name_to_remove)
 	}
 }
 
-tree_node_t** high_search(tree_node_t *root) 
+void delete_tree(tree_node_t *root)
 {
-	tree_node_t **aux = &(root);
+	if (root == NULL)
+		return;
 
-	if ((*aux)->left != NULL) {
-		aux = &(*aux)->left;
+	delete_tree(root->left);
+	delete_tree(root->right);
+	free(root);
+}
+
+tree_node_t *high_search(tree_node_t *root)
+{
+	tree_node_t *aux = root;
+	
+	if (root == NULL)
+		return NULL;
 		
-		while ((*aux)->right != NULL)
-			aux = &(*aux)->right;
-	}
+	while (aux->right != NULL)
+		aux = aux->right;
+
 	return aux;
 }
 
-tree_node_t** low_search(tree_node_t *root) 
+tree_node_t *low_search(tree_node_t *root) 
 {
-	tree_node_t **aux = &(root);
+	tree_node_t *aux = root;
+	
+	if (root == NULL)
+		return NULL;
 
-	if ((*aux)->right != NULL) {
-		aux = &(*aux)->right;
-		
-		while ((*aux)->left != NULL)
-			aux = &(*aux)->left;
-	}
+	while (aux->left != NULL)
+		aux = aux->left;
+
 	return aux;
 }
 
@@ -146,10 +177,10 @@ void change_contact(tree_node_t **root, char *name_to_change)
 		printf("\nTelefone: %d",(*root)->phone);
 		printf("\n");
 
-		printf("\nDeseja alterar os dados do contato? S/N");
+		printf("\nDeseja alterar os dados do contato? S/N\n");
 		scanf("%c", &option);
 
-		if (option == YES) { 
+		if (option == YES_UPPERCASE || option == YES_LOWERCASE) { 
 		
 			printf("\n\nAtualize os dados:\n");
 
@@ -166,7 +197,7 @@ void change_contact(tree_node_t **root, char *name_to_change)
 		}
 	}
 	else {
-		if (strcasecmp((*root)->name, name_to_change) < 0)
+		if (strcasecmp((*root)->name, name_to_change) > 0)
 			change_contact(&(*root)->left, name_to_change);
 		else
 			change_contact(&(*root)->right, name_to_change);

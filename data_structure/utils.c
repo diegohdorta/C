@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdio_ext.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -8,20 +9,20 @@
 
 void menu(int *option)
 {
-	tittle();
-	printf("1 - Inserir Contato\n");
-	printf("2 - Listar Contatos\n");
-	printf("3 - Buscar Contatos\n");
-	printf("4 - Alterar Contato\n");
-	printf("5 - Remover Contato\n");
-	printf("6 - Emitir Relatório\n");
+	title();
+	printf("1 - Inserir contato\n");
+	printf("2 - Listar contatos\n");
+	printf("3 - Remover contato\n");
+	printf("4 - Buscar contato\n");
+	printf("5 - Importar contatos\n");
+	printf("6 - Exportar contatos\n");
 	printf("0 - Sair\n\n");
 
 	printf("Digite uma opção: ");
 	scanf("%d", option);
 }
 
-void tittle(void)
+void title(void)
 {
 	printf(CLEAR);
 	printf(GREEN "\t Agenda em Árvore Binária - " RED " By D.Dorta\n\n" NORMAL);
@@ -65,7 +66,7 @@ tree_node_t *get_info(void)
 	tree_node_t *new_node;
 	new_node = (tree_node_t*) malloc(sizeof(tree_node_t));
 
-	tittle();
+	title();
 	get_name(name);
 	get_address(address);
 	get_email(email);
@@ -86,15 +87,148 @@ tree_node_t *get_info(void)
 
 void get_contact_to_remove(char *name) 
 {
-	tittle();
+	title();
 	printf("\n# EXCLUSÃO #\n\n");
 	get_name(name);
 }
 
 void get_contact_to_change(char *name)
 {
-	tittle();
+	title();
 	printf("\n# ALTERAR #\n\n");
 	get_name(name);
+}
+
+void save_nodes_on_tree(tree_node_t *root)
+{
+	FILE *file;
+	file = fopen(PATH,"w+");
+	fprintf(file, FILE_TITLE);
+
+	if (root != NULL)
+		save_contacts_on_file(root, file);
+
+	fclose(file);
+	printf("Contatos exportados com sucesso!\n");
+} 
+
+void save_contacts_on_file(tree_node_t *root, FILE *file)
+{
+	
+	fprintf(file,"Name: %sAddress: %sEmail: %sPhone: %d\n\n", root->name, root->address, root->email, root->phone);
+  
+	if(root->left)
+		save_contacts_on_file(root->left, file);
+	if(root->right)
+		save_contacts_on_file(root->right,file);
+}
+
+void read_contact_from_file(tree_node_t **root)
+{
+	char name[SIZE_NAME]; 
+	char address[SIZE_ADDRESS]; 
+	char email[SIZE_EMAIL]; 
+	int phone = 0;
+	unsigned line_number = 0;
+
+	tree_node_t *new_node;
+
+	FILE *file;
+
+	file = fopen(PATH, "r");
+	
+	if(file == NULL) {
+		perror("fopen: ");
+		exit(EXIT_FAILURE);
+	}
+
+	if(get_size(PATH) == 0) {
+		fprintf(stderr, "O arquivo está vazio!\n");
+		return;	
+	}
+
+	fscanf(file, FILE_TITLE);
+	line_number++;
+
+	while(!feof(file)) {  
+
+		new_node = (tree_node_t*) malloc(sizeof(tree_node_t));
+		verify_malloc(new_node);
+		
+		if (fscanf(file, "Name: %[^\n]\n", name) < 1)
+			goto parse_error;
+		line_number++;
+		
+		if (fscanf(file, "Address: %[^\n]\n", address) < 1)
+			goto parse_error;
+		line_number++;
+		
+		if (fscanf(file, "Email: %[^\n]\n", email) < 1)
+			goto parse_error;
+		line_number++;
+		
+		if (fscanf(file, "Phone: %d\n", &phone) < 1)
+			goto parse_error;
+		line_number++;
+		
+		fscanf(file, "\n");
+		line_number++;
+
+		strcpy(new_node->name, name);
+		strcat(new_node->name, "\n");
+
+		strcpy(new_node->address, address);
+		strcat(new_node->address, "\n");
+
+		strcpy(new_node->email, email);
+		strcat(new_node->email, "\n");
+
+		new_node->phone = phone;
+
+		new_node->left = NULL;
+		new_node->right = NULL;
+
+		insert(root, new_node);
+	}
+	fclose(file);
+	return;
+
+parse_error:
+	free(new_node);
+	fclose(file);
+	delete_tree(*root);
+	*root = NULL;
+	fprintf(stderr, "Erro na leitura do arquivo na linha %u!\n", line_number);
+}
+
+void verify_malloc(tree_node_t *new_node)
+{
+	if (new_node == NULL) {
+		fprintf(stderr, "Impossível alocar memória para novo nó!\n");
+		exit(EXIT_FAILURE);
+	}
+}
+
+int get_size(const char *file_name)
+{
+	int size;
+	FILE *file;
+	file = fopen(file_name, "r");
+
+	if(file == NULL)
+		return EXIT_FAILURE;
+
+	fseek(file, 0, SEEK_END);
+	size = ftell(file);
+	fclose(file);
+
+	return size;
+}
+
+void wait_enter(void)
+{
+	printf("\n\t" RED OPEN_UNDERSCORE OPEN_BLINK "PRESS ENTER\n" NORMAL);
+	scanf("%*[^\n]");
+	getchar();
 }
 

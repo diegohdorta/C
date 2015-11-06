@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
+#include <ctype.h>
 
 #include "common.h"
 
@@ -99,14 +100,18 @@ void get_contact_to_change(char *name)
 	get_name(name);
 }
 
-void save_nodes_on_tree(tree_node_t *root)
+void save_nodes_on_tree(tree_node_t *roots[])
 {
+	int i;
 	FILE *file;
-	file = fopen(PATH,"w+");
+	
+	file = fopen(PATH,"w");
 	fprintf(file, FILE_TITLE);
 
-	if (root != NULL)
-		save_contacts_on_file(root, file);
+	for (i = 0; i < NUMBER_OF_TREES; i++) {
+		if (roots[i] != NULL)
+			save_contacts_on_file(roots[i], file);
+	}
 
 	fclose(file);
 	printf("Contatos exportados com sucesso!\n");
@@ -123,7 +128,7 @@ void save_contacts_on_file(tree_node_t *root, FILE *file)
 		save_contacts_on_file(root->right,file);
 }
 
-void read_contact_from_file(tree_node_t **root)
+void read_contact_from_file(tree_node_t *roots[])
 {
 	char name[SIZE_NAME]; 
 	char address[SIZE_ADDRESS]; 
@@ -131,12 +136,13 @@ void read_contact_from_file(tree_node_t **root)
 	int phone = 0;
 	unsigned line_number = 0;
 
+	tree_node_t **root;
 	tree_node_t *new_node;
 
 	FILE *file;
 
 	file = fopen(PATH, "r");
-	
+	 
 	if(file == NULL) {
 		perror("fopen: ");
 		exit(EXIT_FAILURE);
@@ -148,22 +154,22 @@ void read_contact_from_file(tree_node_t **root)
 	}
 
 	fscanf(file, FILE_TITLE);
-	line_number++;
+	line_number+=2;
 
 	while(!feof(file)) {  
 
 		new_node = (tree_node_t*) malloc(sizeof(tree_node_t));
 		verify_malloc(new_node);
 		
-		if (fscanf(file, "Name: %[^\n]\n", name) < 1)
+		if (fscanf(file, "Name: %" STRINGIFY(SIZE_NAME) "[^\n]\n", name) < 1)
 			goto parse_error;
 		line_number++;
 		
-		if (fscanf(file, "Address: %[^\n]\n", address) < 1)
+		if (fscanf(file, "Address: %" STRINGIFY(SIZE_ADDRESS) "[^\n]\n", address) < 1)
 			goto parse_error;
 		line_number++;
 		
-		if (fscanf(file, "Email: %[^\n]\n", email) < 1)
+		if (fscanf(file, "Email: %" STRINGIFY(SIZE_EMAIL) "[^\n]\n", email) < 1)
 			goto parse_error;
 		line_number++;
 		
@@ -188,6 +194,7 @@ void read_contact_from_file(tree_node_t **root)
 		new_node->left = NULL;
 		new_node->right = NULL;
 
+		root = &roots[alphabetic_hash(new_node->name)];
 		insert(root, new_node);
 	}
 	fclose(file);
@@ -231,4 +238,15 @@ void wait_enter(void)
 	scanf("%*[^\n]");
 	getchar();
 }
+
+int alphabetic_hash(char name[])
+{
+	char c;
+
+	c = toupper(name[0]);
+
+	if (c >= 'A' && c <= 'Z')
+		return c - 'A';
+	return 26;
+}  
 

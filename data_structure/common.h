@@ -1,6 +1,6 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
-
+ 
 #define CLEAR			"\e[H\e[2J"
 #define RED			"\e[31m"
 #define BLUE			"\e[34m"
@@ -9,6 +9,7 @@
 #define OPEN_UNDERSCORE		"\e[4m"
 #define OPEN_BLINK		"\e[5m"
 #define OPEN_REVERSE		"\e[7m"
+#define NUMBER_OF_TREES		27
 #define SIZE_NAME		100
 #define SIZE_ADDRESS		100
 #define SIZE_EMAIL		100
@@ -23,6 +24,8 @@
 #define YES_LOWERCASE		's'
 #define PATH			"/home/ABTLUS/diego.dorta/codes/git/C/data_structure/contact.txt"
 #define FILE_TITLE		"\tCONTATOS DA AGENDA\n\n"
+#define STRINGIFY(s)		STRINGIFY1(s)
+#define STRINGIFY1(s)		#s
 
 #include <stdbool.h>
 
@@ -47,17 +50,19 @@ void get_email(char email[]);
 void get_phone(int *phone);
 void get_contact_to_remove(char *name);
 void get_contact_to_change(char *name);
-bool verify_empty_tree(tree_node_t *root);
-void save_nodes_on_tree(tree_node_t *root);
+bool verify_empty_tree(tree_node_t *roots[]);
+void save_nodes_on_tree(tree_node_t *roots[]);
 void save_contacts_on_file(tree_node_t *root, FILE *file);
-void read_contact_from_file(tree_node_t **root);
+void read_contact_from_file(tree_node_t *roots[]);
 int get_size(const char *file_name);
 void verify_return(int ret);
 void verify_malloc(tree_node_t *new_node);
 void wait_enter(void);
+int alphabetic_hash(char name[]);
 
 /* tree.c */
 void insert(tree_node_t **root, tree_node_t *new_node);
+void print_all_tree(tree_node_t *roots[]);
 void print(tree_node_t *root);
 void remove_contact(tree_node_t **root, char *name_to_remove);
 tree_node_t *high_search(tree_node_t *root);

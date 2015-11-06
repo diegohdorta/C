@@ -7,25 +7,6 @@
 #include <unistd.h>
 
 #include "common.h"
-/*
-void insert(tree_node_t **root, tree_node_t **new_node)
-{
-	if(*root == NULL) 
-		*root = *new_node;
-	else {
-		if(strcasecmp((*root)->name, (*new_node)->name) > 0)
-			insert(&(*root)->left, new_node);
-		else {
-			if(strcasecmp((*root)->name, (*new_node)->name) < 0)
-				insert(&(*root)->right, new_node);
-			else {
-				if(strcmp((*root)->name, (*new_node)->name) == 0)
-					fprintf(stderr, "Nome já existe na agenda!\n");
-					sleep(TIME_IN_SECONDS*2);
-			}
-		}
-	} 
-}*/
 
 void insert(tree_node_t **root, tree_node_t *new_node)
 {
@@ -48,6 +29,17 @@ void insert(tree_node_t **root, tree_node_t *new_node)
         sleep(TIME_IN_SECONDS*3);
 }
 
+void print_all_tree(tree_node_t *roots[])
+{
+	int i;
+	tree_node_t *root;
+	
+	for (i = 0; i < NUMBER_OF_TREES; i++){
+		root = roots[i];
+		print(root);
+	}
+}  
+
 void print(tree_node_t *root)
 {
 	if(root != NULL) {
@@ -62,14 +54,16 @@ void print(tree_node_t *root)
 	}
 }	
 
-bool verify_empty_tree(tree_node_t *root)
+bool verify_empty_tree(tree_node_t *roots[])
 {
-	if(root == NULL) {
-		fprintf(stderr, "Lista vazia!\n");
-		sleep(TIME_IN_SECONDS*2);
-		return true;	
+	int i;
+	
+	for (i = 0; i < NUMBER_OF_TREES; i++){
+
+		if (roots[i] != NULL)
+			return false;
 	}
-	return false;
+	return true;
 }
 
 void remove_contact(tree_node_t **root, char *name_to_remove) 
@@ -91,12 +85,10 @@ void remove_contact(tree_node_t **root, char *name_to_remove)
 			if ((*root)->left != NULL) {
 				aux2 = high_search(*root);
 				aux3 = aux2;
-				(aux2) = (aux2)->left;
 			} 
 			else {
 				aux2 = low_search(*root);
 				aux3 = aux2;
-				(aux2) = (aux2)->right;
 			}
 
 			strncpy((*root)->name, aux3->name, SIZE_NAME);

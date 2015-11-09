@@ -10,17 +10,17 @@
 
 void insert(tree_node_t **root, tree_node_t *new_node)
 {
-        if(*root == NULL) {
+        if (*root == NULL) {
                 *root = new_node;
                 return;
         }
 
-        if(strcasecmp((*root)->name, new_node->name) > 0) {
+        if (strcasecmp((*root)->name, new_node->name) > 0) {
                 insert(&(*root)->left, new_node);
                 return;
         }
 
-        if(strcasecmp((*root)->name, new_node->name) < 0) {
+        if (strcasecmp((*root)->name, new_node->name) < 0) {
                 insert(&(*root)->right, new_node);
                 return;
         }
@@ -34,7 +34,7 @@ void print_all_tree(tree_node_t *roots[])
 	int i;
 	tree_node_t *root;
 	
-	for (i = 0; i < NUMBER_OF_TREES; i++){
+	for (i = 0; i < NUMBER_OF_TREES; i++) {
 		root = roots[i];
 		print(root);
 	}
@@ -42,7 +42,7 @@ void print_all_tree(tree_node_t *roots[])
 
 void print(tree_node_t *root)
 {
-	if(root != NULL) {
+	if (root != NULL) {
 		print((root)->left);
 		printf("\n");
 		printf("Nome do contato: %s",(root)->name);
@@ -58,8 +58,7 @@ bool verify_empty_tree(tree_node_t *roots[])
 {
 	int i;
 	
-	for (i = 0; i < NUMBER_OF_TREES; i++){
-
+	for (i = 0; i < NUMBER_OF_TREES; i++) {
 		if (roots[i] != NULL)
 			return false;
 	}
@@ -73,7 +72,6 @@ void remove_contact(tree_node_t **root, char *name_to_remove)
 
 	if (*root == NULL) {
 		fprintf(stderr, "Contato não existe!\n");
-		sleep(TIME_IN_SECONDS*2);
 		return;
 	}
 
@@ -99,7 +97,6 @@ void remove_contact(tree_node_t **root, char *name_to_remove)
 			aux3 = NULL;
 		}
 		printf("Contato excluído!\n");
-		sleep(TIME_IN_SECONDS*2);
 	} 
 	else {
 		if (strcasecmp(name_to_remove, (*root)->name) < 0) {

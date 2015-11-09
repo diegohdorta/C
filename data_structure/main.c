@@ -24,8 +24,10 @@ int main(void)
 	
 	do { 
 		menu(&option);	
-		__fpurge(stdin);			
+		__fpurge(stdin);
+					
 		switch(option) {
+		
 			case ID_INSERT:	
 					
 				new_node = get_info();			
@@ -36,7 +38,7 @@ int main(void)
 			case ID_SHOW:	
 			
 				return_empty_tree = verify_empty_tree(roots);
-				
+								
 				if (return_empty_tree == false)
 					print_all_tree(roots);
 				else

@@ -122,9 +122,9 @@ void save_contacts_on_file(tree_node_t *root, FILE *file)
 	
 	fprintf(file,"Name: %sAddress: %sEmail: %sPhone: %d\n\n", root->name, root->address, root->email, root->phone);
   
-	if(root->left)
+	if (root->left)
 		save_contacts_on_file(root->left, file);
-	if(root->right)
+	if (root->right)
 		save_contacts_on_file(root->right,file);
 }
 
@@ -143,12 +143,12 @@ void read_contact_from_file(tree_node_t *roots[])
 
 	file = fopen(PATH, "r");
 	 
-	if(file == NULL) {
+	if (file == NULL) {
 		perror("fopen: ");
 		exit(EXIT_FAILURE);
 	}
 
-	if(get_size(PATH) == 0) {
+	if (get_size(PATH) == 0) {
 		fprintf(stderr, "O arquivo está vazio!\n");
 		return;	
 	}
@@ -203,8 +203,12 @@ void read_contact_from_file(tree_node_t *roots[])
 parse_error:
 	free(new_node);
 	fclose(file);
-	delete_tree(*root);
+	
+	if(root != NULL)
+		delete_tree(*root);
+				
 	*root = NULL;
+	
 	fprintf(stderr, "Erro na leitura do arquivo na linha %u!\n", line_number);
 }
 

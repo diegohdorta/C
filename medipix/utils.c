@@ -17,6 +17,9 @@
 
 FILE *log_error;
 
+const int NUMBER_OF_PACKETS[] = {64, 768, 384, 768};
+const int NUMBER_OF_READINGS[] = {1, 1, 2};
+
 void debug(FILE *output, const char *format, ...)
 {
 #ifdef DEBUG
@@ -27,15 +30,15 @@ void debug(FILE *output, const char *format, ...)
 
 	struct tm now_struct;
 	time_t now;
-	
+
 	time(&now);
 	localtime_r(&now, &now_struct);
 	strftime(now_text, sizeof(now_text), "%A %d %B %Y - %H:%M:%S %Z # ", &now_struct);
-		
+
 	va_start(args, format);
 	r = vsnprintf(buffer, BUFFER_SIZE, format, args);
 	va_end(args);
-	
+
 	if(r >= 0) {
 		strncat(now_text, buffer, BUFFER_SIZE-1);
 		fputs(now_text, output);
@@ -43,7 +46,7 @@ void debug(FILE *output, const char *format, ...)
 #endif
 }
 
-/* void(*start_routine)(struct process_arguments *) = representa uma função 'start_routine' 
+/* void(*start_routine)(struct process_arguments *) = representa uma função 'start_routine'
    qualquer que aceita uma struct process_arguments* e retorna void.
    create_process é uma função que recebe uma função como parâmetro. */
 pid_t create_process(start_routine_t start_routine, struct process_arguments *args)
@@ -54,24 +57,24 @@ pid_t create_process(start_routine_t start_routine, struct process_arguments *ar
 
 	if(pid > 0) {
 		/* I am a parent */
-		//close(args->brother_socket);	
+		//close(args->brother_socket);
 		return pid;
-	} 
+	}
 	else if (pid < 0) {
 		debug(stderr, "Creating process: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
-	}	
+	}
 	/* I am a child. Passing the optional arguments */
 	start_routine(args);
 	exit(EXIT_SUCCESS);
-	
+
 }
 
 void create_socketpair(int *sv)
 {
 	debug(stderr, "Creating socket pair...\n");
 	if (socketpair(AF_UNIX, SOCK_DGRAM, 0, sv) < 0) {
-		debug(log_error, "Socket Pair: %s\n", strerror(errno));		
+		debug(log_error, "Socket Pair: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 }

@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+from numpy import empty
+from PIL import Image, ImageEnhance
+from sys import argv
+
+try:
+    fn = argv[1]
+except:
+    fn = 'sol'
+
+f = open(fn, 'rb')
+x = f.read()[-256*256:]
+
+img = Image.frombytes('L', (256, 256), x)
+img = ImageEnhance.Brightness(img).enhance(255)
+img = img.convert('1')
+
+img.save('sol.tiff')
+

@@ -1,4 +1,4 @@
-/* Medipix Server - Developed by Diego Dorta 
+/* Medipix Server - Developed by Diego Dorta
 
    Usa-se processos ao invés de threads neste programa, pois este não é um problema paralelo
    fortemente acoplado ou, a quantidade de comunicação entre processos é pequena.
@@ -29,22 +29,22 @@ int main(void)
 	int sock;
 	int remote_socket;
 	int brothers[NUMBER_OF_BROTHERS];
-	
+
 	pid_t ioc_listener;
 	pid_t medipix_listener;
-	
-	struct process_arguments args_ioc;	
-	struct process_arguments args_med;	
-	
+
+	struct process_arguments args_ioc;
+	struct process_arguments args_med;
+
 	create_socketpair(brothers);
-	
+
 	log_error = fopen(LOG_ERROR, "w+");
 	setlinebuf(log_error);
 	debug(log_error, DEBUG_MESSAGE);
-	
+
 	sock = create_tcp_socket();
 
-	do {	
+	do {
 		remote_socket = accept_new_connection(sock);
 
 		args_ioc.remote_socket = remote_socket;
@@ -52,10 +52,10 @@ int main(void)
 
 		ioc_listener = create_process(receive_variables, &args_ioc);
 		close(remote_socket);
-		
+
 		args_med.remote_socket = SENTINEL;
 		args_med.brother_socket = brothers[1];
-		
+
 		medipix_listener = create_process(communication_medipix, &args_med);
 
 		waitpid(ioc_listener, NULL, 0);

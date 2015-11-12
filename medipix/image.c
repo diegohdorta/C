@@ -11,91 +11,88 @@
 
 #include "common.h"
 
-/* 1 byte swap 
-void swap (char *a, char *b)
+static void swap (void *a, void *b, size_t s)
 {
-	char tmp;
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-} */
+	char buff[s];
+
+	memmove(buff, a, s);
+	memmove(a, b, s);
+	memmove(b, buff, s);
+}
 
 void receive_bytes_from_medipix(int s_udp, struct acquisition_info *info)
 {
 	int i;
 	int j;
 	int aux;
-	const int number_of_packets[] = {8, 96, 48, 96}; 
-	const int number_of_readings[] = {1, 1, 2};
 	static char image[IMAGE_BUFFER_SIZE * MAXIMUM_IMAGE_COUNT];
-	
-	FILE *output;	
+
 	static struct medipix_header header[MAXIMUM_PACKET_COUNT];
-	
+
 	struct iovec iovec[NUMBER_OF_IO_ELEMENTS] = {
 		{ .iov_base = &header,	.iov_len = sizeof(struct medipix_header) },
 		{ .iov_base = &image,	.iov_len = SIZE_IMAGE_DATA }
 	};
-	
+
 	struct msghdr msg = {
-		.msg_name = NULL, 
+		.msg_name = NULL,
 		.msg_namelen = 0,
 		.msg_iov = iovec,
-		.msg_iovlen = NUMBER_OF_IO_ELEMENTS, 
-		.msg_control = NULL, 
+		.msg_iovlen = NUMBER_OF_IO_ELEMENTS,
+		.msg_control = NULL,
 		.msg_controllen = 0,
-		.msg_flags = 0,	
+		.msg_flags = 0,
 	};
 
 	debug(stderr, "Waiting for medipix sending the image bytes...\n");
-	
-	aux = info->number_frames * number_of_readings[info->read_counter];
+
+	aux = info->number_frames * NUMBER_OF_READINGS[info->read_counter];
 
 	set_socket_timeout(s_udp, info->gap_us + MEDIPIX_TIMEOUT * MICRO_PER_SECOND);
-	
+
 	for(j = 0; j < aux; j++) {
-	
-		for(i = 0; i < number_of_packets[info->number_bits]; i++ ) {	
-	
+
+		for(i = 0; i < NUMBER_OF_PACKETS[info->number_bits]; i++ ) {
+
 			if(recvmsg(s_udp, &msg, 0) < 0) {
-			
+				debug(stderr, "Received %d packets.\n", i);
+
 				if(errno == EAGAIN) {
 					debug(log_error, "Timeout waiting for medipix!\n");
 					debug(stderr, "Timeout waiting for medipix!\n");
 					return;
-				}				
-			
+				}
+
 				debug(log_error, "Recvmsg: %s\n", strerror(errno));
 			        exit(EXIT_FAILURE);
 			}
 
-			iovec[0].iov_base += sizeof(struct medipix_header);			
+			iovec[0].iov_base += sizeof(struct medipix_header);
 			iovec[1].iov_base += SIZE_IMAGE_DATA;
+		}
 
-			debug(stderr, "Receiving packets: %d\n", i);
-		} 
+		debug(stderr, "Received %d packets.\n", i);
 	} /* for j */
-	
-	/* Ordering packets - Insertion sort is used because most of the time the array is already ordered */
-	/*for (i = 1; i < aux*number_of_packets[info->number_bits]; i++) {
+
+	/* Ordering packets - Insertion sort is used because most of the time the array
+	   is already ordered, so the running time is Ω(n) */
+	for (i = 1; i < aux*NUMBER_OF_PACKETS[info->number_bits]; i++) {
 		j = i;
 		while (j > 0 && header[j-1].packet_number > header[j].packet_number) {
-			swap(&images[j], &images[j-1]);
-			swap(&header[j], &header[j-1]);
+			swap(&image[j*SIZE_IMAGE_DATA], &image[(j-1)*SIZE_IMAGE_DATA],
+				SIZE_IMAGE_DATA);
+			swap(&header[j], &header[j-1], sizeof(struct medipix_header));
 			j--;
 		}
-	}*/
-	
+	}
+
 	debug(stderr, "Saving file...\n");
-	output = fopen(info->filename, "w");
-        
-        if (output == NULL) {    
-        	debug(log_error, "Fopen(): %s\n", strerror(errno));
-                exit(EXIT_FAILURE);
-        }
-	
-	fwrite(info, sizeof(struct acquisition_info), 1, output);
-	fwrite(image, SIZE_IMAGE_DATA, number_of_packets[info->number_bits]*aux, output);
-	fclose(output);
-	debug(stderr, "Image done!\n");
+
+	if (save_images(image, header, info))
+		debug(stderr, "Image done!\n");
+	else {
+		debug(log_error, "Unable to write output file!\n");
+		debug(stderr, "Unable to write output file!\n");
+		exit(EXIT_FAILURE);
+	}
 }

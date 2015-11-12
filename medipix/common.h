@@ -3,6 +3,12 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+#include <fcntl.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
+
 #define SUCCESS 		"ok\n"
 #define FAILURE 		"error\n"
 #define VARIABLE_SIZE 		40
@@ -51,7 +57,7 @@ struct acquisition_info {
 	char filename[FILENAME_SIZE];
 };
 
-/* Struct destinada a comunicação entre os processos filhos 
+/* Struct destinada a comunicação entre os processos filhos
  (Um filho se comunica com o IOC e outro filho com o medipix). */
 struct process_arguments {
 	int brother_socket;
@@ -67,6 +73,9 @@ struct medipix_header {
 
 typedef void (*start_routine_t)(struct process_arguments *);
 
+extern const int NUMBER_OF_PACKETS[];
+extern const int NUMBER_OF_READINGS[];
+
 void binding_udp_socket(int s_udp, uint16_t port);
 int create_tcp_socket(void);
 int accept_new_connection(int s);
@@ -78,6 +87,8 @@ pid_t create_process(start_routine_t start_routine, struct process_arguments *ar
 void create_socketpair(int *sv);
 void send_or_panic(int socket, const void *text, size_t length);
 void set_socket_timeout(int socket, unsigned timeout_us);
+bool save_images(char *buffer, const struct medipix_header *header,
+	const struct acquisition_info *info);
 
 #ifdef __GNUC__ /* The __GNUC__ also works with clang compiler */
 void debug(FILE *output, const char *format, ...) __attribute__((format (printf, 2, 3)));

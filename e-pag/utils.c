@@ -47,5 +47,22 @@ void send_or_panic(int socket, const void *text, size_t length)
 	}
 }
 
+int get_size(const char *file_name)
+{
+	int size;
+	FILE *file;
+	
+	file = fopen(file_name, "r");
+	
+	if(file == NULL)
+		return EXIT_FAILURE;
+		
+	fseek(file, 0, SEEK_END);
+	size = ftell(file);	
+	fclose(file);
+	
+	return size;
+}
+
 /* END */
 

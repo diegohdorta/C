@@ -2,6 +2,7 @@
 #define _LIBRARY_H_
 
 #include <stdio.h>
+#include <stdio_ext.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -33,16 +34,18 @@
 #define WEB_TCP_PORT		4000
 #define APP_TCP_PORT		5000
 #define OPR_TCP_PORT		3000
-#define NUMBER_WEB_CONNECTIONS	1
-#define SUCCESS 		"e-Pag message: recebido com sucesso!\n"
-#define FAILURE 		"e-Pag message: não foi recebido!\n"
-#define USER_EXISTS		"Usuário encontrado no banco de dados!\n"
-#define USER_NO_EXISTS		"Usuário não encontrado no banco de dados!\n"
+#define NUMBER_WEB_CONNECTIONS	10
+#define SUCCESS 		"e-Pag message: Recebido com sucesso!\n"
+#define FAILURE 		"e-Pag message: Não foi recebido!\n"
+#define USER_EXISTS		"e-Pag message: Usuário encontrado no banco de dados!\n"
+#define USER_NO_EXISTS		"e-Pag message: Usuário NÃO encontrado no banco de dados!\n"
 #define TOKEN_SIZE		32
 #define ID_USER_EXISTS		1		
 #define ID_USER_NO_EXISTS	2
 #define SIZE_NAME		40
 #define SIZE_CPF		14
+#define SIZE_PHONE		13
+#define SIZE_MESSAGE		150
 #define STRINGIFY(s) 		STRINGIFY1(s)
 #define STRINGIFY1(s) 		#s
 
@@ -78,7 +81,7 @@ void check_creation_thread(int id);
 void destroy_thread(pthread_t id);
 
 /* database.c */
-int verify_cpf_on_database(char *token);
+int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone);
 
 #ifdef __GNUC__ /* The __GNUC__ also works with clang compiler */
 void debug(FILE *output, const char *format, ...) __attribute__((format (printf, 2, 3)));

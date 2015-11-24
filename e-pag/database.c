@@ -2,13 +2,9 @@
 
 #include "library.h"
 
-int verify_cpf_on_database(char *token_cpf)
+int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone)
 {
-	char name[SIZE_NAME];
-	char cpf[SIZE_CPF];
-	int phone;
 	int line_number;
-
 	FILE *file;
 	file = fopen(PATH, "r");
 	
@@ -22,6 +18,9 @@ int verify_cpf_on_database(char *token_cpf)
 		return EXIT_FAILURE;
 	}
 	
+	if (token_cpf == NULL)
+		return 2;
+	
 	line_number = 1;
 	
 	while(!feof(file)) {
@@ -29,12 +28,16 @@ int verify_cpf_on_database(char *token_cpf)
 		if (fscanf(file, "%" STRINGIFY(SIZE_NAME) "[^\n]\n", name) < 1)
 			goto parse_error;
 		line_number++;
+		
+		printf("LI NOME DO ARQUIVO: %s\n", name);
+		
+		strcat(name, "\n");
 
 		if (fscanf(file, "%" STRINGIFY(SIZE_CPF) "[^\n]\n", cpf) < 1)
 			goto parse_error;
 		line_number++;
 			
-		if (fscanf(file, "%d\n", &phone) < 1)
+		if (fscanf(file, "%" STRINGIFY(SIZE_PHONE) "[^\n]\n", phone) < 1)
 			goto parse_error;
 		line_number++;
 
@@ -52,9 +55,3 @@ parse_error:
 	return 3;
 
 }
-
-
-
-
-
-

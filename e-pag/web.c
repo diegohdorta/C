@@ -1,7 +1,6 @@
 #define _BSD_SOURCE
 #include "library.h"
 
-/* Está função é uma thread utilizada para controlar comunicação com web site. */
 void *start_communication_web(void *args)
 {
 	debug(stderr, "Função que se comunica com a web inicializada!\n");
@@ -9,7 +8,6 @@ void *start_communication_web(void *args)
 	return NULL;
 }
 
-/* Função responsável por gerenciar a comunicação com o web site. */
 void communication_web(void)
 {
 	int sock;
@@ -45,12 +43,16 @@ bool receive_data_from_web(int web_socket)
 	size_t token_size = TOKEN_SIZE;
 	char buffer[TOKEN_SIZE];
 	char token_cpf_value[TOKEN_SIZE];
+	
 	char *next = NULL;
 	char *token;
+	
+	char name[SIZE_NAME];	
+	char cpf[SIZE_CPF];
+	char phone[SIZE_PHONE];
 
 	done = false;
 	do {
-		/* Recebendo do estabelecimento o CPF e o valor a ser cobrado. */
 		size = recv(web_socket, buffer, BUFFER_SIZE, 0);
 
 		if (size == 0) {
@@ -77,31 +79,23 @@ bool receive_data_from_web(int web_socket)
 		} /* for */
 	} while (!done);
 	
-	/* Garantir que chegou o CPF e o valor, caso contrário retornar erro. */
-	
 	debug(stderr, "Conteúdo do buffer: %s\n", token_cpf_value);
-	
-	/* Enviando mensagem que foi recebido o token com sucesso! */
-	send_or_panic(web_socket, SUCCESS, sizeof(SUCCESS)-1);
-	
-	/* Preciso parciar a string que chegou, e verificar se está correta e se existe em nosso banco de dados. 
-	   Criar um arquivo para simular o banco de dados */
-	   
+	//send_or_panic(web_socket, SUCCESS, sizeof(SUCCESS)-1);
+	  
 	/* Verificando se usuário existe no banco de dados fictício. */
-	
-	printf("TOKEN_CPF_VALUE: %s\n", token_cpf_value);
+
 	token = strtok_r(token_cpf_value, "+", &next);
-	
-	
-	printf("TOKEN_CPF: %s\n", token);
-	ret = verify_cpf_on_database(token);
-	
-	printf("valor de retorno: %d\n", ret);
-	
+
+	ret = verify_cpf_on_database(token, name, cpf, phone);
+
+	debug(stderr, "Nome: %s\n", name);
+	debug(stderr, "CPF: %s\n", cpf);
+	debug(stderr, "Phone: %s\n", phone);
+
 	switch(ret) {
 	
 		case ID_USER_EXISTS:
-		
+			
 			send_or_panic(web_socket, USER_EXISTS, sizeof(USER_EXISTS)-1);
 			debug(stderr, "Chamando função para se conectar com dispositivo móvel!\n");
 			// Chama função que entra em contato com o celular
@@ -115,6 +109,7 @@ bool receive_data_from_web(int web_socket)
 			break;
 			
 		default:
+			send_or_panic(web_socket, FAILURE, sizeof(FAILURE)-1);
 			break;
 		
 	}

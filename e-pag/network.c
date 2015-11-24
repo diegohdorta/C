@@ -50,6 +50,7 @@ int accept_new_connection_from_web(int s)
 		exit(EXIT_FAILURE);
 	}
 	debug(stderr, "The web site %s is now connected!\n", inet_ntoa(info.sin_addr));
+	debug(log_error, "The web site %s is now connected!\n", inet_ntoa(info.sin_addr));
 	return ns;
 }
 

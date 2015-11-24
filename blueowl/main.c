@@ -16,6 +16,12 @@
 
 #include "library.h"
 
+void kill_process(pid_t listener)
+{
+	kill(listener, SIGTERM);
+	waitpid(listener, NULL, 0);
+}
+
 int main(void)
 {
 	struct process_arguments x = { 0 };
@@ -28,23 +34,15 @@ int main(void)
 	do {
 		
 		app_listener = create_process(communication_app, &x);
-				
 		web_listener = create_process(communication_web, &x);
-				
 		bank_listener = create_process(communication_bank, &x);
-		
-		
-		kill(app_listener, SIGTERM);
-		waitpid(app_listener, NULL, 0);
-		
-		kill(web_listener, SIGTERM);
-		waitpid(web_listener, NULL, 0);
-		
-		kill(bank_listener, SIGTERM);
-		waitpid(bank_listener, NULL, 0);
-	
-	
+
 	} while (true);
+	
+	kill_process(app_listener);
+	kill_process(web_listener);
+	kill_process(bank_listener);	
+
 
 	return EXIT_SUCCESS;
 }

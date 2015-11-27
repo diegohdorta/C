@@ -37,14 +37,24 @@
 #define NUMBER_WEB_CONNECTIONS	10
 #define SUCCESS 		"e-Pag message: Recebido com sucesso!\n"
 #define FAILURE 		"e-Pag message: Não foi recebido!\n"
-#define USER_EXISTS		"e-Pag message: Usuário encontrado no banco de dados!\n"
-#define USER_NO_EXISTS		"e-Pag message: Usuário NÃO encontrado no banco de dados!\n"
+#define FAILURE_MESSAGE		"e-Pag message: Mensagem muito grande!\n"
+#define USER_EXISTS		2
+#define MESSAGE_USER_EXISTS	"e-Pag message: Usuário encontrado no banco de dados!\n"
+#define USER_NO_EXISTS		3
+#define MESSAGE_USER_NO_EXISTS	"e-Pag message: Usuário NÃO encontrado no banco de dados!\n"
+#define INVALID_COMMAND		4
+#define MESSAGE_INVALID_COMMAND	"e-Pag message: Mensagem inválida!\n"
 #define TOKEN_SIZE		32
-#define ID_USER_EXISTS		1		
-#define ID_USER_NO_EXISTS	2
+#define ID_USER_EXISTS		2		
+#define ID_USER_NO_EXISTS	3
+#define ID_INVALID_COMMAND	4
 #define SIZE_NAME		40
-#define SIZE_CPF		14
-#define SIZE_PHONE		13
+#define SIZE_CPF		15
+#define SIZE_PHONE		15
+/* These duplicate constants work around STRINGIFY limitations */
+#define SIZE_NAME_MINUS_ONE	39
+#define SIZE_CPF_MINUS_ONE	14
+#define SIZE_PHONE_MINUS_ONE	14
 #define SIZE_MESSAGE		150
 #define STRINGIFY(s) 		STRINGIFY1(s)
 #define STRINGIFY1(s) 		#s

@@ -19,6 +19,7 @@ void communication_app(void)
 		receive_queue_message(queue_id_app);
 	
 		printf("Recebido mensagem, destroindo fila de mensagens!\n");
+		
 	} while(true);
 	destroy_queue(queue_id_app);
 

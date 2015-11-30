@@ -52,10 +52,9 @@ bool receive_data_from_web(int web_socket)
 	char phone[SIZE_PHONE];
 	char ip[SIZE_PHONE];
 	char port[SIZE_PHONE];
+	char value[10] = "150.56";
 	
 	char message[100];
-	
-	int teste = 199;
 
 	done = false;
 	
@@ -112,10 +111,9 @@ bool receive_data_from_web(int web_socket)
 		
 			snprintf(message, 100, "Usuário encontrado %s número do telefone %s, IP: %s e porta: %s.\n%zn", name, phone, ip, port, &namelen);
 			send_or_panic(web_socket, message, namelen+1);
-			//send_or_panic(web_socket, MESSAGE_USER_EXISTS, sizeof(MESSAGE_USER_EXISTS)-1);
 			debug(stderr, "Chamando função para se conectar com dispositivo móvel no IP: %s e porta: %s!\n", ip, port);
 			// Chama função que entra em contato com o celular
-			put_info_on_message_queue(teste);
+			put_info_on_message_queue(ip, port, value);
 			break;
 			
 		case ID_USER_NO_EXISTS:
@@ -136,13 +134,13 @@ bool receive_data_from_web(int web_socket)
 	return false;
 }
 
-void put_info_on_message_queue(int teste)
+void put_info_on_message_queue(char *ip, char *port, char *value)
 {
 	int queue_id_app;
 
 	queue_id_app = create_message_queue();
 	printf("Enviando mensagem para colocar na fila!\n");
-	send_queue_message(queue_id_app, teste);
+	send_queue_message(queue_id_app, ip, port, value);
 
 }
 /* END */

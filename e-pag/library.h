@@ -91,7 +91,7 @@ void *start_communication_opr(void *args);
 void *start_communication_web(void *args);
 void communication_web(void);
 bool receive_data_from_web(int web_socket);
-void put_info_on_message_queue(int teste);
+void put_info_on_message_queue(char *ip, char *port, char *value);
 
 /* app.c */
 void *start_communication_app(void *args);
@@ -107,7 +107,7 @@ int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone, 
 /* queue.c */
 int create_message_queue(void);
 void destroy_queue(int queue_id);
-void send_queue_message(int queue_id, int teste);
+void send_queue_message(int queue_id, char *ip, char *port, char *value);
 void receive_queue_message(int queue_id);
 
 #ifdef __GNUC__ /* The __GNUC__ also works with clang compiler */

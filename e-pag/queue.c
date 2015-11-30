@@ -5,9 +5,13 @@
 #define MESSAGE_QUEUE_ID	3000
 #define MESSAGE_MTYPE		1
 #define QUEUE_PERMISSION	0666
+#define SIZE_VALUE		10
 
 typedef struct {
-	int teste;
+	char ip[SIZE_IP];
+	char port[SIZE_PORT];
+	char value[SIZE_VALUE];
+	
 } data_t; 
 
 typedef struct {
@@ -35,7 +39,7 @@ void destroy_queue(int queue_id)
 	}
 }
 
-void send_queue_message(int queue_id, int teste)
+void send_queue_message(int queue_id, char *ip, char *port, char *value)
 {
 
 	msgbuf_t message_buffer;
@@ -44,7 +48,9 @@ void send_queue_message(int queue_id, int teste)
 
 	message_buffer.message_type = MESSAGE_MTYPE;
 
-	data_ptr->teste = teste;
+	strcpy(data_ptr->ip, ip);
+	strcpy(data_ptr->port, port);
+	strcpy(data_ptr->value, value);
 
 	if (msgsnd(queue_id, (struct msgbuf *)&message_buffer, sizeof(data_t), 0) == -1) {
 		debug(stderr, "Impossivel enviar mensagem!\n");
@@ -54,7 +60,6 @@ void send_queue_message(int queue_id, int teste)
 
 void receive_queue_message(int queue_id)
 {
-
 	msgbuf_t message_buffer;
 
 	data_t *data_ptr = (data_t *)(message_buffer.mtext);
@@ -66,7 +71,8 @@ void receive_queue_message(int queue_id)
 		exit(EXIT_FAILURE);
 	}
 	
-	printf("RECEBIDO NÚMERO DA THREAD: %d\n", data_ptr->teste);
+	printf("Recebido IP: %s\n", data_ptr->ip);
+	
 
 }
 

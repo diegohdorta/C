@@ -24,11 +24,23 @@ void communication_app(void)
 		
 		printf("Recebido IP: %s\n", inet_ntoa(info.payment.address.sin_addr));
 		
+		call_mobile_to_send_payment(info);
+		
 	} while(true);
 			
 	printf("Recebido mensagem, destroindo fila de mensagens!\n");
 	destroy_queue(queue_id_app);
 
 }
+
+void call_mobile_to_send_payment(message_t info)
+{
+	//int sock_app;
+
+	//sock_app = create_tcp_socket(info.payment.address.sin_port);
+
+
+}
+
 
 /* END */

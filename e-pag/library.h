@@ -25,14 +25,6 @@
 #include <limits.h>
 
 #define PATH			"database.txt"
-#define CLEAR			"\e[H\e[2J"
-#define RED			"\e[31m"
-#define BLUE			"\e[34m"
-#define GREEN			"\e[32m"
-#define NORMAL			"\e[0m"
-#define OPEN_UNDERSCORE		"\e[4m"
-#define OPEN_BLINK		"\e[5m"
-#define OPEN_REVERSE		"\e[7m"
 #define BUFFER_SIZE 		500
 #define LOG_ERROR 		"log.txt"
 #define DEBUG_MESSAGE		"E-Pag - This log is only for debbuging in case something stops working.\n\n"
@@ -67,7 +59,7 @@
 #define SIZE_MESSAGE		150
 #define STRINGIFY(s) 		STRINGIFY1(s)
 #define STRINGIFY1(s) 		#s
-
+/* Constants for queue messages */
 #define MESSAGE_QUEUE_ID	3000
 #define MESSAGE_MTYPE		1
 #define QUEUE_PERMISSION	0666
@@ -81,27 +73,29 @@ struct process_arguments {
 	int arg;
 };
 
+typedef enum message_type message_type;
+
 enum message_type {
 	/* Force message_type to be a long integer to be compatible with System V message queue API. */
 	MESSAGE_PAYMENT = LONG_MAX,
 	MESSAGE_PING = 0
 };
 
-typedef enum message_type message_type;
+typedef struct payment_t payment_t;
 
 struct payment_t {
 	struct sockaddr_in address;
 	uint64_t value_cents;
 };
 
-typedef struct payment_t payment_t;
+typedef struct ping_t ping_t;
 
 struct ping_t {
 	struct sockaddr_in address;
 	char text[5];
 };
 
-typedef struct ping_t ping_t;
+typedef struct message_t message_t;
 
 struct message_t {
 	message_type type;
@@ -110,10 +104,6 @@ struct message_t {
 		ping_t ping;
 	};
 };
-
-
-
-typedef struct message_t message_t;
 
 /* network.c */
 int create_tcp_socket(uint16_t port);
@@ -136,6 +126,7 @@ void put_payment_on_message_queue(const struct sockaddr_in *address, uint64_t va
 /* app.c */
 void *start_communication_app(void *args);
 void communication_app(void);
+void call_mobile_to_send_payment(message_t info);
 
 /* thread.c */
 void check_creation_thread(int id);

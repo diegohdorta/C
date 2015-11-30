@@ -1,12 +1,16 @@
-#define _BSD_SOURCE
+#define _XOPEN_SOURCE 700
+
+#include <arpa/inet.h>
 
 #include "library.h"
 
-int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone, char *ip, char *port)
+int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone, struct sockaddr_in *address)
 {
 	int line_number;
 	FILE *file;
 	file = fopen(PATH, "r");
+	char ip[SIZE_IP];
+	char port[SIZE_PORT];
 	
 	if (file == NULL) {
 		perror("fopen: %s");
@@ -29,8 +33,6 @@ int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone, 
 			goto parse_error;
 		line_number++;
 		
-		printf("LI NOME DO ARQUIVO: %s\n", name);
-		
 		if (fscanf(file, "%" STRINGIFY(SIZE_CPF_MINUS_ONE) "[^\n]\n", cpf) < 1)
 			goto parse_error;
 		line_number++;
@@ -47,12 +49,15 @@ int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone, 
 			goto parse_error;
 		line_number++;
 
-		if(strncmp(token_cpf, cpf, SIZE_CPF) == 0)
+		if(strncmp(token_cpf, cpf, SIZE_CPF) == 0) {
+			address->sin_addr.s_addr = inet_addr(ip);
+			address->sin_port = (in_port_t)htons(strtoul(port, NULL, 0));
 			return USER_EXISTS;
-	}
+		}
+	}	
 	
 	return USER_NO_EXISTS;
-	
+		
 	fclose(file);
 	
 parse_error:

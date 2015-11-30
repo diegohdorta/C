@@ -1,4 +1,7 @@
-#define _BSD_SOURCE
+#define _XOPEN_SOURCE 700
+
+#include <arpa/inet.h>
+
 #include "library.h"
 
 void *start_communication_web(void *args)
@@ -25,10 +28,8 @@ void communication_web(void)
 			if(ret == true) {
 				close(new_socket_from_web);
 				break;
-			}
-			
-		} while(true);
-		
+			}			
+		} while(true);		
 	} while (true);
 }
 
@@ -50,9 +51,11 @@ bool receive_data_from_web(int web_socket)
 	char name[SIZE_NAME];	
 	char cpf[SIZE_CPF];
 	char phone[SIZE_PHONE];
-	char ip[SIZE_PHONE];
-	char port[SIZE_PHONE];
-	char value[10] = "150.56";
+	char ip[SIZE_IP];
+	char port[SIZE_PORT];
+	uint64_t value_cents = 15056;
+	
+	struct sockaddr_in address;
 	
 	char message[100];
 
@@ -93,14 +96,16 @@ bool receive_data_from_web(int web_socket)
 
 	token = strtok_r(token_cpf_value, "+", &next);
 
-	ret = verify_cpf_on_database(token, name, cpf, phone, ip, port);
+	ret = verify_cpf_on_database(token, name, cpf, phone, &address);
+	strcpy(ip, inet_ntoa(address.sin_addr));
+	sprintf(port, "%hu\n", ntohs(address.sin_port));
 
 	if (ret != INVALID_COMMAND) {
 		debug(stderr, "Nome: %s\n", name);
 		debug(stderr, "CPF: %s\n", cpf);
 		debug(stderr, "Phone: %s\n", phone);
 		debug(stderr, "IP: %s\n", ip);
-		debug(stderr, "Porta: %s\n", port);
+		debug(stderr, "Porta: %s", port);
 	}
 	else
 		debug(stderr, "Verificação falhou!\n");
@@ -111,9 +116,8 @@ bool receive_data_from_web(int web_socket)
 		
 			snprintf(message, 100, "Usuário encontrado %s número do telefone %s, IP: %s e porta: %s.\n%zn", name, phone, ip, port, &namelen);
 			send_or_panic(web_socket, message, namelen+1);
-			debug(stderr, "Chamando função para se conectar com dispositivo móvel no IP: %s e porta: %s!\n", ip, port);
-			// Chama função que entra em contato com o celular
-			put_info_on_message_queue(ip, port, value);
+			debug(stderr, "Chamando função para se conectar com dispositivo móvel no IP: %s e porta: %s", ip, port);
+			put_payment_on_message_queue(&address, value_cents);
 			break;
 			
 		case ID_USER_NO_EXISTS:
@@ -134,13 +138,17 @@ bool receive_data_from_web(int web_socket)
 	return false;
 }
 
-void put_info_on_message_queue(char *ip, char *port, char *value)
+void put_payment_on_message_queue(const struct sockaddr_in *address, uint64_t value_cents)
 {
 	int queue_id_app;
+	message_t message;
 
 	queue_id_app = create_message_queue();
 	printf("Enviando mensagem para colocar na fila!\n");
-	send_queue_message(queue_id_app, ip, port, value);
+	message.type = MESSAGE_PAYMENT;
+	message.payment.address = *address;
+	message.payment.value_cents = value_cents;
+	send_queue_message(queue_id_app, &message);
 
 }
 /* END */

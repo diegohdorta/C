@@ -1,23 +1,6 @@
-#define _BSD_SOURCE
+#define _XOPEN_SOURCE 700
 
 #include "library.h"
-
-#define MESSAGE_QUEUE_ID	3000
-#define MESSAGE_MTYPE		1
-#define QUEUE_PERMISSION	0666
-#define SIZE_VALUE		10
-
-typedef struct {
-	char ip[SIZE_IP];
-	char port[SIZE_PORT];
-	char value[SIZE_VALUE];
-	
-} data_t; 
-
-typedef struct {
-	long message_type;
-	char mtext[sizeof(data_t)];
-} msgbuf_t;
 
 int create_message_queue(void)
 {
@@ -39,41 +22,21 @@ void destroy_queue(int queue_id)
 	}
 }
 
-void send_queue_message(int queue_id, char *ip, char *port, char *value)
+void send_queue_message(int queue_id, const message_t *message)
 {
-
-	msgbuf_t message_buffer;
-
-	data_t *data_ptr = (data_t *)(message_buffer.mtext);
-
-	message_buffer.message_type = MESSAGE_MTYPE;
-
-	strcpy(data_ptr->ip, ip);
-	strcpy(data_ptr->port, port);
-	strcpy(data_ptr->value, value);
-
-	if (msgsnd(queue_id, (struct msgbuf *)&message_buffer, sizeof(data_t), 0) == -1) {
+	if (msgsnd(queue_id, message, MESSAGE_PAYLOAD_SIZE, 0) == -1) {
 		debug(stderr, "Impossivel enviar mensagem!\n");
 		exit(EXIT_FAILURE);
 	}	
 }
 
-void receive_queue_message(int queue_id)
+void receive_queue_message(int queue_id, message_t *message)
 {
-	msgbuf_t message_buffer;
-
-	data_t *data_ptr = (data_t *)(message_buffer.mtext);
-	
 	debug(stderr, "Esperando uma mensagem chegar...\n");
 
-	if (msgrcv(queue_id, (struct msgbuf *)&message_buffer, sizeof(data_t), MESSAGE_MTYPE, 0) == -1) {
-		debug(stderr, "Impossivel receber mensagem!\n");
+	if (msgrcv(queue_id, message, MESSAGE_PAYLOAD_SIZE, 0, 0) == -1) {
 		exit(EXIT_FAILURE);
 	}
-	
-	printf("Recebido IP: %s\n", data_ptr->ip);
-	
-
 }
 
 

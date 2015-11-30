@@ -1,8 +1,7 @@
 #ifndef _LIBRARY_H_
 #define _LIBRARY_H_
 
-#define _SVID_SOURCE 1
-
+#define _XOPEN_SOURCE 700
 
 #include <stdio.h>
 #include <stdio_ext.h>
@@ -23,6 +22,7 @@
 #include <fcntl.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
+#include <limits.h>
 
 #define PATH			"database.txt"
 #define CLEAR			"\e[H\e[2J"
@@ -68,12 +68,52 @@
 #define STRINGIFY(s) 		STRINGIFY1(s)
 #define STRINGIFY1(s) 		#s
 
+#define MESSAGE_QUEUE_ID	3000
+#define MESSAGE_MTYPE		1
+#define QUEUE_PERMISSION	0666
+#define SIZE_VALUE		10
+
+#define MESSAGE_PAYLOAD_SIZE (sizeof(message_t)-sizeof(message_type))
 
 extern FILE *log_error;
 
 struct process_arguments {
 	int arg;
 };
+
+enum message_type {
+	/* Force message_type to be a long integer to be compatible with System V message queue API. */
+	MESSAGE_PAYMENT = LONG_MAX,
+	MESSAGE_PING = 0
+};
+
+typedef enum message_type message_type;
+
+struct payment_t {
+	struct sockaddr_in address;
+	uint64_t value_cents;
+};
+
+typedef struct payment_t payment_t;
+
+struct ping_t {
+	struct sockaddr_in address;
+	char text[5];
+};
+
+typedef struct ping_t ping_t;
+
+struct message_t {
+	message_type type;
+	union {
+		payment_t payment;
+		ping_t ping;
+	};
+};
+
+
+
+typedef struct message_t message_t;
 
 /* network.c */
 int create_tcp_socket(uint16_t port);
@@ -91,7 +131,7 @@ void *start_communication_opr(void *args);
 void *start_communication_web(void *args);
 void communication_web(void);
 bool receive_data_from_web(int web_socket);
-void put_info_on_message_queue(char *ip, char *port, char *value);
+void put_payment_on_message_queue(const struct sockaddr_in *address, uint64_t value_cents);
 
 /* app.c */
 void *start_communication_app(void *args);
@@ -102,13 +142,13 @@ void check_creation_thread(int id);
 void destroy_thread(pthread_t id);
 
 /* database.c */
-int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone, char *ip, char *port);
+int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone, struct sockaddr_in *address);
 
 /* queue.c */
 int create_message_queue(void);
 void destroy_queue(int queue_id);
-void send_queue_message(int queue_id, char *ip, char *port, char *value);
-void receive_queue_message(int queue_id);
+void send_queue_message(int queue_id, const message_t *message);
+void receive_queue_message(int queue_id, message_t *info);
 
 #ifdef __GNUC__ /* The __GNUC__ also works with clang compiler */
 void debug(FILE *output, const char *format, ...) __attribute__((format (printf, 2, 3)));

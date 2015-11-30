@@ -1,4 +1,6 @@
-#define _BSD_SOURCE
+#define _XOPEN_SOURCE 700
+
+#include <arpa/inet.h>
 
 #include "library.h"
 
@@ -12,15 +14,19 @@ void *start_communication_app(void *args)
 void communication_app(void)
 {
 	int queue_id_app;
+	
+	message_t info;
 
 	queue_id_app = create_message_queue();
 	
 	do {
-		receive_queue_message(queue_id_app);
-	
-		printf("Recebido mensagem, destroindo fila de mensagens!\n");
+		receive_queue_message(queue_id_app, &info);
+		
+		printf("Recebido IP: %s\n", inet_ntoa(info.payment.address.sin_addr));
 		
 	} while(true);
+			
+	printf("Recebido mensagem, destroindo fila de mensagens!\n");
 	destroy_queue(queue_id_app);
 
 }

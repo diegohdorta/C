@@ -4,9 +4,7 @@
    e será, aumentar a concorrência utilizando co-rotinas.
    https://developer.gnome.org/
 */
-#define _POSIX_C_SOURCE 200809L
-#define _BSD_SOURCE
-
+#define _XOPEN_SOURCE 700
 
 #include "library.h"
 

@@ -50,8 +50,12 @@ bool receive_data_from_web(int web_socket)
 	char name[SIZE_NAME];	
 	char cpf[SIZE_CPF];
 	char phone[SIZE_PHONE];
+	char ip[SIZE_PHONE];
+	char port[SIZE_PHONE];
 	
 	char message[100];
+	
+	int teste = 199;
 
 	done = false;
 	
@@ -90,12 +94,14 @@ bool receive_data_from_web(int web_socket)
 
 	token = strtok_r(token_cpf_value, "+", &next);
 
-	ret = verify_cpf_on_database(token, name, cpf, phone);
+	ret = verify_cpf_on_database(token, name, cpf, phone, ip, port);
 
 	if (ret != INVALID_COMMAND) {
 		debug(stderr, "Nome: %s\n", name);
 		debug(stderr, "CPF: %s\n", cpf);
 		debug(stderr, "Phone: %s\n", phone);
+		debug(stderr, "IP: %s\n", ip);
+		debug(stderr, "Porta: %s\n", port);
 	}
 	else
 		debug(stderr, "Verificação falhou!\n");
@@ -103,18 +109,18 @@ bool receive_data_from_web(int web_socket)
 	switch(ret) {
 	
 		case ID_USER_EXISTS:
-			snprintf(message, 100, "Usuário encontrado %s número do telefone %s.\n%zn", name, phone, &namelen);
+		
+			snprintf(message, 100, "Usuário encontrado %s número do telefone %s, IP: %s e porta: %s.\n%zn", name, phone, ip, port, &namelen);
 			send_or_panic(web_socket, message, namelen+1);
 			//send_or_panic(web_socket, MESSAGE_USER_EXISTS, sizeof(MESSAGE_USER_EXISTS)-1);
-			debug(stderr, "Chamando função para se conectar com dispositivo móvel!\n");
+			debug(stderr, "Chamando função para se conectar com dispositivo móvel no IP: %s e porta: %s!\n", ip, port);
 			// Chama função que entra em contato com o celular
-			//comunica_com_app(number telefone);
+			put_info_on_message_queue(teste);
 			break;
 			
 		case ID_USER_NO_EXISTS:
 		
 			send_or_panic(web_socket, MESSAGE_USER_NO_EXISTS, sizeof(MESSAGE_USER_NO_EXISTS)-1);
-			// O que fazer caso não existe o usuário? Volta para começo?
 			break;
 		
 		case ID_INVALID_COMMAND:
@@ -130,5 +136,13 @@ bool receive_data_from_web(int web_socket)
 	return false;
 }
 
+void put_info_on_message_queue(int teste)
+{
+	int queue_id_app;
 
+	queue_id_app = create_message_queue();
+	printf("Enviando mensagem para colocar na fila!\n");
+	send_queue_message(queue_id_app, teste);
+
+}
 /* END */

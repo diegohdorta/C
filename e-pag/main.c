@@ -7,24 +7,25 @@
 #define _POSIX_C_SOURCE 200809L
 #define _BSD_SOURCE
 
+
 #include "library.h"
 
 int main(void)
 {
 	struct process_arguments *args = { 0 };
-	//int ret_app_listener;
+	int ret_app_listener;
 	int ret_web_listener;
 	//int ret_opr_listener;
 
-	//pthread_t app_listener;
+	pthread_t app_listener;
 	pthread_t web_listener;
 	//pthread_t opr_listener;
 
 	start_log_file();
 	
 	do {		
-		//ret_app_listener = pthread_create(&app_listener, NULL, start_communication_app, (void *)args);
-		//check_creation_thread(ret_app_listener);
+		ret_app_listener = pthread_create(&app_listener, NULL, start_communication_app, (void *)args);
+		check_creation_thread(ret_app_listener);
 		
 		ret_web_listener = pthread_create(&web_listener, NULL, start_communication_web, (void *)args);
 		check_creation_thread(ret_web_listener);
@@ -32,7 +33,7 @@ int main(void)
 		//ret_opr_listener = pthread_create(&opr_listener, NULL, start_communication_opr, (void *)args);
 		//check_creation_thread(ret_opr_listener);
 		
-		//destroy_thread(app_listener);
+		destroy_thread(app_listener);
 		destroy_thread(web_listener);
 		//destroy_thread(opr_listener);
 				

@@ -1,6 +1,9 @@
 #ifndef _LIBRARY_H_
 #define _LIBRARY_H_
 
+#define _SVID_SOURCE 1
+
+
 #include <stdio.h>
 #include <stdio_ext.h>
 #include <stdlib.h>
@@ -18,6 +21,8 @@
 #include <errno.h>
 #include <time.h>
 #include <fcntl.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
 
 #define PATH			"database.txt"
 #define CLEAR			"\e[H\e[2J"
@@ -51,10 +56,14 @@
 #define SIZE_NAME		40
 #define SIZE_CPF		15
 #define SIZE_PHONE		15
+#define SIZE_IP			16
+#define SIZE_PORT		6
 /* These duplicate constants work around STRINGIFY limitations */
 #define SIZE_NAME_MINUS_ONE	39
 #define SIZE_CPF_MINUS_ONE	14
 #define SIZE_PHONE_MINUS_ONE	14
+#define SIZE_IP_MINUS_ONE	15
+#define SIZE_PORT_MINUS_ONE	5
 #define SIZE_MESSAGE		150
 #define STRINGIFY(s) 		STRINGIFY1(s)
 #define STRINGIFY1(s) 		#s
@@ -82,16 +91,24 @@ void *start_communication_opr(void *args);
 void *start_communication_web(void *args);
 void communication_web(void);
 bool receive_data_from_web(int web_socket);
+void put_info_on_message_queue(int teste);
 
 /* app.c */
 void *start_communication_app(void *args);
+void communication_app(void);
 
 /* thread.c */
 void check_creation_thread(int id);
 void destroy_thread(pthread_t id);
 
 /* database.c */
-int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone);
+int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone, char *ip, char *port);
+
+/* queue.c */
+int create_message_queue(void);
+void destroy_queue(int queue_id);
+void send_queue_message(int queue_id, int teste);
+void receive_queue_message(int queue_id);
 
 #ifdef __GNUC__ /* The __GNUC__ also works with clang compiler */
 void debug(FILE *output, const char *format, ...) __attribute__((format (printf, 2, 3)));

@@ -25,6 +25,7 @@ int create_tcp_socket(uint16_t port)
 
 	if (bind(s, (struct sockaddr *)&local, sizeof(local)) < 0) {
 		debug(log_error, "Error binding on port: %s\n", strerror(errno));
+		debug(stderr, "Error binding on port: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 

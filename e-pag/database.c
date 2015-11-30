@@ -2,7 +2,7 @@
 
 #include "library.h"
 
-int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone)
+int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone, char *ip, char *port)
 {
 	int line_number;
 	FILE *file;
@@ -36,6 +36,14 @@ int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone)
 		line_number++;
 			
 		if (fscanf(file, "%" STRINGIFY(SIZE_PHONE_MINUS_ONE) "[^\n]\n", phone) < 1)
+			goto parse_error;
+		line_number++;
+		
+		if (fscanf(file, "%" STRINGIFY(SIZE_IP_MINUS_ONE) "[^\n]\n", ip) < 1)
+			goto parse_error;
+		line_number++;
+		
+		if (fscanf(file, "%" STRINGIFY(SIZE_PORT_MINUS_ONE) "[^\n]\n", port) < 1)
 			goto parse_error;
 		line_number++;
 

@@ -2,13 +2,11 @@
 
 #include "library.h"
 
-int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone, struct sockaddr_in *address)
+int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone)
 {
 	int line_number;
 	FILE *file;
 	file = fopen(PATH, "r");
-	char ip[SIZE_IP];
-	char port[SIZE_PORT];
 	
 	if (file == NULL) {
 		perror("fopen: %s");
@@ -39,19 +37,8 @@ int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone, 
 			goto parse_error;
 		line_number++;
 		
-		if (fscanf(file, "%" STRINGIFY(SIZE_IP_MINUS_ONE) "[^\n]\n", ip) < 1)
-			goto parse_error;
-		line_number++;
-		
-		if (fscanf(file, "%" STRINGIFY(SIZE_PORT_MINUS_ONE) "[^\n]\n", port) < 1)
-			goto parse_error;
-		line_number++;
-
-		if(strncmp(token_cpf, cpf, SIZE_CPF) == 0) {
-			address->sin_addr.s_addr = inet_addr(ip);
-			address->sin_port = (in_port_t)htons(strtoul(port, NULL, 0));
+		if(strncmp(token_cpf, cpf, SIZE_CPF) == 0)
 			return USER_EXISTS;
-		}
 	}	
 	
 	return USER_NO_EXISTS;

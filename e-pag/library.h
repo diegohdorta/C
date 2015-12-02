@@ -23,6 +23,8 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <limits.h>
+#include <sys/times.h>
+#include <sys/select.h>
 
 #define PATH			"database.txt"
 #define BUFFER_SIZE 		500
@@ -42,6 +44,7 @@
 #define INVALID_COMMAND		4
 #define MESSAGE_INVALID_COMMAND	"e-Pag message: Mensagem inválida!\n"
 #define TOKEN_SIZE		32
+#define MAXIMUM_MESSAGE_SIZE	100
 #define ID_USER_EXISTS		2		
 #define ID_USER_NO_EXISTS	3
 #define ID_INVALID_COMMAND	4
@@ -84,7 +87,7 @@ enum message_type {
 typedef struct payment_t payment_t;
 
 struct payment_t {
-	struct sockaddr_in address;
+	char cpf[SIZE_CPF];
 	uint64_t value_cents;
 };
 
@@ -121,19 +124,28 @@ void *start_communication_opr(void *args);
 void *start_communication_web(void *args);
 void communication_web(void);
 bool receive_data_from_web(int web_socket);
-void put_payment_on_message_queue(const struct sockaddr_in *address, uint64_t value_cents);
+void put_payment_on_message_queue(char *cpf, uint64_t value_cents);
 
 /* app.c */
 void *start_communication_app(void *args);
 void communication_app(void);
 void call_mobile_to_send_payment(message_t info);
+void look_for_mobile_to_send_payment(message_t info);
 
 /* thread.c */
 void check_creation_thread(int id);
 void destroy_thread(pthread_t id);
 
 /* database.c */
-int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone, struct sockaddr_in *address);
+int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone);
+
+/* devices.c */
+void *start_communication_devices(void *args);
+void communication_devices(void);
+int insert_socket_into_list(int socket);
+int get_message_from_socket(int _sock);
+void remove_socket_from_list(int _sock);
+void send_message_to_all(int _sock);
 
 /* queue.c */
 int create_message_queue(void);

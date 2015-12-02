@@ -1,7 +1,5 @@
 #define _XOPEN_SOURCE 700
 
-#include <arpa/inet.h>
-
 #include "library.h"
 
 int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone, struct sockaddr_in *address)

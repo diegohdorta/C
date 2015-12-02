@@ -1,7 +1,5 @@
 #define _XOPEN_SOURCE 700
 
-#include <arpa/inet.h>
-
 #include "library.h"
 
 void *start_communication_web(void *args)
@@ -95,6 +93,7 @@ bool receive_data_from_web(int web_socket)
 	debug(stderr, "Conteúdo do buffer: %s\n", token_cpf_value);
 
 	token = strtok_r(token_cpf_value, "+", &next);
+	value_cents = atoi(next);
 
 	ret = verify_cpf_on_database(token, name, cpf, phone, &address);
 	strcpy(ip, inet_ntoa(address.sin_addr));
@@ -114,9 +113,9 @@ bool receive_data_from_web(int web_socket)
 	
 		case ID_USER_EXISTS:
 		
-			snprintf(message, 100, "Usuário encontrado %s número do telefone %s, IP: %s e porta: %s.\n%zn", name, phone, ip, port, &namelen);
+			snprintf(message, 100, "Usuário encontrado %s número do telefone %s, IP:%s e porta:%s\n%zn", name, phone, ip, port, &namelen);
 			send_or_panic(web_socket, message, namelen+1);
-			debug(stderr, "Chamando função para se conectar com dispositivo móvel no IP: %s e porta: %s", ip, port);
+			debug(stderr, "Chamando função para se conectar com dispositivo móvel no IP:%s e porta:%s", ip, port);
 			put_payment_on_message_queue(&address, value_cents);
 			break;
 			

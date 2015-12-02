@@ -1,7 +1,5 @@
 #define _XOPEN_SOURCE 700
 
-#include <arpa/inet.h>
-
 #include "library.h"
 
 void *start_communication_app(void *args)
@@ -23,8 +21,9 @@ void communication_app(void)
 		receive_queue_message(queue_id_app, &info);
 		
 		printf("Recebido IP: %s\n", inet_ntoa(info.payment.address.sin_addr));
+		printf("Recebido valor: %lu\n", info.payment.value_cents);
 		
-		call_mobile_to_send_payment(info);
+		//look_for_mobile_to_send_payment(info);
 		
 	} while(true);
 			
@@ -32,8 +31,8 @@ void communication_app(void)
 	destroy_queue(queue_id_app);
 
 }
-
-void call_mobile_to_send_payment(message_t info)
+/*
+void look_for_mobile_to_send_payment(message_t info)
 {
 	//int sock_app;
 
@@ -42,5 +41,5 @@ void call_mobile_to_send_payment(message_t info)
 
 }
 
-
+*/
 /* END */

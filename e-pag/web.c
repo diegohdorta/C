@@ -48,21 +48,16 @@ void communication_web(void)
 bool receive_data_from_web(int web_socket)
 {
 	int x, ret;
-	ssize_t size = 0;
 	bool done;
+	
 	size_t i = 0, namelen, token_size = TOKEN_SIZE;
-	char buffer[BUFFER_SIZE];
-	char token_cpf_value[TOKEN_SIZE];
-	
-	char *next = NULL, *token;
-	
-	char name[SIZE_NAME];	
-	char cpf[SIZE_CPF];
-	char phone[SIZE_PHONE];
-
+	ssize_t size = 0;
 	uint64_t value_cents;
 	
-	char message[MAXIMUM_MESSAGE_SIZE];
+	char buffer[BUFFER_SIZE];
+	char token_cpf_value[TOKEN_SIZE];	
+	char *next = NULL, *token;	
+	char name[SIZE_NAME], cpf[SIZE_CPF], phone[SIZE_PHONE], message[MAXIMUM_MESSAGE_SIZE];
 
 	done = false;
 	
@@ -74,11 +69,7 @@ bool receive_data_from_web(int web_socket)
 			debug(log_error, "Foi perdida conexão com o estabelecimento!\n");
 			return true;
 		}
-		/* Preciso trocar está forma de usar o protocolo TCP, pois vou perder informações
-		   Necessário ler até o \n e despachar, caso não encontre o \n leio novamente.
-		   Armazenar os dados em um buffer e começar a ler a partir dele na próxima iteração.
-		   Usar uma biblioteca externa tipo do gpio para resolver isto.   
-		*/
+
 		for (x = 0; x < size; x++) { 
 			if (buffer[x] == '\n') {
 				token_cpf_value[i] = '\0';

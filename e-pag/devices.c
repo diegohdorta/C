@@ -2,17 +2,7 @@
 
 #include "library.h"
 
-#define MAXIMUM_DEVICES 	100
-#define INITIAL_VALUE		0
-#define SERVER_BUSY		"Servidor está cheio!\n"
-#define MESSAGE_LENGHT		4096
-
-int list_length = 0;
-int *sock_devices_list;
-int sock_device;
-int new_socket;
-
-char message[MESSAGE_LENGHT + 1];
+#define MAXIMUM_DEVICES_THREADS 	100
 
 void *start_communication_devices(void *args)
 {
@@ -23,138 +13,95 @@ void *start_communication_devices(void *args)
 
 void communication_devices(void)
 {
-	/* Essa função será responsável por aceitar infinitas conexões dos celulares
-	   e salvar todos os IP e também o CPF do usuário, para que possa ser feita
-	   a comparação e então enviar a solicitação de pagamento correta para o usuário. 
-	   
-	   Quero dar um jeito dessa thread abrir em outro terminal e ficar atualizando
-	   todos os celulares que estiverem online... exec(gnome-terminal) ?!
-	   Mostrando: 
-	   1 IP:PORTA + CPF
-	   2 IP:PORTA + CPF
-	   3 IP:PORTA + CPF
-	   N IP:PORTA + CPF
-	   */
+	/* Essa função será responsável por aceitar infinitas conexões dos celulares.
+	   Para cada nova conexão serão criadas novas threads, e cada thread envia o
+	   IP e o CPF para a fila de mensagens do app.c como tipo DEVICE. 
+	   Enquanto a quantidade de threads for da ordem de milhares um PC normal aguenta,
+	   quando passar a ter milhões de threads será necessário usar co-routinas. */
+	int i = 0;
+	int j;
+	int sock_device;
+	int new_device_socket;
+	int device_list[MAXIMUM_DEVICES_THREADS];
 	
-	int x;
-
-	struct timeval select_time;
+	pthread_t devices[MAXIMUM_DEVICES_THREADS];
 	
-	fd_set select_set;
-
-	sock_device = create_tcp_socket(APP_TCP_PORT);
-
-	sock_devices_list = (int *) malloc(MAXIMUM_DEVICES * sizeof(int));
-
-	if (sock_devices_list == NULL) {
-		debug(stderr, "Error trying to allocated memory: %s\n", strerror(errno));
-		exit(EXIT_FAILURE);
-	}
-
-	for (x = 0; x < MAXIMUM_DEVICES; x++ )
-		sock_devices_list[x] = INITIAL_VALUE;
-
-	while (true) {
-
-		FD_ZERO(&select_set);
+	sock_device = create_tcp_socket(DEVICES_TCP_PORT);
+	
+	
+	do {
+		new_device_socket = accept_new_device_connection(sock_device);
 		
-		FD_SET(sock_device, &select_set) ;
+
+		/* Construir uma estrutura para armazenar os dados do socket?! */
 		
-		for (x = 0; list_length > 0 && x < MAXIMUM_DEVICES; x++) {
-			if (sock_devices_list[x] != 0)
-				FD_SET(sock_devices_list[x], &select_set);
-		}
+		device_list[i] = create_thread(device_list[i], FUNÇÃO, ARGUMENTOS, new_device_socket);
+		i++;
+		
 
-		debug(stderr, "[+] Listening devices on %d [%d/%d] ...\n", APP_TCP_PORT, list_length, MAXIMUM_DEVICES) ;
+		
+	} while (true);	
+	
+	for (j = 0; j < i; j++)
+		destroy_thread(devices[j]);
 
-		select_time.tv_sec = 1;
-		select_time.tv_usec = 0;
-
-		if ((x = select(FD_SETSIZE, &select_set, NULL, NULL, &select_time)) < 0 ) {
-			debug(stderr, "Error trying to select: %s\n", strerror(errno));
-			exit(EXIT_FAILURE);
-		}
-
-		if (x > 0) {
-
-			if (FD_ISSET(sock_device, &select_set)) {
-
-				if ((new_socket = accept(sock_device, NULL, NULL)) < 0 )
-					debug(stderr, "Error trying to accept new connetion: %s\n", strerror(errno));
-				
-				else if (insert_socket_into_list(new_socket) == 1) {
-					debug(stderr, "Servidor está cheio!\n");
-					send_or_panic(new_socket, SERVER_BUSY, sizeof(SERVER_BUSY)-1);
-					close(new_socket);
-				}
-				continue;
-			} 
-			else {
-				for (x = 0; x < MAXIMUM_DEVICES; x++) {
-					if (FD_ISSET(sock_devices_list[x], &select_set)) {
-						if (get_message_from_socket(sock_devices_list[x]) == 0)
-							send_message_to_all(sock_devices_list[x]);
-					}
-				}
-			}
-		}
-	} /* while */
 }
 
-int insert_socket_into_list(int socket) 
+int create_thread(int thread_id, FUNÇÃO, ARGUMENTOS)
 {
-	int i ;
+	int ret;
 
-	if (list_length == MAXIMUM_DEVICES)
-	return 1 ;
-
-	for (i = 0; i < MAXIMUM_DEVICES; i++) {
-		if (sock_devices_list[i] == 0) {
-			sock_devices_list[i] = socket;
-			list_length++;
-			break ;
-		}
-	}
-	return 0;
+	ret = pthread_create(&thread_id, NULL, FUNÇÃO, ARGUMENTOS);	
+	check_creation_thread(ret);
+	
+	return ret;
 }
 
-int get_message_from_socket(int _sock) 
+
+void FUNÇÃO()
 {
-	int t;
+	int ret;
+	int queue_id_app;	
+	char cpf[SIZE_CPF];	
+		
+	message_t phone;
+	
+	do {
+		
+		ret = receive_data_from_device(new_socket_from_web, cpf);
+		
+		if(ret == true)
+			break;
+	
+		queue_id_app = create_message_queue();
+		
+		phone.type = MESSAGE_DEVICE;
+		
+		phone.device.address = mobile.sin_addr.s_addr;
+		strcpy(phone.device.cpf, cpf);
 
-	memset(message, 0x0, MESSAGE_LENGHT + 1) ;
-	t = recv(_sock, message, MESSAGE_LENGHT, 0) ;
 
-	if (t == 0) {
-		remove_socket_from_list(_sock);
-		return 1;
-	}
-	return 0 ;
+		send_queue_message(queue_id_app, &phone);
+
+	
+	} while(true);
+	
+	
+
+
 }
 
-void remove_socket_from_list(int _sock) 
-{
-	int i ;
 
-	for (i = 0; i < MAXIMUM_DEVICES; i++) {
-		if (sock_devices_list[i] == _sock) {
-			close(sock_devices_list[i]);
-			sock_devices_list[i] = 0;
-			list_length--;
-			break ;
-		}
-	}
-}
 
-void send_message_to_all(int _sock) 
-{
-	int i;
 
-	for (i = 0; i < MAXIMUM_DEVICES; i++) {
-		if ( (sock_devices_list[i] != 0) && (sock_devices_list[i] != _sock) && (sock_devices_list[i] != sock_device))
-			send_or_panic(sock_devices_list[i], message, MESSAGE_LENGHT-1);
-	}
-}
+
+
+
+
+
+
+
+
 
 
 

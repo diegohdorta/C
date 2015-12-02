@@ -55,6 +55,24 @@ int accept_new_connection_from_web(int s)
 	return ns;
 }
 
+int accept_new_device_connection(int s)
+{
+	int ns;
+	socklen_t length;
+
+	struct sockaddr_in info;
+
+	length = sizeof(info);
+	debug(stderr, "Waiting for device to connect...\n");
+
+	if ((ns = accept(s, (struct sockaddr *)&info, &length)) == -1) {
+		debug(log_error, "Error trying to accept new connection: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+	debug(stderr, "The device %s is now connected!\n", inet_ntoa(info.sin_addr));
+	debug(log_error, "The device %s is now connected!\n", inet_ntoa(info.sin_addr));
+	return ns;
+}
 
 /* END */
 

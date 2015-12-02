@@ -31,7 +31,8 @@
 #define LOG_ERROR 		"log.txt"
 #define DEBUG_MESSAGE		"E-Pag - This log is only for debbuging in case something stops working.\n\n"
 #define WEB_TCP_PORT		4000
-#define APP_TCP_PORT		5000
+#define APP_TCP_PORT		6000
+#define DEVICES_TCP_PORT	5000
 #define OPR_TCP_PORT		3000
 #define NUMBER_WEB_CONNECTIONS	10
 #define SUCCESS 		"e-Pag message: Recebido com sucesso!\n"
@@ -81,7 +82,7 @@ typedef enum message_type message_type;
 enum message_type {
 	/* Force message_type to be a long integer to be compatible with System V message queue API. */
 	MESSAGE_PAYMENT = LONG_MAX,
-	MESSAGE_PING = 0
+	MESSAGE_DEVICE = 0
 };
 
 typedef struct payment_t payment_t;
@@ -91,11 +92,11 @@ struct payment_t {
 	uint64_t value_cents;
 };
 
-typedef struct ping_t ping_t;
+typedef struct device_t device_t;
 
-struct ping_t {
+struct device_t {
 	struct sockaddr_in address;
-	char text[5];
+	char cpf[SIZE_CPF];
 };
 
 typedef struct message_t message_t;
@@ -104,13 +105,14 @@ struct message_t {
 	message_type type;
 	union {
 		payment_t payment;
-		ping_t ping;
+		device_t device;
 	};
 };
 
 /* network.c */
 int create_tcp_socket(uint16_t port);
 int accept_new_connection_from_web(int s);
+int accept_new_device_connection(int s);
 
 /* utils.c */
 void start_log_file(void);
@@ -142,10 +144,6 @@ int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone);
 /* devices.c */
 void *start_communication_devices(void *args);
 void communication_devices(void);
-int insert_socket_into_list(int socket);
-int get_message_from_socket(int _sock);
-void remove_socket_from_list(int _sock);
-void send_message_to_all(int _sock);
 
 /* queue.c */
 int create_message_queue(void);

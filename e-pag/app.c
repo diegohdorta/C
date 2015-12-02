@@ -3,6 +3,9 @@
 #include "library.h"
 
 /*	Neste arquivo app.c encontra-se uma thread responsável por gerenciar o aplicativo.
+	Aqui irei receber da thread devices.c o IP e o CPF e salvar em um vetor.
+	Assim, quando receber um CPF e um valor da thread web.c, comparo neste vetor os cpf
+	descubro o IP do celular correspondente e envio a solicitação de pagamento pro usuário.
 */
 void *start_communication_app(void *args)
 {
@@ -11,9 +14,18 @@ void *start_communication_app(void *args)
 	return NULL;
 }
 
+typedef device_info device_info_t;
+
+struct device_info {
+	struct sock_addrin socket;
+	char cpf[SIZE_CPF];
+}
+
 void communication_app(void)
 {
 	int queue_id_app;
+	
+	device_info_t device_info;
 	
 	message_t info;
 
@@ -22,10 +34,19 @@ void communication_app(void)
 	do {
 		receive_queue_message(queue_id_app, &info);
 		
-		printf("Recebido CPF: %s\n", info.payment.cpf);
-		printf("Recebido valor: %lu\n", info.payment.value_cents);
+		if(info.type == MESSAGE_PAYMENT) {
+			printf("Recebido CPF: %s\n", info.payment.cpf);
+			printf("Recebido valor: %lu\n", info.payment.value_cents);
 		
-		look_for_mobile_to_send_payment(info);
+			look_for_mobile_to_send_payment(info);
+		}
+		else if (info.type == MESSAGE_DEVICE) {	
+			
+			strcpy(device_info.socket, info.device.address);
+			strcpy(device_info.cpf, info.device.cpf);
+		
+		}
+		
 		
 	} while(true);
 			

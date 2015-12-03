@@ -5,7 +5,7 @@
 int create_message_queue(void)
 {
 	int queue_id;
-	key_t key = MESSAGE_QUEUE_ID;
+	key_t key = IPC_PRIVATE;
 
 	if( (queue_id = msgget(key, IPC_CREAT | QUEUE_PERMISSION)) == -1 ) {
 		debug(stderr, "Impossivel criar a fila de mensagens!\n");

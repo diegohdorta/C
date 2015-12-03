@@ -68,6 +68,7 @@
 #define MESSAGE_MTYPE		1
 #define QUEUE_PERMISSION	0666
 #define SIZE_VALUE		10
+#define MAXIMUM_THREADS		10000
 
 #define MESSAGE_PAYLOAD_SIZE (sizeof(message_t)-sizeof(message_type))
 
@@ -92,10 +93,10 @@ struct payment_t {
 	uint64_t value_cents;
 };
 
-typedef struct device_t device_t;
+typedef struct connected_client_t connected_client_t;
 
-struct device_t {
-	struct sockaddr_in address;
+struct connected_client_t {
+	int socket;
 	char cpf[SIZE_CPF];
 };
 
@@ -105,8 +106,26 @@ struct message_t {
 	message_type type;
 	union {
 		payment_t payment;
-		device_t device;
+		connected_client_t connected_client;
 	};
+};
+
+typedef enum queue_type queue_type;
+
+enum queue_type {
+	QUEUE_APP = 0,
+	QUEUE_DEVICES,
+	QUEUE_WEB,
+	QUEUE_CHILDREN_THREADS
+};
+
+typedef struct thread_t thread_t;
+
+struct thread_t {
+	void (*thread_fn)(int, int *, void *);
+	int *queue_list;
+	int my_queue;
+	void *data;
 };
 
 /* network.c */
@@ -119,22 +138,17 @@ void start_log_file(void);
 void send_or_panic(int socket, const void *text, size_t length);
 int get_size(const char *file_name);
 
-/* financial.c */
-void *start_communication_opr(void *args);
-
 /* web.c */
-void *start_communication_web(void *args);
-void communication_web(void);
-bool receive_data_from_web(int web_socket);
-void put_payment_on_message_queue(char *cpf, uint64_t value_cents);
+void communication_web(int my_queue, int *queue_list, void *data);
+bool receive_data_from_web(int web_socket, int *queue_list);
+void put_payment_on_message_queue(char *cpf, uint64_t value_cents, int *queue_list);
 
 /* app.c */
-void *start_communication_app(void *args);
-void communication_app(void);
-void call_mobile_to_send_payment(message_t info);
+void communication_app(int my_queue, int *queue_list, void *data);
 void look_for_mobile_to_send_payment(message_t info);
 
 /* thread.c */
+void create_thread(pthread_t *thread, int my_queue, void (*function)(int, int *, void *), int *queue_list, void *data);
 void check_creation_thread(int id);
 void destroy_thread(pthread_t id);
 
@@ -142,8 +156,9 @@ void destroy_thread(pthread_t id);
 int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone);
 
 /* devices.c */
-void *start_communication_devices(void *args);
-void communication_devices(void);
+void communication_devices(int my_queue, int *queue_list, void *data);
+void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data);
+bool receive_data_from_device(int socket, char *cpf);
 
 /* queue.c */
 int create_message_queue(void);

@@ -16,14 +16,7 @@
    valor a ser cobrado do cliente.
 */
 
-void *start_communication_web(void *args)
-{
-	debug(stderr, "Função que se comunica com a web inicializada!\n");
-	communication_web();
-	return NULL;
-}
-
-void communication_web(void)
+void communication_web(int my_queue, int *queue_list, void *data)
 {
 	int sock;
 	int new_socket_from_web;
@@ -35,7 +28,7 @@ void communication_web(void)
 		new_socket_from_web = accept_new_connection_from_web(sock);
 		
 		do {
-			ret = receive_data_from_web(new_socket_from_web);
+			ret = receive_data_from_web(new_socket_from_web, queue_list);
 			
 			if(ret == true) {
 				close(new_socket_from_web);
@@ -45,7 +38,7 @@ void communication_web(void)
 	} while (true);
 }
 
-bool receive_data_from_web(int web_socket)
+bool receive_data_from_web(int web_socket, int *queue_list)
 {
 	int x, ret;
 	bool done;
@@ -110,7 +103,7 @@ bool receive_data_from_web(int web_socket)
 			snprintf(message, MAXIMUM_MESSAGE_SIZE, "Encontrado usuário: %s | Número do telefone: %s\n%zn", name, phone, &namelen);
 			send_or_panic(web_socket, message, namelen+1);
 			debug(stderr, "Chamando função para buscar dispositivo móvel do %s!\n", name);
-			put_payment_on_message_queue(cpf, value_cents);
+			put_payment_on_message_queue(cpf, value_cents, queue_list);
 			break;
 			
 		case ID_USER_NO_EXISTS:
@@ -131,17 +124,15 @@ bool receive_data_from_web(int web_socket)
 	return false;
 }
 
-void put_payment_on_message_queue(char *cpf, uint64_t value_cents)
+void put_payment_on_message_queue(char *cpf, uint64_t value_cents, int *queue_list)
 {
-	int queue_id_app;
 	message_t message;
 
-	queue_id_app = create_message_queue();
 	printf("Enviando mensagem para colocar na fila!\n");
 	message.type = MESSAGE_PAYMENT;
 	strcpy(message.payment.cpf, cpf);
 	message.payment.value_cents = value_cents;
-	send_queue_message(queue_id_app, &message);
+	send_queue_message(queue_list[QUEUE_APP], &message);
 
 }
 /* END */

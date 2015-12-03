@@ -2,96 +2,81 @@
 
 #include "library.h"
 
-#define MAXIMUM_DEVICES_THREADS 	100
-
-void *start_communication_devices(void *args)
-{
-	debug(stderr, "Função que se comunica com os dispositivos inicializada!\n");
-	communication_devices();
-	return NULL;
-}
-
-void communication_devices(void)
+void communication_devices(int my_queue, int *queue_list, void *data)
 {
 	/* Essa função será responsável por aceitar infinitas conexões dos celulares.
 	   Para cada nova conexão serão criadas novas threads, e cada thread envia o
 	   IP e o CPF para a fila de mensagens do app.c como tipo DEVICE. 
 	   Enquanto a quantidade de threads for da ordem de milhares um PC normal aguenta,
 	   quando passar a ter milhões de threads será necessário usar co-routinas. */
-	int i = 0;
+	int i = QUEUE_CHILDREN_THREADS;
 	int j;
 	int sock_device;
-	int new_device_socket;
-	int device_list[MAXIMUM_DEVICES_THREADS];
+	int new_device_socket[MAXIMUM_THREADS];
 	
-	pthread_t devices[MAXIMUM_DEVICES_THREADS];
+
+	pthread_t devices[MAXIMUM_THREADS];
 	
 	sock_device = create_tcp_socket(DEVICES_TCP_PORT);
 	
-	
 	do {
-		new_device_socket = accept_new_device_connection(sock_device);
+		new_device_socket[i] = accept_new_device_connection(sock_device);
 		
-
-		/* Construir uma estrutura para armazenar os dados do socket?! */
-		
-		device_list[i] = create_thread(device_list[i], FUNÇÃO, ARGUMENTOS, new_device_socket);
+		create_thread(&devices[i], i, receive_data_and_put_on_queue, queue_list, &new_device_socket[i]);
 		i++;
+		/* Tratar destruição das threads e organização dos IDs */
 		
-
-		
-	} while (true);	
+	} while (i < MAXIMUM_THREADS);	
 	
 	for (j = 0; j < i; j++)
 		destroy_thread(devices[j]);
-
 }
 
-int create_thread(int thread_id, FUNÇÃO, ARGUMENTOS)
-{
-	int ret;
 
-	ret = pthread_create(&thread_id, NULL, FUNÇÃO, ARGUMENTOS);	
-	check_creation_thread(ret);
+void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
+{
+	int *socket_ptr = data;
+	int socket = *socket_ptr;
+	bool ret;
+	char cpf[SIZE_CPF];
 	
-	return ret;
-}
-
-
-void FUNÇÃO()
-{
-	int ret;
-	int queue_id_app;	
-	char cpf[SIZE_CPF];	
-		
-	message_t phone;
+	message_t client;
 	
 	do {
 		
-		ret = receive_data_from_device(new_socket_from_web, cpf);
+		ret = receive_data_from_device(socket, cpf);
 		
 		if(ret == true)
 			break;
+
+		client.type = MESSAGE_DEVICE;
+		
+		client.connected_client.socket = socket;
+		strcpy(client.connected_client.cpf, cpf);
+
+
+		send_queue_message(queue_list[QUEUE_APP], &client);
+
 	
-		queue_id_app = create_message_queue();
-		
-		phone.type = MESSAGE_DEVICE;
-		
-		phone.device.address = mobile.sin_addr.s_addr;
-		strcpy(phone.device.cpf, cpf);
-
-
-		send_queue_message(queue_id_app, &phone);
-
+		/* Ler da minha fila agora e reagir de acordo com a mensagem que estiver na fila */
+	
 	
 	} while(true);
 	
 	
-
-
+	//return NULL;
 }
 
+bool receive_data_from_device(int socket, char *cpf)
+{
 
+
+	
+	send_or_panic(socket, "Envia seu cpf\n", 20);
+
+	return false;
+
+}
 
 
 

@@ -10,38 +10,23 @@
 
 int main(void)
 {
-	struct process_arguments *args = { 0 };
+	struct process_arguments args = { 0 };
+	int queue_list[MAXIMUM_THREADS];
 	
-	int ret_app_listener;
-	int ret_devices_listener;
-	int ret_web_listener;
-	//int ret_opr_listener;
-
 	pthread_t app_listener;
 	pthread_t devices_listener;
 	pthread_t web_listener;
-	//pthread_t opr_listener;
 
 	start_log_file();
 	
 	do {		
-		ret_app_listener = pthread_create(&app_listener, NULL, start_communication_app, (void *)args);
-		check_creation_thread(ret_app_listener);
-		
-		ret_devices_listener = pthread_create(&devices_listener, NULL, start_communication_devices, (void *)args);
-		check_creation_thread(ret_devices_listener);
-		
-		ret_web_listener = pthread_create(&web_listener, NULL, start_communication_web, (void *)args);
-		check_creation_thread(ret_web_listener);
-		
-		//ret_opr_listener = pthread_create(&opr_listener, NULL, start_communication_opr, (void *)args);
-		//check_creation_thread(ret_opr_listener);
-		
+		create_thread(&app_listener, QUEUE_APP, communication_app, queue_list, &args);
+		create_thread(&devices_listener, QUEUE_DEVICES, communication_devices, queue_list, &args);
+		create_thread(&web_listener, QUEUE_WEB, communication_web, queue_list, &args);
+
 		destroy_thread(app_listener);
 		destroy_thread(devices_listener);
 		destroy_thread(web_listener);
-		//destroy_thread(opr_listener);
-				
 
 	} while (true);
 

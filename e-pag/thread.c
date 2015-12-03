@@ -5,7 +5,7 @@
 void check_thread_creation(int id)
 {
 	if (id) {
-		debug(stderr, "ERRO: Impossível criar thread!\n");
+		debug(log_error, "Error trying to create thread: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 }
@@ -33,7 +33,7 @@ void create_thread(pthread_t *thread, int my_queue, void (*function)(int, int *,
 	thread_data = malloc(sizeof(thread_t));
 	
 	if (thread_data == NULL) {
-		perror("");
+		debug(log_error, "Error trying to alloc memory: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 	

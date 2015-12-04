@@ -84,7 +84,8 @@ typedef enum message_type message_type;
 enum message_type {
 	/* Force message_type to be a long integer to be compatible with System V message queue API. */
 	MESSAGE_PAYMENT = LONG_MAX,
-	MESSAGE_DEVICE = 1
+	MESSAGE_DEVICE = 1,
+	MESSAGE_FORWARD_PAYMENT
 };
 
 typedef struct payment_t payment_t;
@@ -94,11 +95,17 @@ struct payment_t {
 	uint64_t value_cents;
 };
 
+typedef struct forward_payment_t forward_payment_t;
+
+struct forward_payment_t {
+	uint64_t value_cents;
+};
+
 typedef struct connected_client_t connected_client_t;
 
 struct connected_client_t {
-	int socket;
 	char cpf[SIZE_CPF];
+	int device_queue;
 };
 
 typedef struct message_t message_t;
@@ -108,6 +115,7 @@ struct message_t {
 	union {
 		payment_t payment;
 		connected_client_t connected_client;
+		forward_payment_t forward_payment;
 	};
 };
 
@@ -146,7 +154,7 @@ void put_payment_on_message_queue(char *cpf, uint64_t value_cents, int *queue_li
 
 /* app.c */
 void communication_app(int my_queue, int *queue_list, void *data);
-void look_for_mobile_to_send_payment(message_t info);
+void look_for_mobile_to_send_payment(const message_t *info, const char *cpf_list[], int socket_list[]);
 
 /* thread.c */
 void create_thread(pthread_t *thread, void (*function)(int, int *, void *), int queue_index, int *queue_list, void *data);

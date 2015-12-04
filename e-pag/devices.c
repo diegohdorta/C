@@ -38,27 +38,31 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 	int socket = *socket_ptr;
 	bool ret;
 	char cpf[SIZE_CPF];
+	char buffer[100];
+	size_t length;
 	
-	message_t client;
-	
-	do {
+	message_t client, payment;
 		
-		ret = receive_data_from_device(socket, cpf);
+	ret = receive_data_from_device(socket, cpf);
 
-		if(ret == true) {
-			close(socket);
-			// remover thread da lista?!
-			break;
-		}
+	if(ret == true)
+		close(socket);
+
+	do {
+
 
 		client.type = MESSAGE_DEVICE;
-		
-		client.connected_client.socket = socket;
+		printf("%zu\n", strlen(cpf));
 		strcpy(client.connected_client.cpf, cpf);
+		client.connected_client.device_queue = my_queue;
 
 		printf("Enviando mensagem do devices.c para o app.c!\n");
 		send_queue_message(queue_list[QUEUE_APP], &client);
-
+		
+		receive_queue_message(my_queue, &payment);
+		printf("Opa !!!!!!! Recebi um pagamento !!!!!!\n");
+		snprintf(buffer, 100, "Show me the money ! %.2f\n%zn", (double)payment.forward_payment.value_cents, &length);
+		send_or_panic(socket, buffer, length);
 	
 		/* Ler da minha fila agora e reagir de acordo com a mensagem que estiver na fila */
 	

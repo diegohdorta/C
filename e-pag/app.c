@@ -45,7 +45,7 @@ void communication_app(int my_queue, int *queue_list, void *data)
 			printf("RECEBIDO MENSAGEM DO CELULAR!\n");
 			printf("Recebido CPF: %s\n", info.connected_client.cpf);
 			//printf("Recebido Socket: %d\n", info.connected_client.socket);
-			if (client_count == 10) {
+			if (client_count == 100) {
 				debug(stderr, "Acabou a memória\n");
 				exit(EXIT_FAILURE);
 			}

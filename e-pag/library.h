@@ -44,6 +44,7 @@
 #define MESSAGE_USER_NO_EXISTS	"e-Pag message: Usuário NÃO encontrado no banco de dados!\n"
 #define INVALID_COMMAND		4
 #define MESSAGE_INVALID_COMMAND	"e-Pag message: Mensagem inválida!\n"
+#define MESSAGE_DEVICE_CPF	"e-Pag message: Envie seu CPF!\n"
 #define TOKEN_SIZE		32
 #define MAXIMUM_MESSAGE_SIZE	100
 #define ID_USER_EXISTS		2		

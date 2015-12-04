@@ -13,8 +13,7 @@ void communication_devices(int my_queue, int *queue_list, void *data)
 	int i = QUEUE_CHILDREN_THREADS;
 	int j;
 	int sock_device;
-	int new_device_socket[MAXIMUM_THREADS];
-	
+	int new_device_socket[MAXIMUM_THREADS];	
 
 	pthread_t devices[MAXIMUM_THREADS];
 	
@@ -45,11 +44,6 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 	do {
 		
 		ret = receive_data_from_device(socket, cpf);
-		
-		strcat(cpf, "\n");
-		
-		printf("Voltei na função que envia mensagem e o valor do cpf recebido é: %s\n", cpf);
-
 
 		if(ret == true) {
 			close(socket);
@@ -61,7 +55,6 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 		
 		client.connected_client.socket = socket;
 		strcpy(client.connected_client.cpf, cpf);
-
 
 		send_queue_message(queue_list[QUEUE_APP], &client);
 
@@ -86,7 +79,7 @@ bool receive_data_from_device(int socket, char *cpf)
 
 	done = false;
 	
-	send_or_panic(socket, "Envia seu CPF:\n", 15);
+	send_or_panic(socket, MESSAGE_DEVICE_CPF, sizeof(MESSAGE_DEVICE_CPF));
 	
 	do {
 		size = recv(socket, buffer, BUFFER_SIZE, 0);
@@ -112,13 +105,10 @@ bool receive_data_from_device(int socket, char *cpf)
 				i = 0;
 				break;
 			}
-		}
-		
-		cpf = token_cpf;
+		}		
 	} while (!done);
 
-	printf("TOKEN CPF É: %s\n", token_cpf);
-	printf("CPF É: %s\n", cpf);
+	strcpy(cpf, token_cpf);
 	
 	return false;
 }

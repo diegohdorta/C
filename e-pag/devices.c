@@ -22,7 +22,7 @@ void communication_devices(int my_queue, int *queue_list, void *data)
 	do {
 		new_device_socket[i] = accept_new_device_connection(sock_device);
 		
-		create_thread(&devices[i], i, receive_data_and_put_on_queue, queue_list, &new_device_socket[i]);
+		create_thread(&devices[i], receive_data_and_put_on_queue, i, queue_list, &new_device_socket[i]);
 		i++;
 		/* Tratar destruição das threads e organização dos IDs */
 		
@@ -56,6 +56,7 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 		client.connected_client.socket = socket;
 		strcpy(client.connected_client.cpf, cpf);
 
+		printf("Enviando mensagem do devices.c para o app.c!\n");
 		send_queue_message(queue_list[QUEUE_APP], &client);
 
 	

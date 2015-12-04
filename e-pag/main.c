@@ -8,9 +8,11 @@
 
 #include "library.h"
 
+
 int main(void)
 {
 	struct process_arguments args = { 0 };
+	
 	int queue_list[MAXIMUM_THREADS];
 	
 	pthread_t app_listener;
@@ -20,9 +22,9 @@ int main(void)
 	start_log_file();
 	
 	do {		
-		create_thread(&app_listener, QUEUE_APP, communication_app, queue_list, &args);
-		create_thread(&devices_listener, QUEUE_DEVICES, communication_devices, queue_list, &args);
-		create_thread(&web_listener, QUEUE_WEB, communication_web, queue_list, &args);
+		create_thread(&app_listener, communication_app, QUEUE_APP, queue_list, &args);
+		create_thread(&devices_listener, communication_devices, QUEUE_DEVICES, queue_list, &args);
+		create_thread(&web_listener, communication_web, QUEUE_WEB, queue_list, &args);
 
 		destroy_thread(app_listener);
 		destroy_thread(devices_listener);

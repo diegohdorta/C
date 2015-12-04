@@ -12,25 +12,29 @@
 void communication_app(int my_queue, int *queue_list, void *data)
 {
 	//struct process_arguments *args = data;
-	//device_info_t device_info;
-	
-	//message_t info;
+
+	message_t info;
 
 	do {
-	/*	receive_queue_message(my_queue, &info);
+		receive_queue_message(my_queue, &info);
 		
 		if(info.type == MESSAGE_PAYMENT) {
+		
+			printf("RECEBIDO MENSAGEM DO ESTABELECIMENTO!\n");
 			printf("Recebido CPF: %s\n", info.payment.cpf);
 			printf("Recebido valor: %lu\n", info.payment.value_cents);
 		
 			look_for_mobile_to_send_payment(info);
 		}
 		else if (info.type == MESSAGE_DEVICE) {	
-			
-			strcpy(device_info.socket, info.device.address);
-			strcpy(device_info.cpf, info.device.cpf);
 		
-		}*/
+			printf("RECEBIDO MENSAGEM DO CELULAR!\n");
+			printf("Recebido CPF: %s\n", info.connected_client.cpf);
+			printf("Recebido Socket: %d\n", info.connected_client.socket);
+			//strcpy(device_info.socket, info.device.address);
+			//strcpy(device_info.cpf, info.device.cpf);
+		
+		}
 		
 	} while(true);
 			

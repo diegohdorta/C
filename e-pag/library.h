@@ -44,7 +44,7 @@
 #define MESSAGE_USER_NO_EXISTS	"e-Pag message: Usuário NÃO encontrado no banco de dados!\n"
 #define INVALID_COMMAND		4
 #define MESSAGE_INVALID_COMMAND	"e-Pag message: Mensagem inválida!\n"
-#define MESSAGE_DEVICE_CPF	"e-Pag message: Envie seu CPF!\n"
+#define MESSAGE_DEVICE_CPF	"e-Pag message: Envie seu CPF para associar com seu IP!\n"
 #define TOKEN_SIZE		32
 #define MAXIMUM_MESSAGE_SIZE	100
 #define ID_USER_EXISTS		2		
@@ -84,7 +84,7 @@ typedef enum message_type message_type;
 enum message_type {
 	/* Force message_type to be a long integer to be compatible with System V message queue API. */
 	MESSAGE_PAYMENT = LONG_MAX,
-	MESSAGE_DEVICE = 0
+	MESSAGE_DEVICE = 1
 };
 
 typedef struct payment_t payment_t;
@@ -149,7 +149,7 @@ void communication_app(int my_queue, int *queue_list, void *data);
 void look_for_mobile_to_send_payment(message_t info);
 
 /* thread.c */
-void create_thread(pthread_t *thread, int my_queue, void (*function)(int, int *, void *), int *queue_list, void *data);
+void create_thread(pthread_t *thread, void (*function)(int, int *, void *), int queue_index, int *queue_list, void *data);
 void check_creation_thread(int id);
 void destroy_thread(pthread_t id);
 

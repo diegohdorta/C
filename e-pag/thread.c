@@ -20,12 +20,15 @@ static void *entry(void *entry_data)
 	thread_t *thread_data = entry_data;
 	
 	thread_data->thread_fn(thread_data->my_queue, thread_data->queue_list, thread_data->data);
-	destroy_queue(thread_data->queue_list[thread_data->my_queue]);
+	destroy_queue(thread_data->my_queue);
 	free(thread_data);
 	return NULL;
 }
+	//create_thread(&app_listener, QUEUE_APP, communication_app, queue_list, &args);
+	
+	//void communication_devices(int my_queue, int *queue_list, void *data)
 
-void create_thread(pthread_t *thread, int my_queue, void (*function)(int, int *, void *), int *queue_list, void *data)
+void create_thread(pthread_t *thread, void (*function)(int, int *, void *), int queue_index, int *queue_list, void *data)
 {
 	int ret;
 	thread_t *thread_data;
@@ -38,8 +41,8 @@ void create_thread(pthread_t *thread, int my_queue, void (*function)(int, int *,
 	}
 	
 	thread_data->queue_list = queue_list;
-	thread_data->queue_list[my_queue] = create_message_queue();
-	thread_data->my_queue = my_queue;
+	thread_data->queue_list[queue_index] = create_message_queue();
+	thread_data->my_queue = queue_list[queue_index];
 	thread_data->data = data;
 	thread_data->thread_fn = function;
 

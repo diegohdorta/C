@@ -1,0 +1,736 @@
+##################################################################################
+## SOL Group - Diego Dorta - 14/05/2015
+##################################################################################
+#---------------------------------------------------------------------------------
+record(bo, "$(BL):$(MP):$(OMR):Acquire")
+{
+    field(FLNK, "$(BL):$(MP):$(OMR):AcquireServer")
+}
+#---------------------------------------------------------------------------------
+record(bo, "$(BL):$(MP):$(OMR):AcquireServer")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto sendCommand(D) $(PORT_SERVER)")
+    field(FLNK, "$(BL):$(MP):$(OMR):AcquireMedipix")
+}
+#---------------------------------------------------------------------------------
+record(bo, "$(BL):$(MP):$(OMR):AcquireMedipix")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set1(-acquire) $(PORT_MEDIPIX)")
+}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):Reset")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set1(-reset) $(PORT_MEDIPIX)")
+}
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#-------- Server:
+record(stringout, "$(BL):$(MP):$(SERVER):FileName")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto sendString(A) $(PORT_SERVER)")
+}
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):SetGap")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set4(-gap,$(BL):$(MP):GetGap) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):GetGap")
+{
+    field(VAL, "1")
+    field(FLNK, "$(BL):$(MP):SendGapAux")
+}
+record(calcout, "$(BL):$(MP):SendGapAux")
+{
+    field(INPA, "$(BL):$(MP):GetGap")
+    field(B, 1000000)
+    field(CALC, "A*B")
+    field(OUT, "$(BL):$(MP):SendGap PP")
+    field(OOPT, "On Change")
+}
+record(ao, "$(BL):$(MP):SendGap")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto sendGap(F) $(PORT_SERVER)")
+    field(PINI, "YES")
+}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):SetAcquisitionTime")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set2(-time,$(BL):$(MP):GetAcquisitionTime) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):GetAcquisitionTime"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):SetNumberFrames")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set3(-frames,$(BL):$(MP):GetNumberFrames) $(PORT_MEDIPIX)")
+    field(DRVL, "1")
+    field(DRVH, "100")
+    field(VAL, "1")
+}
+record(ai, "$(BL):$(MP):GetNumberFrames")
+{
+    field(VAL, "1")
+    field(FLNK, "$(BL):$(MP):SendNumberOfFramesAux")
+}
+record(calcout, "$(BL):$(MP):SendNumberOfFramesAux")
+{
+    field(INPA, "$(BL):$(MP):GetNumberFrames")
+    field(CALC, "A")
+    field(OUT, "$(BL):$(MP):SendNumberOfFrames PP")
+    field(OOPT, "On Change")
+}
+record(ao, "$(BL):$(MP):SendNumberOfFrames")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto sendNumber(B) $(PORT_SERVER)")
+    field(PINI, "YES")
+}
+#---------------------------------------------------------------------------------
+record(mbbo, "$(BL):$(MP):$(OMR):SetNumberBitCounter")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set12(-ctrange,$(BL):$(MP):$(OMR):GetNumberBitCounter) $(PORT_MEDIPIX)")
+    field(ZRVL, "0")
+    field(ZRST, "2 x 1 bit")
+    field(ONVL, "1")
+    field(ONST, "2 x 12 bit")
+    field(TWVL, "2")
+    field(TWST, "2 x 6 bit")
+    field(THVL, "3")
+    field(THST, "1 x 24 bit")
+    field(VAL, "0")
+}
+record(mbbi, "$(BL):$(MP):$(OMR):GetNumberBitCounter")
+{
+    field(ZRVL, "0")
+    field(ZRST, "2 x 1 bit")
+    field(ONVL, "1")
+    field(ONST, "2 x 12 bit")
+    field(TWVL, "2")
+    field(TWST, "2 x 6 bit")
+    field(THVL, "3")
+    field(THST, "1 x 24 bit")
+    field(VAL, "0")
+    field(FLNK, "$(BL):$(MP):SendNumberOfBitsAux")
+}
+record(calcout, "$(BL):$(MP):SendNumberOfBitsAux")
+{
+    field(INPA, "$(BL):$(MP):$(OMR):GetNumberBitCounter")
+    field(CALC, "A")
+    field(OUT, "$(BL):$(MP):SendNumberOfBits PP")
+    field(OOPT, "On Change")
+    field(FLNK, "$(BL):$(MP):SendNumberOfBitsAux")
+}
+record(ao, "$(BL):$(MP):SendNumberOfBits")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto sendNumber(C) $(PORT_SERVER)")
+    field(PINI, "YES")
+}
+#---------------------------------------------------------------------------------
+record(mbbo, "$(BL):$(MP):SetReadCounter")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set5(-readcounter,$(BL):$(MP):GetReadCounter) $(PORT_MEDIPIX)")
+    field(ZRVL, "0")
+    field(ZRST, "low")
+    field(ONVL, "1")
+    field(ONST, "high")
+    field(TWVL, "2")
+    field(TWST, "both")
+}
+record(mbbi, "$(BL):$(MP):GetReadCounter")
+{
+    field(ZRVL, "0")
+    field(ZRST, "low")
+    field(ONVL, "1")
+    field(ONST, "high")
+    field(TWVL, "2")
+    field(TWST, "both")
+    field(FLNK, "$(BL):$(MP):SendReadCounterAux")
+}
+record(calcout, "$(BL):$(MP):SendReadCounterAux")
+{
+    field(INPA, "$(BL):$(MP):GetReadCounter")
+    field(CALC, "A")
+    field(OUT, "$(BL):$(MP):SendReadCounter PP")
+    field(OOPT, "On Change")
+}
+record(ao, "$(BL):$(MP):SendReadCounter")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto sendReadCounter(E) $(PORT_SERVER)")
+    field(PINI, "YES")
+}
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#-------- OMR Refresh:
+record(ao, "$(BL):$(MP):$(OMR):_OMRRefresh")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto setRefreshOMR(-modesel,$(BL):$(MP):$(OMR),$(BL):$(MP)) $(PORT_MEDIPIX)")
+    field(SCAN, "10 second")
+    field(FLNK, "$(BL):$(MP):$(DAC):_DACRefresh") #-modesel 1 e 2 estão retornando o mesmo arquivo.
+}
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#-------- OMR:
+record(mbbo, "$(BL):$(MP):$(OMR):SetCountMode")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set6(-readwrite,$(BL):$(MP):$(OMR):GetCountMode) $(PORT_MEDIPIX)")
+    field(ZRVL, "0")
+    field(ZRST, "sequencial")
+    field(ONVL, "1")
+    field(ONST, "continuous")
+}
+record(mbbi, "$(BL):$(MP):$(OMR):GetCountMode")
+{
+    field(ZRVL, "0")
+    field(ZRST, "sequencial")
+    field(ONVL, "1")
+    field(ONST, "continuous")
+}
+#---------------------------------------------------------------------------------
+record(mbbo, "$(BL):$(MP):$(OMR):SetPixelMode")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set7(-summode,$(BL):$(MP):$(OMR):GetPixelMode) $(PORT_MEDIPIX)")
+    field(ZRVL, "0")
+    field(ZRST, "single pixel")
+    field(ONVL, "1")
+    field(ONST, "charge summing")
+}
+record(mbbi, "$(BL):$(MP):$(OMR):GetPixelMode")
+{
+    field(ZRVL, "0")
+    field(ZRST, "single pixel")
+    field(ONVL, "1")
+    field(ONST, "charge summing")
+}
+#---------------------------------------------------------------------------------
+record(mbbo, "$(BL):$(MP):$(OMR):SetPolarity")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set8(-polarity,$(BL):$(MP):$(OMR):GetPolarity) $(PORT_MEDIPIX)")
+    field(ZRVL, "0")
+    field(ZRST, "electron")
+    field(ONVL, "1")
+    field(ONST, "holes")
+}
+record(mbbi, "$(BL):$(MP):$(OMR):GetPolarity")
+{
+    field(ZRVL, "0")
+    field(ZRST, "electron")
+    field(ONVL, "1")
+    field(ONST, "holes")
+}
+#---------------------------------------------------------------------------------
+record(mbbo, "$(BL):$(MP):$(OMR):SetRowBlockSel")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set9(-rowsel,$(BL):$(MP):$(OMR):GetRowBlockSel) $(PORT_MEDIPIX)")
+    field(ZRVL, "0")
+    field(ZRST, "all")
+    field(ONVL, "1")
+    field(ONST, "row block")
+}
+record(mbbi, "$(BL):$(MP):$(OMR):GetRowBlockSel")
+{
+    field(ZRVL, "0")
+    field(ZRST, "all")
+    field(ONVL, "1")
+    field(ONST, "row block")
+}
+#---------------------------------------------------------------------------------
+record(mbbo, "$(BL):$(MP):$(OMR):SetColorMode")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set10(-colormode,$(BL):$(MP):$(OMR):GetColorMode) $(PORT_MEDIPIX)")
+    field(ZRVL, "0")
+    field(ZRST, "fine pitch")
+    field(ONVL, "1")
+    field(ONST, "spectroscopic")
+}
+record(mbbi, "$(BL):$(MP):$(OMR):GetColorMode")
+{
+    field(ZRVL, "0")
+    field(ZRST, "fine pitch")
+    field(ONVL, "1")
+    field(ONST, "spectroscopic")
+}
+#---------------------------------------------------------------------------------
+record(mbbo, "$(BL):$(MP):$(OMR):SetGainMode")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set11(-gainmode,$(BL):$(MP):$(OMR):GetGainMode) $(PORT_MEDIPIX)")
+    field(ZRVL, "0")
+    field(ZRST, "super high")
+    field(ONVL, "1")
+    field(ONST, "low")
+    field(TWVL, "2")
+    field(TWST, "high")
+    field(THVL, "3")
+    field(THST, "super low")
+}
+record(mbbi, "$(BL):$(MP):$(OMR):GetGainMode")
+{
+    field(ZRVL, "0")
+    field(ZRST, "super high")
+    field(ONVL, "1")
+    field(ONST, "low")
+    field(TWVL, "2")
+    field(TWST, "high")
+    field(THVL, "3")
+    field(THST, "super low")
+}
+#---------------------------------------------------------------------------------
+# The bit counter number was here. Moved above.
+#---------------------------------------------------------------------------------
+record(mbbo, "$(BL):$(MP):$(OMR):SetEnableTestPulse")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set13(-enabletp,$(BL):$(MP):$(OMR):GetEnableTestPulse) $(PORT_MEDIPIX)")
+    field(ZRVL, "0")
+    field(ZRST, "disable")
+    field(ONVL, "1")
+    field(ONST, "enable")
+}
+record(mbbi, "$(BL):$(MP):$(OMR):GetEnableTestPulse")
+{
+    field(ZRVL, "0")
+    field(ZRST, "disable")
+    field(ONVL, "1")
+    field(ONST, "enable")
+}
+#---------------------------------------------------------------------------------
+record(mbbo, "$(BL):$(MP):$(OMR):SetRowBlock")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set14(-rowblock,$(BL):$(MP):$(OMR):GetRowBlock) $(PORT_MEDIPIX)")
+    field(ZRVL, "0")
+    field(ZRST, "row 0")
+    field(ONVL, "1")
+    field(ONST, "row 0:15")
+    field(TWVL, "2")
+    field(TWST, "row 0:3")
+    field(THVL, "3")
+    field(THST, "row 0:63")
+    field(FRVL, "4")
+    field(FRST, "row 0:1")
+    field(FVVL, "5")
+    field(FVST, "row 0:31")
+    field(SXVL, "6")
+    field(SXST, "row 0:7")
+    field(SVVL, "7")
+    field(SVST, "row 0:127")
+}
+record(mbbi, "$(BL):$(MP):$(OMR):GetRowBlock")
+{
+    field(ZRVL, "0")
+    field(ZRST, "row 0")
+    field(ONVL, "1")
+    field(ONST, "row 0:15")
+    field(TWVL, "2")
+    field(TWST, "row 0:3")
+    field(THVL, "3")
+    field(THST, "row 0:63")
+    field(FRVL, "4")
+    field(FRST, "row 0:1")
+    field(FVVL, "5")
+    field(FVST, "row 0:31")
+    field(SXVL, "6")
+    field(SXST, "row 0:7")
+    field(SVVL, "7")
+    field(SVST, "row 0:127")
+}
+#---------------------------------------------------------------------------------
+record(mbbo, "$(BL):$(MP):$(OMR):SetColumBlockSel")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set15(-colsel,$(BL):$(MP):$(OMR):GetColumBlockSel) $(PORT_MEDIPIX)")
+    field(ZRVL, "0")
+    field(ZRST, "all")
+    field(ONVL, "1")
+    field(ONST, "colum n block")
+}
+record(mbbi, "$(BL):$(MP):$(OMR):GetColumBlockSel")
+{
+    field(ZRVL, "0")
+    field(ZRST, "all")
+    field(ONVL, "1")
+    field(ONST, "colum n block")
+}
+#---------------------------------------------------------------------------------
+record(mbbo, "$(BL):$(MP):$(OMR):SetDiscSel")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set16(-discsel,$(BL):$(MP):$(OMR):GetDiscSel) $(PORT_MEDIPIX)")
+    field(ZRVL, "0")
+    field(ZRST, "disc l")
+    field(ONVL, "1")
+    field(ONST, "disc h")
+}
+record(mbbi, "$(BL):$(MP):$(OMR):GetDiscSel")
+{
+    field(ZRVL, "0")
+    field(ZRST, "disc l")
+    field(ONVL, "1")
+    field(ONST, "disc h")
+}
+#---------------------------------------------------------------------------------
+record(mbbo, "$(BL):$(MP):$(OMR):SetColumNBlock")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set18(-colblock,$(BL):$(MP):$(OMR):GetColumNBlock) $(PORT_MEDIPIX)")
+    field(ZRVL, "0")
+    field(ZRST, "000")
+    field(ONVL, "1")
+    field(ONST, "001")
+    field(TWVL, "2")
+    field(TWST, "010")
+    field(THVL, "3")
+    field(THST, "011")
+    field(FRVL, "4")
+    field(FRST, "100")
+    field(FVVL, "5")
+    field(FVST, "101")
+    field(SXVL, "6")
+    field(SXST, "110")
+    field(SVVL, "7")
+    field(SVST, "111")
+}
+record(mbbi, "$(BL):$(MP):$(OMR):GetColumNBlock")
+{
+    field(ZRVL, "0")
+    field(ZRST, "000")
+    field(ONVL, "1")
+    field(ONST, "001")
+    field(TWVL, "2")
+    field(TWST, "010")
+    field(THVL, "3")
+    field(THST, "011")
+    field(FRVL, "4")
+    field(FRST, "100")
+    field(FVVL, "5")
+    field(FVST, "101")
+    field(SXVL, "6")
+    field(SXST, "110")
+    field(SVVL, "7")
+    field(SVST, "111")
+}
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#-------- DAC Refresh:
+record(ao, "$(BL):$(MP):$(DAC):_DACRefresh")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto setRefreshDAC(-modesel,$(BL):$(MP):$(DAC)) $(PORT_MEDIPIX)")
+}
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#-------- DAC:
+record(ao, "$(BL):$(MP):$(DAC):SetThreshold_0")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set19(-dacth0,$(BL):$(MP):$(DAC):GetThreshold_0) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetThreshold_0"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetThreshold_1")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set20(-dacth1,$(BL):$(MP):$(DAC):GetThreshold_1) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetThreshold_1"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetThreshold_2")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set21(-dacth2,$(BL):$(MP):$(DAC):GetThreshold_2) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetThreshold_2"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetThreshold_3")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set22(-dacth3,$(BL):$(MP):$(DAC):GetThreshold_3) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetThreshold_3"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetThreshold_4")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set23(-dacth4,$(BL):$(MP):$(DAC):GetThreshold_4) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetThreshold_4"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetThreshold_5")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set24(-dacth5,$(BL):$(MP):$(DAC):GetThreshold_5) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetThreshold_5"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetThreshold_6")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set25(-dacth6,$(BL):$(MP):$(DAC):GetThreshold_6) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetThreshold_6"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetThreshold_7")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set26(-dacth7,$(BL):$(MP):$(DAC):GetThreshold_7) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetThreshold_7"){}
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetCurrentIKrum")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set27(-ikrum,$(BL):$(MP):$(DAC):GetCurrentIKrum) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetCurrentIKrum"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetShaper")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set28(-shaper,$(BL):$(MP):$(DAC):GetShaper) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetShaper"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetDisc")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set29(-disc,$(BL):$(MP):$(DAC):GetDisc) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetDisc"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetDiscLS")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set30(-discls,$(BL):$(MP):$(DAC):GetDiscLS) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetDiscLS"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetDacDiscL")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set31(-dacdiscl,$(BL):$(MP):$(DAC):GetDacDiscL) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetDacDiscL"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetDacDiscH")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set32(-dacdisch,$(BL):$(MP):$(DAC):GetDacDiscH) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetDacDiscH"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetPreAmplifier")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set33(-preamp,$(BL):$(MP):$(DAC):GetPreAmplifier) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetPreAmplifier"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetDelay")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set34(-delay,$(BL):$(MP):$(DAC):GetDelay) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetDelay"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetDacBufferIn")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set35(-tpbuffin,$(BL):$(MP):$(DAC):GetDacBufferIn) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetDacBufferIn"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetDacBufferOut")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set36(-tpbuffout,$(BL):$(MP):$(DAC):GetDacBufferOut) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetDacBufferOut"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetGroundVoltage")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set37(-gnd,$(BL):$(MP):$(DAC):GetGroundVoltage) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetGroundVoltage"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetReferenceTestPulse")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set38(-tpref,$(BL):$(MP):$(DAC):GetReferenceTestPulse) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetReferenceTestPulse"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetFBK")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set39(-fbk,$(BL):$(MP):$(DAC):GetFBK) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetFBK"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetCascode")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set40(-cas,$(BL):$(MP):$(DAC):GetCascode) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetCascode"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetReferenceTestPulseA")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set41(-tprefa,$(BL):$(MP):$(DAC):GetReferenceTestPulseA) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetReferenceTestPulseA"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetReferenceTestPulseB")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set42(-tprefb,$(BL):$(MP):$(DAC):GetReferenceTestPulseB) $(PORT_MEDIPIX)")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetReferenceTestPulseB"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(DAC):SetRPZ")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set43(-rpz,$(BL):$(MP):$(DAC):GetRPZ) $(PORT_MEDIPIX)")
+    field(DRVL, "0")
+    field(DRVH, "255")
+}
+record(ai, "$(BL):$(MP):$(DAC):GetRPZ"){}
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#-------- Configurations:
+record(stringout, "$(BL):$(MP):$(CONFIG):_SetSendIP")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set44(-send_ip) $(PORT_MEDIPIX)")
+    field(VAL, "$(SERVER_IP)")
+    field(PINI, "YES")
+    field(FLNK, "$(BL):$(MP):$(CONFIG):_SetSendPort")
+}
+#record(stringin, "$(BL):$(MP):$(CONFIG):_GetSendIP"){}
+#---------------------------------------------------------------------------------
+record(ao, "$(BL):$(MP):$(CONFIG):_SetSendPort")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devmedipix.proto set45(-send_port) $(PORT_MEDIPIX)")
+    field(VAL, "$(SERVER_PORT)")
+#    field(FLNK, "$(BL):$(MP):$(CONFIG):_SetSendMac")
+}
+#record(ai, "$(BL):$(MP):$(CONFIG):_GetSendPort"){}
+
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+#-------- No functions yet:
+record(ao, "$(BL):$(MP):$(SCAN):SetScanMinimum")
+{
+    field(DESC, "no function yet")
+# scan_min
+}
+record(ao, "$(BL):$(MP):$(SCAN):SetScanMaximum")
+{
+    field(DESC, "no function yet")
+# scan_max
+}
+record(ao, "$(BL):$(MP):$(SCAN):SetScanStep")
+{
+    field(DESC, "no function yet")
+# scan_step
+}
+record(ao, "$(BL):$(MP):$(SCAN):SetScanResult")
+{
+    field(DESC, "no function yet")
+# scan_result
+}
+record(ao, "$(BL):$(MP):$(SCAN):SetScanThreshold")
+{
+    field(DESC, "no function yet")
+# scan_dac
+}
+record(ao, "$(BL):$(MP):$(SCAN):SetScanWindow")
+{
+    field(DESC, "no function yet")
+# scan_window
+}
+record(ao, "$(BL):$(MP):$(SCAN):SetScanDelta")
+{
+    field(DESC, "no function yet")
+# scan_delta
+}
+record(ao, "$(BL):$(MP):$(EQ):SetEqualizationNumberLoops")
+{
+    field(DESC, "no function yet")
+# eq_nloops
+}
+record(ao, "$(BL):$(MP):$(EQ):SetEqualizationAlpha")
+{
+    field(DESC, "no function yet")
+# eq_alpha
+}
+record(ao, "$(BL):$(MP):$(EQ):SetEqualizationEnergy")
+{
+    field(DESC, "no function yet")
+# eq_energy
+}
+record(ao, "$(BL):$(MP):$(EQ):SetEqualizationtype")
+{
+    field(DESC, "no function yet")
+# ep_type
+}
+record(ao, "$(BL):$(MP):$(EQ):SetEqualizationTarget")
+{
+    field(DESC, "no function yet")
+# eq_target
+}
+record(ao, "$(BL):$(MP):$(EQ):SetEqualizationStep")
+{
+    field(DESC, "no function yet")
+# ep_step
+}
+record(ao, "$(BL):$(MP):$(TP):SetTestPulseNumberPulses")
+{
+    field(DESC, "no function yet")
+# tp_npulses
+}
+record(ao, "$(BL):$(MP):$(TP):SetTestPulseSpacing")
+{
+    field(DESC, "no function yet")
+# tp_spacing
+}
+record(ao, "$(BL):$(MP):$(TP):SetTestPulsePeriod")
+{
+    field(DESC, "no function yet")
+# tp_period
+}
+record(ao, "$(BL):$(MP):$(TP):SetTestPulseCharge")
+{
+    field(DESC, "no function yet")
+# tp_charge
+}                
+#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------

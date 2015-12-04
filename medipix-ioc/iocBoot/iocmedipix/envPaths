@@ -1,7 +1,0 @@
-epicsEnvSet("ARCH","linux-x86")
-epicsEnvSet("IOC","iocmedipix")
-epicsEnvSet("TOP","/home/ABTLUS/henrique.almeida/code/medipix-ioc")
-epicsEnvSet("ASYN","/usr/local/epics/synApps_5_7/support/asyn-4-21")
-epicsEnvSet("EPICS_BASE","/usr/local/epics/base")
-epicsEnvSet("STREAM","/usr/local/epics/synApps_5_7/support/stream-2-6")
-epicsEnvSet("EPICS_CONFIG","/usr/local/epics/apps/config")

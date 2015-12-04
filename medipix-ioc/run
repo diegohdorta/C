@@ -1,7 +1,0 @@
-name=medipix
-#bin=bin/arch/$name
-#if [ ! -x $bin ]; then
-   make clean uninstall install -j10
-#fi
-
-(cd iocBoot/ioc$name && exec ./st.cmd)

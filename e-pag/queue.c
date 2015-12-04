@@ -8,7 +8,7 @@ int create_message_queue(void)
 	key_t key = IPC_PRIVATE;
 
 	if( (queue_id = msgget(key, IPC_CREAT | QUEUE_PERMISSION)) == -1 ) {
-		debug(stderr, "Impossivel criar a fila de mensagens!\n");
+		debug(stderr, "Impossivel criar a fila de mensagens: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 	return queue_id;
@@ -17,7 +17,7 @@ int create_message_queue(void)
 void destroy_queue(int queue_id)
 {
 	if( msgctl(queue_id, IPC_RMID, NULL) != 0 ) {
-		debug(stderr, "Impossível remover a fila!\n");
+		debug(stderr, "Impossível remover a fila: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 }
@@ -25,7 +25,7 @@ void destroy_queue(int queue_id)
 void send_queue_message(int queue_id, const message_t *message)
 {
 	if (msgsnd(queue_id, message, MESSAGE_PAYLOAD_SIZE, 0) == -1) {
-		debug(stderr, "Impossivel enviar mensagem!\n");
+		debug(stderr, "Impossivel enviar mensagem: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}	
 }

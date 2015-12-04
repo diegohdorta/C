@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
 from numpy import empty
 from PIL import Image
-from bitstring import BitStream
 from sys import argv
+from matplotlib import pylab
+rev = [
+	0, 1, 59, 2, 60, 40, 54, 3, 61, 32, 49, 41, 55, 19, 35, 4, 62, 52, 30,
+	33, 50, 12, 14, 42, 56, 16, 27, 20, 36, 23, 44, 5, 63, 58, 39, 53, 31,
+	48, 18, 34, 51, 29, 11, 13, 15, 26, 22, 43, 57, 38, 47, 17, 28, 10, 25,
+	21, 37, 46, 9, 24, 45, 8, 7, 6
+]
+
 
 try:
     fn = argv[1]
@@ -10,14 +17,27 @@ except:
     fn = 'sol'
 
 f = open(fn, 'rb')
-b = BitStream(f)
-b.read(52*8)
+f.read(56)
+x = f.read()
+f.close()
 
 a = empty((256, 256))
 for j in range(256):
 	for i in range(256):
-		a[j][i] = b.read(6).int
+		jj = j*6*256
+		ii = i
+		idx = jj+ii
+		v = int(x[idx]) << 5
+		v |= int(x[idx+256]) << 4
+		v |= int(x[idx+2*256]) << 3
+		v |= int(x[idx+3*256]) << 2
+		v |= int(x[idx+4*256]) << 1
+		v |= int(x[idx+5*256]) << 0
+		v = rev[v]
+		a[j][i] = v
+
+pylab.imshow(a)
+pylab.show()
 
 img = Image.fromarray(a, mode='L')
 img.save('sol.tiff')
-

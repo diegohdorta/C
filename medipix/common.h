@@ -4,11 +4,12 @@
 #define _COMMON_H_
 
 #include <fcntl.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <stdbool.h>
 
+#define MEDIPIX			"Medipix"
 #define SUCCESS 		"ok\n"
 #define FAILURE 		"error\n"
 #define VARIABLE_SIZE 		40
@@ -46,6 +47,7 @@
 #define NUMBER_OF_IO_ELEMENTS	2
 #define MEDIPIX_TIMEOUT		5
 #define MICRO_PER_SECOND	1000000
+#define MAX_IMAGE_BYTES_PER_PIXEL	4
 
 extern FILE *log_error;
 
@@ -67,8 +69,7 @@ struct process_arguments {
 struct medipix_header {
 	char sync_1;
 	char sync_2;
-	char sync_3;
-	char packet_number;
+	uint16_t packet_number;
 };
 
 typedef void (*start_routine_t)(struct process_arguments *);
@@ -89,6 +90,7 @@ void send_or_panic(int socket, const void *text, size_t length);
 void set_socket_timeout(int socket, unsigned timeout_us);
 bool save_images(char *buffer, const struct medipix_header *header,
 	const struct acquisition_info *info);
+void convert_line(char *to, const char *from, int number_bits);
 
 #ifdef __GNUC__ /* The __GNUC__ also works with clang compiler */
 void debug(FILE *output, const char *format, ...) __attribute__((format (printf, 2, 3)));

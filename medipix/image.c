@@ -76,8 +76,10 @@ void receive_bytes_from_medipix(int s_udp, struct acquisition_info *info)
 
 	/* Ordering packets - Insertion sort is used because most of the time the array
 	   is already ordered, so the running time is Ω(n) */
+	header[0].packet_number = ntohs(header[0].packet_number);
 	for (i = 1; i < aux*NUMBER_OF_PACKETS[info->number_bits]; i++) {
 		j = i;
+		header[i].packet_number = ntohs(header[i].packet_number);
 		while (j > 0 && header[j-1].packet_number > header[j].packet_number) {
 			swap(&image[j*SIZE_IMAGE_DATA], &image[(j-1)*SIZE_IMAGE_DATA],
 				SIZE_IMAGE_DATA);

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from numpy import empty
 from PIL import Image, ImageEnhance
 from sys import argv
 

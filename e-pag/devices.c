@@ -49,8 +49,7 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 		close(socket);
 
 	do {
-
-
+	
 		client.type = MESSAGE_DEVICE;
 		printf("%zu\n", strlen(cpf));
 		strcpy(client.connected_client.cpf, cpf);
@@ -60,11 +59,11 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 		send_queue_message(queue_list[QUEUE_APP], &client);
 		
 		receive_queue_message(my_queue, &payment);
-		printf("Opa !!!!!!! Recebi um pagamento !!!!!!\n");
-		snprintf(buffer, 100, "Show me the money ! %.2f\n%zn", (double)payment.forward_payment.value_cents, &length);
+		debug(stderr, "Recebido solicitação de pagamento! Enviando...\n");
+		snprintf(buffer, 100, "e-Pag message: Você tem uma solicitação de pagamento no valor: %.2f\n%zn", (double)payment.forward_payment.value_cents, &length);
 		send_or_panic(socket, buffer, length);
 	
-		/* Ler da minha fila agora e reagir de acordo com a mensagem que estiver na fila */
+		/* Continuar aqui pagamento.... */
 	
 	
 	} while(true);	

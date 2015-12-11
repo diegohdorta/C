@@ -11,6 +11,7 @@
 
 int main(void)
 {
+	/* Essa estrutura é somente para algo que precisar no futuro. */
 	struct process_arguments args = { 0 };
 	
 	int queue_list[MAXIMUM_THREADS];

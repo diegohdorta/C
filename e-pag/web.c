@@ -2,18 +2,16 @@
 
 #include "library.h"
 
-/*	Neste arquivo web.c encontra-se uma thread responsável por se comunicar com o sistema web. Na 
-   página web quando o estabelecimento estiver logado, ele poderá enviar uma solicitação de pagamento, 
-   entre outras palavras um CPF + valor.
-   	A função receive_data_from_web recebe essa string na variável token_cpf_value. Caso dê algum
-   erro, é enviado uma resposta de erro para o estabelecimento.
-   	Se a string chegou com sucesso, é feito uma separação e armazenado o cpf na variável token e 
-   o valor na variável value_cents.
-   	A função verify_cpf_on_database verifica se o cpf existe em nosso banco de dados, ou seja, 
-   verifica se o responśavel do cpf faz uso do aplicativo. Se não, envia uma mensagem ao 
-   estabelecimento dizendo que este cpf não está cadastrado. Caso o cpf exista, então é chamado uma 
-   função put_payment_on_message_queue que coloca na fila de mensagens da thread dos app o cpf e o 
-   valor a ser cobrado do cliente.
+/*  Neste arquivo web.c encontra-se uma thread responsável por se comunicar com o sistema web. Na 
+    página web quando o estabelecimento estiver logado, ele poderá enviar uma solicitação de pagamento, 
+    entre outras palavras um CPF + valor. A função receive_data_from_web recebe essa string na variável
+    token_cpf_value. Caso dê algum erro, é enviado uma resposta de erro para o estabelecimento.
+    Se a string chegou com sucesso, é feito uma separação e armazenado o cpf na variável token e 
+    o valor na variável value_cents. A função verify_cpf_on_database verifica se o cpf existe em nosso
+    banco de dados, ou seja, verifica se o responśavel do cpf faz uso do aplicativo. Se não, envia uma 
+    mensagem ao estabelecimento dizendo que este cpf não está cadastrado. Caso o cpf exista, então é 
+    chamado uma função put_payment_on_message_queue que coloca na fila de mensagens da thread dos app 
+    o cpf e o valor a ser cobrado do cliente.
 */
 
 void communication_web(int my_queue, int *queue_list, void *data)
@@ -28,6 +26,7 @@ void communication_web(int my_queue, int *queue_list, void *data)
 		new_socket_from_web = accept_new_connection_from_web(sock);
 		
 		do {
+			/* Mudar está função para receber vários estabelecimentos */
 			ret = receive_data_from_web(new_socket_from_web, queue_list);
 			
 			if(ret == true) {
@@ -55,6 +54,7 @@ bool receive_data_from_web(int web_socket, int *queue_list)
 	done = false;
 	
 	do {
+		/* Criar um função genérica para receber um buffer até o '\n' */
 		size = recv(web_socket, buffer, BUFFER_SIZE, 0);
 
 		if (size == 0) {
@@ -128,10 +128,14 @@ void put_payment_on_message_queue(char *cpf, uint64_t value_cents, int *queue_li
 {
 	message_t message;
 
-	printf("Enviando mensagem para colocar na fila!\n");
+	debug(stderr, "Chegou uma solicitação de pagamento, passando para thread devices.c!\n");
+	
 	message.type = MESSAGE_PAYMENT;
 	strcpy(message.payment.cpf, cpf);
 	message.payment.value_cents = value_cents;
+	
+	/* Mais para frente colocar as informações do estabelecimento aqui, ou pequisar no banco. */
+	
 	send_queue_message(queue_list[QUEUE_APP], &message);
 
 }

@@ -154,7 +154,6 @@ void put_payment_on_message_queue(char *cpf, uint64_t value_cents, int *queue_li
 
 /* app.c */
 void communication_app(int my_queue, int *queue_list, void *data);
-void look_for_mobile_to_send_payment(const message_t *info, const char *cpf_list[], int socket_list[]);
 
 /* thread.c */
 void create_thread(pthread_t *thread, void (*function)(int, int *, void *), int queue_index, int *queue_list, void *data);

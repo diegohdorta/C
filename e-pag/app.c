@@ -21,6 +21,9 @@ void communication_app(int my_queue, int *queue_list, void *data)
 	message_t info, request;
 
 	do {
+		debug(stderr, "Número de dispositivos conectados: %zu\n", client_count);
+		
+		debug(stderr, "Esperando uma mensagem do estabelecimento ou dispositivos...\n");
 		receive_queue_message(my_queue, &info);
 		
 		if(info.type == MESSAGE_PAYMENT) {
@@ -62,14 +65,14 @@ void communication_app(int my_queue, int *queue_list, void *data)
 	} while(true);
 }
 
-
-void look_for_mobile_to_send_payment(const message_t *info, const char *cpf_list[], int socket_list[])
-{
+//void look_for_mobile_to_send_payment(const message_t *info, const char *cpf_list[], int socket_list[]);
+//void look_for_mobile_to_send_payment(const message_t *info, const char *cpf_list[], int socket_list[])
+//{
 	/* Essa função irá procurar na lista de celulares conectados e comparar o cpf de cada 
 	   usuário para encontrar o cliente e enviar a solicitação de pagamento. */
 	//struct process_arguments *args = data;
 	//look_for_mobile_to_send_payment(&info, cpf_list, socket_list);
-}
+//}
 
 
 /* END */

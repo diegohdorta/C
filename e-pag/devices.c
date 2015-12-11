@@ -2,11 +2,12 @@
 
 #include "library.h"
 
-/* Essa função será responsável por aceitar infinitas conexões dos celulares.
-   Para cada nova conexão serão criadas novas threads, e cada thread envia o
-   IP e o CPF para a fila de mensagens do app.c como tipo DEVICE. 
+/* Essa função será responsável por aceitar infinitas conexões dos celulares. Para cada nova conexão 
+   serão criadas novas threads, e cada thread é enviado IP e CPF para a fila de mensagens do app.c 
+   como tipo DEVICE. Também são recebidos solicitações de pagamentos nessa thread e então é enviado 
    Enquanto a quantidade de threads for da ordem de milhares um PC normal aguenta,
-   quando passar a ter milhões de threads será necessário usar co-routinas. */
+   quando passar a ter milhões de threads será necessário usar co-routinas. 
+   */
 
 void communication_devices(int my_queue, int *queue_list, void *data)
 {
@@ -24,6 +25,7 @@ void communication_devices(int my_queue, int *queue_list, void *data)
 		
 		create_thread(&devices[i], receive_data_and_put_on_queue, i, queue_list, &new_device_socket[i]);
 		i++;
+		
 		/* Tratar destruição das threads e organização dos IDs */
 		
 	} while (i < MAXIMUM_THREADS);	
@@ -48,20 +50,20 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 	if(ret == true)
 		close(socket);
 
-	do {
-	
-		client.type = MESSAGE_DEVICE;
-		printf("%zu\n", strlen(cpf));
-		strcpy(client.connected_client.cpf, cpf);
-		client.connected_client.device_queue = my_queue;
+	client.type = MESSAGE_DEVICE;
+	strcpy(client.connected_client.cpf, cpf);
+	client.connected_client.device_queue = my_queue;
 
-		debug(stderr, "Enviando novo dispositivo conectado para a lista: %s\n", client.connected_client.cpf);
-		send_queue_message(queue_list[QUEUE_APP], &client);
-		
+	debug(stderr, "Enviando novo dispositivo conectado para a lista: %s\n", client.connected_client.cpf);
+	send_queue_message(queue_list[QUEUE_APP], &client);
+
+	do {
 		debug(stderr, "Aguardando uma solicitação de pagamento para este cliente: %s\n", client.connected_client.cpf);
 		receive_queue_message(my_queue, &payment);
 		
-		debug(stderr, "Recebido solicitação de pagamento! Enviando para dispositivo móvel!\n");
+		debug(stderr, "Recebido uma solicitação de pagamento!\n");
+		
+		debug(stderr, "Enviando para dispositivo móvel!\n");
 		snprintf(buffer, 100, "e-Pag message: Você tem uma solicitação de pagamento no valor: %.2f\n%zn", (double)payment.forward_payment.value_cents, &length);
 		send_or_panic(socket, buffer, length);
 	

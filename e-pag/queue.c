@@ -33,7 +33,7 @@ void send_queue_message(int queue_id, const message_t *message)
 void receive_queue_message(int queue_id, message_t *message)
 {
 	debug(stderr, "Waiting for some message...\n");
-
+	
 	if (msgrcv(queue_id, message, MESSAGE_PAYLOAD_SIZE, 0, 0) == -1) {
 		debug(stderr, "Impossivel receber mensagem: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);

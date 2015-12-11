@@ -4,6 +4,10 @@
 
 #include <sys/select.h>
 
+/* clang hello_select.c network.c utils.c -o select -DDEBUG
+   strace -s 80 ./select
+*/
+
 int wait_for_read(int *list_sockets, size_t elements)
 {
 
@@ -75,6 +79,8 @@ int main(void)
 				printf("O socket %d desconectou!\n", i);
 				sockets_elements--;
 				close(sockets[i]);
+				
+				memmove(sockets[i], sockets[i+1], sizeof(int));
 			
 			}
 		}			

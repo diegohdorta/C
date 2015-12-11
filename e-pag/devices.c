@@ -55,11 +55,13 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 		strcpy(client.connected_client.cpf, cpf);
 		client.connected_client.device_queue = my_queue;
 
-		printf("Enviando mensagem do devices.c para o app.c!\n");
+		debug(stderr, "Enviando novo dispositivo conectado para a lista: %s\n", client.connected_client.cpf);
 		send_queue_message(queue_list[QUEUE_APP], &client);
 		
+		debug(stderr, "Aguardando uma solicitação de pagamento para este cliente: %s\n", client.connected_client.cpf);
 		receive_queue_message(my_queue, &payment);
-		debug(stderr, "Recebido solicitação de pagamento! Enviando...\n");
+		
+		debug(stderr, "Recebido solicitação de pagamento! Enviando para dispositivo móvel!\n");
 		snprintf(buffer, 100, "e-Pag message: Você tem uma solicitação de pagamento no valor: %.2f\n%zn", (double)payment.forward_payment.value_cents, &length);
 		send_or_panic(socket, buffer, length);
 	

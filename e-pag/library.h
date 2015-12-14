@@ -28,6 +28,7 @@
 
 #define PATH			"database.txt"
 #define BUFFER_SIZE 		500
+#define BUFFER	 		100
 #define LOG_ERROR 		"log.txt"
 #define DEBUG_MESSAGE		"E-Pag - This log is only for debbuging in case something stops working.\n\n"
 #define WEB_TCP_PORT		4000
@@ -70,13 +71,16 @@
 #define QUEUE_PERMISSION	0666
 #define SIZE_VALUE		10
 #define MAXIMUM_THREADS		10000
+#define NUMBER_OF_BROTHERS	2
+#define SENTINEL		-1
 
 #define MESSAGE_PAYLOAD_SIZE (sizeof(message_t)-sizeof(message_type))
 
 extern FILE *log_error;
 
 struct process_arguments {
-	int arg;
+	int brother_socket;
+	int remote_socket;
 };
 
 typedef enum message_type message_type;
@@ -125,7 +129,8 @@ enum queue_type {
 	QUEUE_APP = 0,
 	QUEUE_DEVICES,
 	QUEUE_WEB,
-	QUEUE_CHILDREN_THREADS
+	QUEUE_CHILDREN_THREADS,
+	QUEUE_HELPER_DEVICES
 };
 
 typedef struct thread_t thread_t;
@@ -146,6 +151,7 @@ int accept_new_device_connection(int s);
 void start_log_file(void);
 void send_or_panic(int socket, const void *text, size_t length);
 int get_size(const char *file_name);
+void create_socketpair(int *sv);
 
 /* web.c */
 void communication_web(int my_queue, int *queue_list, void *data);
@@ -173,6 +179,9 @@ int create_message_queue(void);
 void destroy_queue(int queue_id);
 void send_queue_message(int queue_id, const message_t *message);
 void receive_queue_message(int queue_id, message_t *info);
+
+/* helper.c */
+void helper_devices(int my_queue, int *queue_list, void *data);
 
 #ifdef __GNUC__ /* The __GNUC__ also works with clang compiler */
 void debug(FILE *output, const char *format, ...) __attribute__((format (printf, 2, 3)));

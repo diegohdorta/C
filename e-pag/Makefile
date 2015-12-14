@@ -1,6 +1,6 @@
 CC:= clang
-CFLAGS:= -Wall -Wextra -Werror -Wno-unused-parameter -Wno-missing-field-initializers -g -std=c11 -DDEBUG
-ENGINE_SOURCES:= network.c financial.c web.c app.c utils.c thread.c database.c queue.c devices.c
+CFLAGS:= -Wall -Wextra -Werror -Wno-unused-parameter -Wno-missing-field-initializers -Wno-format-security -g -std=c11 -DDEBUG
+ENGINE_SOURCES:= network.c financial.c web.c app.c utils.c thread.c database.c queue.c devices.c helper.c
 HEADERS:= library.h
 LIBRARY:= -pthread
 PROGRAM:= epag-server

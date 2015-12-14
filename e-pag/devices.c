@@ -7,7 +7,7 @@
    como tipo DEVICE. Também são recebidos solicitações de pagamentos nessa thread e então é enviado 
    Enquanto a quantidade de threads for da ordem de milhares um PC normal aguenta,
    quando passar a ter milhões de threads será necessário usar co-routinas. 
-   */
+*/
 
 void communication_devices(int my_queue, int *queue_list, void *data)
 {
@@ -40,11 +40,14 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 	int socket = *socket_ptr;
 	bool ret;
 	char cpf[SIZE_CPF];
-	char buffer[100];
+	char buffer[BUFFER];
 	size_t length;
 	
 	message_t client, payment;
-		
+	
+	/* Enviar socket e fila para a outra thread utilizando um socket pair. */
+
+	
 	ret = receive_data_from_device(socket, cpf);
 
 	if(ret == true)
@@ -67,7 +70,14 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 		snprintf(buffer, 100, "e-Pag message: Você tem uma solicitação de pagamento no valor: %.2f\n%zn", (double)payment.forward_payment.value_cents, &length);
 		send_or_panic(socket, buffer, length);
 	
-		/* Continuar aqui pagamento.... */
+		/* Continuar aqui pagamento.... 
+		
+		   Solicitar com qual cartão deseja pagar...
+		   
+		   Enviar dados para operadora do cartão...
+		   
+		   Retornar mensagem para estabelecimento e cliente...
+		*/
 	
 	
 	} while(true);	

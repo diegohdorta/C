@@ -64,5 +64,13 @@ int get_size(const char *file_name)
 	return size;
 }
 
+void create_socketpair(int *sv)
+{
+	if (socketpair(AF_UNIX, SOCK_DGRAM, 0, sv) < 0) {
+		debug(log_error, "Error trying to create socket pair: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+}
+
 /* END */
 

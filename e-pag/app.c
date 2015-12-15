@@ -2,15 +2,8 @@
 
 #include "library.h"
 
-/*    Na função receive_queue_message recebo uma mensagem ou do arquivo devices.c ou da web.c
-      Sempre que chega uma nova mensagem, é verificado seu tipo, caso seja do tipo MESSAGE_DEVICE
-      significa que um novo celular se conectou no servidor. Assim que um novo celular se conecta
-      é pedido que o celular informe qual o CPF cadastrado no dispositivo. Desta forma é associoado 
-      o socket com o CPF do cliente. Caso a mensagem seja do tipo MESSAGE_PAYMENT significa que o 
-      arquivo web.c possui um estabelecimento conectado e o mesmo enviou uma solicitação de 
-      pagamento para um determinado CPF. Neste caso é feito uma busca para ver se existe este CPF
-      conectado no servidor, se existir é montado um request e enviado para dispositivo a cobrança.
-*/
+/* comments: doc.txt -> app.c -> 1# */
+
 void communication_app(int my_queue, int *queue_list, void *data)
 {
 	char cpf_list[MAXIMUM_THREADS][SIZE_CPF];
@@ -66,13 +59,5 @@ void communication_app(int my_queue, int *queue_list, void *data)
 }
 
 //void look_for_mobile_to_send_payment(const message_t *info, const char *cpf_list[], int socket_list[]);
-//void look_for_mobile_to_send_payment(const message_t *info, const char *cpf_list[], int socket_list[])
-//{
-	/* Essa função irá procurar na lista de celulares conectados e comparar o cpf de cada 
-	   usuário para encontrar o cliente e enviar a solicitação de pagamento. */
-	//struct process_arguments *args = data;
-	//look_for_mobile_to_send_payment(&info, cpf_list, socket_list);
-//}
-
 
 /* END */

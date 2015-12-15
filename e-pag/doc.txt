@@ -1,0 +1,44 @@
+ARQUIVOS
+
+main.c:
+
+1#: Este problema é provavelmente fortemente acoplado, logo deveria utilizar threads.
+    Ou seja, a troca de dados entre as tarefas são muito grandes.
+    Criar o número de threads correspondente ao número de cores. Caso seja necessário, 
+    e será, aumentar a concorrência utilizando co-rotinas.
+    https://developer.gnome.org/
+
+
+devices.c:
+
+1#: Essa função será responsável por aceitar infinitas conexões dos celulares. Para cada nova conexão 
+    serão criadas novas threads, e cada thread é enviado IP e CPF para a fila de mensagens do app.c 
+    como tipo DEVICE. Também são recebidos solicitações de pagamentos nessa thread e então é enviado
+    para o celular do cliente o valor a ser cobrado, e então será solicitado qual cartão deseja pagar. 
+    Enquanto a quantidade de threads for da ordem de milhares um PC normal aguenta,
+    quando passar a ter milhões de threads será necessário usar co-routinas. 
+
+app.c:
+
+1#: Na função receive_queue_message recebo uma mensagem ou do arquivo devices.c ou da web.c
+    Sempre que chega uma nova mensagem, é verificado seu tipo, caso seja do tipo MESSAGE_DEVICE
+    significa que um novo celular se conectou no servidor. Assim que um novo celular se conecta
+    é pedido que o celular informe qual o CPF cadastrado no dispositivo. Desta forma é associoado 
+    o socket com o CPF do cliente. Caso a mensagem seja do tipo MESSAGE_PAYMENT significa que o 
+    arquivo web.c possui um estabelecimento conectado e o mesmo enviou uma solicitação de 
+    pagamento para um determinado CPF. Neste caso é feito uma busca para ver se existe este CPF
+    conectado no servidor, se existir é montado um request e enviado para dispositivo a cobrança.
+
+web.c:
+
+1#: Neste arquivo web.c encontra-se uma thread responsável por se comunicar com o sistema web. Na 
+    página web quando o estabelecimento estiver logado, ele poderá enviar uma solicitação de pagamento, 
+    entre outras palavras um CPF + valor. A função receive_data_from_web recebe essa string na variável
+    token_cpf_value. Caso dê algum erro, é enviado uma resposta de erro para o estabelecimento.
+    Se a string chegou com sucesso, é feito uma separação e armazenado o cpf na variável token e 
+    o valor na variável value_cents. A função verify_cpf_on_database verifica se o cpf existe em nosso
+    banco de dados, ou seja, verifica se o responśavel do cpf faz uso do aplicativo. Se não, envia uma 
+    mensagem ao estabelecimento dizendo que este cpf não está cadastrado. Caso o cpf exista, então é 
+    chamado uma função put_payment_on_message_queue que coloca na fila de mensagens da thread dos app 
+    o cpf e o valor a ser cobrado do cliente.
+

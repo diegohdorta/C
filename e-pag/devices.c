@@ -2,17 +2,11 @@
 
 #include "library.h"
 
-/* Essa função será responsável por aceitar infinitas conexões dos celulares. Para cada nova conexão 
-   serão criadas novas threads, e cada thread é enviado IP e CPF para a fila de mensagens do app.c 
-   como tipo DEVICE. Também são recebidos solicitações de pagamentos nessa thread e então é enviado 
-   Enquanto a quantidade de threads for da ordem de milhares um PC normal aguenta,
-   quando passar a ter milhões de threads será necessário usar co-routinas. 
-*/
+/* comments: doc.txt -> devices.c -> 1# */
 
 void communication_devices(int my_queue, int *queue_list, void *data)
 {
 	int i = QUEUE_CHILDREN_THREADS;
-	int j;
 	int sock_device;
 	int new_device_socket[MAXIMUM_THREADS];	
 
@@ -22,16 +16,14 @@ void communication_devices(int my_queue, int *queue_list, void *data)
 	
 	do {
 		new_device_socket[i] = accept_new_device_connection(sock_device);
+		printf("valor de i: %d e valor do socket: %d\n", i, new_device_socket[i]);
 		
 		create_thread(&devices[i], receive_data_and_put_on_queue, i, queue_list, &new_device_socket[i]);
 		i++;
-		
+
 		/* Tratar destruição das threads e organização dos IDs */
 		
 	} while (i < MAXIMUM_THREADS);	
-	
-	for (j = 0; j < i; j++)
-		destroy_thread(devices[j]);
 }
 
 void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
@@ -47,6 +39,7 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 	
 	/* Enviar socket e fila para a outra thread utilizando um socket pair. */
 
+	printf("valor do socket: %d\n", socket);
 	
 	ret = receive_data_from_device(socket, cpf);
 
@@ -67,21 +60,15 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 		debug(stderr, "Recebido uma solicitação de pagamento!\n");
 		
 		debug(stderr, "Enviando para dispositivo móvel!\n");
-		snprintf(buffer, 100, "e-Pag message: Você tem uma solicitação de pagamento no valor: %.2f\n%zn", (double)payment.forward_payment.value_cents, &length);
+		snprintf(buffer, 100, "e-Pag message: Você tem uma solicitação de pagamento no valor: %.2f\n%zn", (double)payment.forward_payment.value_cents/100.0, &length);
 		send_or_panic(socket, buffer, length);
 	
-		/* Continuar aqui pagamento.... 
-		
+		/* Continuar aqui pagamento.... 		
 		   Solicitar com qual cartão deseja pagar...
-		   
 		   Enviar dados para operadora do cartão...
-		   
-		   Retornar mensagem para estabelecimento e cliente...
-		*/
-	
+		   Retornar mensagem para estabelecimento e cliente... */	
 	
 	} while(true);	
-	//return NULL;
 }
 
 bool receive_data_from_device(int socket, char *cpf)

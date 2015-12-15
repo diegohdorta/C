@@ -79,8 +79,7 @@
 extern FILE *log_error;
 
 struct process_arguments {
-	int brother_socket;
-	int remote_socket;
+	int brother_socket; /*!< Variável para utilizar na comunicação IPC */
 };
 
 typedef enum message_type message_type;
@@ -95,27 +94,27 @@ enum message_type {
 typedef struct payment_t payment_t;
 
 struct payment_t {
-	char cpf[SIZE_CPF];
-	uint64_t value_cents;
+	char cpf[SIZE_CPF];   /*!< Variável para armazenar CPF */
+	uint64_t value_cents; /*!< Variável para armazenar valor a ser cobrado */
 };
 
 typedef struct forward_payment_t forward_payment_t;
 
 struct forward_payment_t {
-	uint64_t value_cents;
+	uint64_t value_cents; /*!< Variável para armazenar valor a ser cobrado */
 };
 
 typedef struct connected_client_t connected_client_t;
 
 struct connected_client_t {
-	char cpf[SIZE_CPF];
-	int device_queue;
+	char cpf[SIZE_CPF]; /*!< Variável para armazenar CPF do cliente conectado */
+	int device_queue;   /*!< Variável para armazenar fila do cliente conectado */
 };
 
 typedef struct message_t message_t;
 
 struct message_t {
-	message_type type;
+	message_type type; /*!< Variável para definir o tipo de mensagem que será transmitida na fila. */
 	union {
 		payment_t payment;
 		connected_client_t connected_client;
@@ -136,10 +135,10 @@ enum queue_type {
 typedef struct thread_t thread_t;
 
 struct thread_t {
-	void (*thread_fn)(int, int *, void *);
-	int *queue_list;
-	int my_queue;
-	void *data;
+	void (*thread_fn)(int, int *, void *);  /*!< Usado para definir quais parâmetros serão aceitos na função */
+	int *queue_list;			/*!< Variável para armazenar os IDs das filas */
+	int my_queue;				/*!< Variável para armazenar fila do processo */
+	void *data;				/*!< Variável para armazenar qualquer dado extra */
 };
 
 /* network.c */
@@ -155,7 +154,8 @@ void create_socketpair(int *sv);
 
 /* web.c */
 void communication_web(int my_queue, int *queue_list, void *data);
-bool receive_data_from_web(int web_socket, int *queue_list);
+void receive_data_and_send(int my_queue, int *queue_list, void *data);
+bool receive_data_from_web(int web_socket, char *token_cpf_value);
 void put_payment_on_message_queue(char *cpf, uint64_t value_cents, int *queue_list);
 
 /* app.c */

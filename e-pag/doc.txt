@@ -1,5 +1,8 @@
 ARQUIVOS
 
+Comandos: sloccount .
+          ps H -o 'pid tid cmd comm'
+
 main.c:
 
 1#: Este problema é provavelmente fortemente acoplado, logo deveria utilizar threads.

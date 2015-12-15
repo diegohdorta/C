@@ -21,17 +21,16 @@ static void *entry(void *entry_data)
 {
 	thread_t *thread_data = entry_data;
 	
-	if (prctl(PR_SET_NAME, (unsigned long)thread_data->name, 0, 0, 0) < 0)
-		perror("prctl");
+	if (prctl(PR_SET_NAME, (unsigned long)thread_data->name, 0, 0, 0) < 0) {
+		debug(log_error, "Error trying to alloc memory: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
 	
 	thread_data->thread_fn(thread_data->my_queue, thread_data->queue_list, thread_data->data);
 	destroy_queue(thread_data->my_queue);
 	free(thread_data);
 	return NULL;
 }
-	//create_thread(&app_listener, QUEUE_APP, communication_app, queue_list, &args);
-	
-	//void communication_devices(int my_queue, int *queue_list, void *data)
 
 void create_thread(pthread_t *thread, const char *name, void (*function)(int, int *, void *), int queue_index, int *queue_list, void *data)
 {

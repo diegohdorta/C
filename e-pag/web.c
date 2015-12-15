@@ -4,11 +4,6 @@
 /**
 * @file  main.c
 * @brief Arquivo main.c - e-Pag
-*
-* @warning Documentar código é muito importante.
-* @todo Lista do que implementar
-* @bug Lista de bugs conhecidos
-* @copyright e-Pag Server
 */
 
 /* comments: doc.txt -> web.c -> 1# */

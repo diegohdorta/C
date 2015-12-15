@@ -88,7 +88,8 @@ enum message_type {
 	/* Force message_type to be a long integer to be compatible with System V message queue API. */
 	MESSAGE_PAYMENT = LONG_MAX,
 	MESSAGE_DEVICE = 1,
-	MESSAGE_FORWARD_PAYMENT
+	MESSAGE_FORWARD_PAYMENT,
+	MESSAGE_SOCKET_RECEIVE,
 };
 
 typedef struct payment_t payment_t;
@@ -111,6 +112,14 @@ struct connected_client_t {
 	int device_queue;   /*!< Variável para armazenar fila do cliente conectado */
 };
 
+typedef struct received_data_t received_data_t;
+
+struct received_data_t {
+	ssize_t size;
+	char buffer[BUFFER_SIZE];
+	int error;
+};
+
 typedef struct message_t message_t;
 
 struct message_t {
@@ -119,6 +128,7 @@ struct message_t {
 		payment_t payment;
 		connected_client_t connected_client;
 		forward_payment_t forward_payment;
+		received_data_t received_data;
 	};
 };
 
@@ -126,10 +136,8 @@ typedef enum queue_type queue_type;
 
 enum queue_type {
 	QUEUE_APP = 0,
-	QUEUE_DEVICES,
-	QUEUE_WEB,
-	QUEUE_CHILDREN_THREADS,
-	QUEUE_HELPER_DEVICES
+	QUEUE_COMMUNICATION_THREAD,
+	QUEUE_OTHER_THREADS,
 };
 
 typedef struct thread_t thread_t;
@@ -139,8 +147,11 @@ struct thread_t {
 	int *queue_list;			/*!< Variável para armazenar os IDs das filas */
 	int my_queue;				/*!< Variável para armazenar fila do processo */
 	void *data;				/*!< Variável para armazenar qualquer dado extra */
+	const char *name;
 };
-
+/* helper.c */
+void communication_thread(int my_queue, int *queue_list, void *data);
+ 
 /* network.c */
 int create_tcp_socket(uint16_t port);
 int accept_new_connection_from_web(int s);
@@ -153,16 +164,14 @@ int get_size(const char *file_name);
 void create_socketpair(int *sv);
 
 /* web.c */
-void communication_web(int my_queue, int *queue_list, void *data);
 void receive_data_and_send(int my_queue, int *queue_list, void *data);
-bool receive_data_from_web(int web_socket, char *token_cpf_value);
 void put_payment_on_message_queue(char *cpf, uint64_t value_cents, int *queue_list);
 
 /* app.c */
 void communication_app(int my_queue, int *queue_list, void *data);
 
 /* thread.c */
-void create_thread(pthread_t *thread, void (*function)(int, int *, void *), int queue_index, int *queue_list, void *data);
+void create_thread(pthread_t *thread, const char *name, void (*function)(int, int *, void *), int queue_index, int *queue_list, void *data);
 void check_creation_thread(int id);
 void destroy_thread(pthread_t id);
 
@@ -170,9 +179,7 @@ void destroy_thread(pthread_t id);
 int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone);
 
 /* devices.c */
-void communication_devices(int my_queue, int *queue_list, void *data);
 void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data);
-bool receive_data_from_device(int socket, char *cpf);
 
 /* queue.c */
 int create_message_queue(void);

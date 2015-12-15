@@ -51,6 +51,7 @@ int main(void)
 	start_log_file();
 	
 	sockets[0] = create_tcp_socket(10000);
+	sockets[1] = create_tcp_socket(10001);
 	sockets_elements++;
 
 	do {
@@ -66,6 +67,8 @@ int main(void)
 			printf("Novo filho conectado!\n");
 			sockets[sockets_elements++] = accept_new_device_connection(sockets[0]);
 			size = 1;
+		}
+		else if (s == sockets[1]) {
 		}
 		else {
 			size = recv(s, buffer, sizeof(buffer), 0);

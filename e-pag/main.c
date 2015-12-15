@@ -7,38 +7,18 @@
 int main(void)
 {
 	int queue_list[MAXIMUM_THREADS]; 
-	int brothers[NUMBER_OF_BROTHERS];
-
-	struct process_arguments args_helper;
-	struct process_arguments args_devices;
-	struct process_arguments args;
 	
 	pthread_t app_listener;
-	pthread_t devices_listener;
-	pthread_t devices_helper;
-	pthread_t web_listener;
+	pthread_t communication_pthread;
 
 	start_log_file();
 	
-	create_socketpair(brothers);
-	
-	do {	
-		create_thread(&app_listener, communication_app, QUEUE_APP, queue_list, &args);
-			
-		args_devices.brother_socket = brothers[0];
-		
-		create_thread(&devices_listener, communication_devices, QUEUE_DEVICES, queue_list, &args_devices);
-		
-		args_helper.brother_socket = brothers[1];
-		
-		create_thread(&devices_helper, helper_devices, QUEUE_HELPER_DEVICES, queue_list, &args_helper);
-		create_thread(&web_listener, communication_web, QUEUE_WEB, queue_list, &args);
+	create_thread(&app_listener, "COMMAPP", communication_app, QUEUE_APP, queue_list, NULL);			
 
-		destroy_thread(app_listener);
-		destroy_thread(devices_listener);
-		destroy_thread(web_listener);
+	create_thread(&communication_pthread, "COMMTHREAD", communication_thread, QUEUE_COMMUNICATION_THREAD, queue_list, NULL);
 
-	} while (true);
+	destroy_thread(app_listener);
+	destroy_thread(communication_pthread);
 
 	return EXIT_SUCCESS;
 }

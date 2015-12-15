@@ -13,33 +13,11 @@
 
 /* comments: doc.txt -> web.c -> 1# */
 
-void communication_web(int my_queue, int *queue_list, void *data)
-{
-	int i = QUEUE_CHILDREN_THREADS;
-	int sock_web;
-	int new_web_socket[MAXIMUM_THREADS];
-	
-	pthread_t web[MAXIMUM_THREADS];
-	
-	sock_web = create_tcp_socket(WEB_TCP_PORT);	
-		
-	do {
-		new_web_socket[i] = accept_new_connection_from_web(sock_web);
-		printf("valor de i: %d e valor do socket: %d\n", i, new_web_socket[i]);
-		
-		create_thread(&web[i], receive_data_and_send, i, queue_list, &new_web_socket[i]);
-		i++;
-		
-		/* Tratar destruição das threads e organização dos IDs */
-		
-	} while (i < MAXIMUM_THREADS);
-	
-}
+static bool receive_data_from_web(int web_socket, int my_queue, char *token_cpf_value);
 
 void receive_data_and_send(int my_queue, int *queue_list, void *data)
 {
-	int ret;	
-	
+	int ret;		
 	int *socket_ptr = data;
 	int web_socket = *socket_ptr;	
 	
@@ -47,17 +25,17 @@ void receive_data_and_send(int my_queue, int *queue_list, void *data)
 	uint64_t value_cents;	
 	
 	char *next = NULL, *token;	
-	char name[SIZE_NAME], cpf[SIZE_CPF], phone[SIZE_PHONE], message[MAXIMUM_MESSAGE_SIZE];
-	
+	char name[SIZE_NAME], cpf[SIZE_CPF], phone[SIZE_PHONE], message[MAXIMUM_MESSAGE_SIZE];	
 	char token_cpf_value[TOKEN_SIZE];
 	
-	printf("valor do socket: %d\n", web_socket);
 	
 	do {
-		ret = receive_data_from_web(web_socket, token_cpf_value);		
+		ret = receive_data_from_web(web_socket, my_queue, token_cpf_value);		
 		
-		if(ret == true)
+		if(ret == true) {
 			close(web_socket);
+			return;
+		}
 
 		debug(stderr, "Conteúdo do buffer: %s\n", token_cpf_value);
 
@@ -101,42 +79,41 @@ void receive_data_and_send(int my_queue, int *queue_list, void *data)
 	} while (true);
 }
 
-bool receive_data_from_web(int web_socket, char *token_cpf_value)
+static bool receive_data_from_web(int web_socket, int my_queue, char *token_cpf_value)
 {
 	bool done;
 	int x;
-	ssize_t size = 0;
 	size_t i = 0;
-	
-	char buffer[BUFFER_SIZE];
+
 	char token[TOKEN_SIZE];
 	size_t token_size = TOKEN_SIZE;
+	
+	message_t message;
 
 	done = false;
 	
 	do {
+		receive_queue_message(my_queue, &message);
 
-		size = recv(web_socket, buffer, BUFFER_SIZE, 0);
-
-		if (size < 0) {
+		if (message.received_data.size < 0) {
 			debug(stderr, "Error: %s\n", strerror(errno));
 			debug(log_error, "Error:  %s\n", strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 
-		if (size == 0) {
+		if (message.received_data.size == 0) {
 			debug(stderr, "Foi perdida conexão com o estabelecimento! %s\n", strerror(errno));
 			debug(log_error, "Foi perdida conexão com o estabelecimento! %s\n", strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 
-		for (x = 0; x < size; x++) { 
-			if (buffer[x] == '\n') {
+		for (x = 0; x < message.received_data.size; x++) { 
+			if (message.received_data.buffer[x] == '\n') {
 				token[i] = '\0';
 				done = true;
 				break;
 			}
-			token[i] = buffer[x];
+			token[i] = message.received_data.buffer[x];
 
 			i++;
 			if (i == token_size) {

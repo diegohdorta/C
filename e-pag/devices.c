@@ -3,27 +3,7 @@
 #include "library.h"
 
 /* comments: doc.txt -> devices.c -> 1# */
-
-void communication_devices(int my_queue, int *queue_list, void *data)
-{
-	int i = QUEUE_CHILDREN_THREADS;
-	int sock_device;
-	int new_device_socket[MAXIMUM_THREADS];	
-
-	pthread_t devices[MAXIMUM_THREADS];
-	
-	sock_device = create_tcp_socket(DEVICES_TCP_PORT);
-	
-	do {
-		new_device_socket[i] = accept_new_device_connection(sock_device);
-		
-		create_thread(&devices[i], receive_data_and_put_on_queue, i, queue_list, &new_device_socket[i]);
-		i++;
-
-		/* Tratar destruição das threads e organização dos IDs */
-		
-	} while (i < MAXIMUM_THREADS);	
-}
+static bool receive_data_from_device(int socket, int my_queue, char *cpf);
 
 void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 {
@@ -34,14 +14,14 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 	char buffer[BUFFER];
 	size_t length;
 	
-	message_t client, payment;
+	message_t client, message;
 	
-	/* Enviar socket e fila para a outra thread utilizando um socket pair. */
-	
-	ret = receive_data_from_device(socket, cpf);
+	ret = receive_data_from_device(socket, my_queue, cpf);
 
-	if(ret == true)
+	if(ret == true) {
 		close(socket);
+		return;
+	}
 
 	client.type = MESSAGE_DEVICE;
 	strcpy(client.connected_client.cpf, cpf);
@@ -52,53 +32,65 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 
 	do {
 		debug(stderr, "Aguardando uma solicitação de pagamento para este cliente: %s\n", client.connected_client.cpf);
-		receive_queue_message(my_queue, &payment);
+		receive_queue_message(my_queue, &message);
 		
-		debug(stderr, "Recebido uma solicitação de pagamento!\n");
+		if (message.type == MESSAGE_FORWARD_PAYMENT) {
 		
-		debug(stderr, "Enviando para dispositivo móvel!\n");
-		snprintf(buffer, 100, "e-Pag message: Você tem uma solicitação de pagamento no valor: %.2f\n%zn", (double)payment.forward_payment.value_cents/100.0, &length);
-		send_or_panic(socket, buffer, length);
-	
+			debug(stderr, "Recebido uma solicitação de pagamento!\n");
+		
+			debug(stderr, "Enviando para dispositivo móvel!\n");
+			snprintf(buffer, 100, "e-Pag message: Você tem uma solicitação de pagamento no valor: %.2f\n%zn", (double)message.forward_payment.value_cents/100.0, &length);
+			send_or_panic(socket, buffer, length);
+			
 		/* Continuar aqui pagamento.... 		
 		   Solicitar com qual cartão deseja pagar...
 		   Enviar dados para operadora do cartão...
 		   Retornar mensagem para estabelecimento e cliente... */	
+		}
+		else if (message.type == MESSAGE_SOCKET_RECEIVE) {
+			if (message.received_data.size == 0) {
+				debug(stderr, "Cliente desconectou !\n");
+				return;
+			}
+		
+			debug(stderr, "Cliente quer conversar!\n");
+		
+		}
 	
 	} while(true);	
 }
 
-bool receive_data_from_device(int socket, char *cpf)
+static bool receive_data_from_device(int socket, int my_queue, char *cpf)
 {
 	int x;
 	bool done;
 	
 	size_t i = 0, token_size = SIZE_CPF;
-	ssize_t size = 0;
 	
-	char buffer[BUFFER_SIZE];
 	char token_cpf[SIZE_CPF];	
+	
+	message_t message;
 
 	done = false;
 	
 	send_or_panic(socket, MESSAGE_DEVICE_CPF, sizeof(MESSAGE_DEVICE_CPF));
 	
 	do {
-		size = recv(socket, buffer, BUFFER_SIZE, 0);
-
-		if (size == 0) {
+		receive_queue_message(my_queue, &message);
+		
+		if (message.received_data.size == 0) {
 			debug(stderr, "Foi perdida conexão com o dispositivo!\n");
 			debug(log_error, "Foi perdida conexão com o dispositivo!\n");
 			return true;
 		}
 
-		for (x = 0; x < size; x++) { 
-			if (buffer[x] == '\n') {
+		for (x = 0; x < message.received_data.size; x++) { 
+			if (message.received_data.buffer[x] == '\n') {
 				token_cpf[i] = '\0';
 				done = true;
 				break;
 			}
-			token_cpf[i] = buffer[x];
+			token_cpf[i] = message.received_data.buffer[x];
 
 			i++;
 			if (i == token_size) {

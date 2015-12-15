@@ -93,13 +93,13 @@ static bool receive_data_from_web(int web_socket, int my_queue, char *token_cpf_
 		if (message.received_data.size < 0) {
 			debug(stderr, "Error: %s\n", strerror(errno));
 			debug(log_error, "Error:  %s\n", strerror(errno));
-			exit(EXIT_FAILURE);
+			return true;
 		}
 
 		if (message.received_data.size == 0) {
 			debug(stderr, "Foi perdida conexão com o estabelecimento! %s\n", strerror(errno));
 			debug(log_error, "Foi perdida conexão com o estabelecimento! %s\n", strerror(errno));
-			exit(EXIT_FAILURE);
+			return true;
 		}
 
 		for (x = 0; x < message.received_data.size; x++) { 

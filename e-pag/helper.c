@@ -58,8 +58,9 @@ void communication_thread(int my_queue, int *queue_list, void *data)
 				
 				send_queue_message(queue_list[ready_idx], &message);
 				
+				/* Preciso arrumar isso urgentemente! */
 				if (size == 0) { //race condition não usar.
-					memmove(&list_sockets[ready_idx], &list_sockets[ready_idx+1], (counter-ready_idx-1)*sizeof(int));
+					//memmove(&list_sockets[ready_idx], &list_sockets[ready_idx+1], (counter-ready_idx-1)*sizeof(int));
 					counter--;
 				}
 		}

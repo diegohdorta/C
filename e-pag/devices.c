@@ -16,7 +16,6 @@ void communication_devices(int my_queue, int *queue_list, void *data)
 	
 	do {
 		new_device_socket[i] = accept_new_device_connection(sock_device);
-		printf("valor de i: %d e valor do socket: %d\n", i, new_device_socket[i]);
 		
 		create_thread(&devices[i], receive_data_and_put_on_queue, i, queue_list, &new_device_socket[i]);
 		i++;
@@ -38,8 +37,6 @@ void receive_data_and_put_on_queue(int my_queue, int *queue_list, void *data)
 	message_t client, payment;
 	
 	/* Enviar socket e fila para a outra thread utilizando um socket pair. */
-
-	printf("valor do socket: %d\n", socket);
 	
 	ret = receive_data_from_device(socket, cpf);
 

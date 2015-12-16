@@ -73,6 +73,8 @@
 #define MAXIMUM_THREADS		10000
 #define NUMBER_OF_BROTHERS	2
 #define SENTINEL		-1
+#define COMM_APP		"COMMAPP"
+#define COMM_THREAD		"COMMTHREAD"
 
 #define MESSAGE_PAYLOAD_SIZE (sizeof(message_t)-sizeof(message_type))
 

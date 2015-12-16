@@ -2,6 +2,7 @@ ARQUIVOS
 
 Comandos: sloccount .
           ps H -o 'pid tid cmd comm'
+          strace
 
 main.c:
 

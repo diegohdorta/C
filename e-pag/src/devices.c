@@ -1,6 +1,6 @@
 #define _XOPEN_SOURCE 700
 
-#include "include/library.h"
+#include "../include/library.h"
 
 /* comments: doc.txt -> devices.c -> 1# */
 static bool receive_data_from_device(int socket, int my_queue, char *cpf);

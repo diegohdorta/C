@@ -1,6 +1,6 @@
 #define _XOPEN_SOURCE 700
 
-#include "include/library.h"
+#include "../../include/library.h"
 
 /* comments: doc.txt -> main.c -> 1# */
 

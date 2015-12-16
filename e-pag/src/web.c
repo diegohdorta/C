@@ -1,6 +1,6 @@
 #define _XOPEN_SOURCE 700
 
-#include "include/library.h"
+#include "../include/library.h"
 /**
 * @file  main.c
 * @brief Arquivo main.c - e-Pag

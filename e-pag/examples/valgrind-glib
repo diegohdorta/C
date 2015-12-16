@@ -1,0 +1,2 @@
+G_DEBUG=gc-friendly G_SLICE=always-malloc valgrind --leak-check=full ./aaa
+

@@ -26,10 +26,10 @@
 #include <sys/times.h>
 #include <sys/select.h>
 
-#define PATH			"database.txt"
+#define PATH			"data/database.txt"
 #define BUFFER_SIZE 		500
 #define BUFFER	 		100
-#define LOG_ERROR 		"log.txt"
+#define LOG_ERROR 		"log/log.txt"
 #define DEBUG_MESSAGE		"E-Pag - This log is only for debbuging in case something stops working.\n\n"
 #define WEB_TCP_PORT		4000
 #define APP_TCP_PORT		6000

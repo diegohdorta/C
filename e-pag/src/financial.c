@@ -1,6 +1,6 @@
 #define _XOPEN_SOURCE 700
 
-#include "library.h"
+#include "include/library.h"
 
 void *start_communication_opr(void *args)
 {

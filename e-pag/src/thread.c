@@ -2,7 +2,7 @@
 
 #include <sys/prctl.h>
 
-#include "library.h"
+#include "include/library.h"
 
 void check_thread_creation(int id)
 {

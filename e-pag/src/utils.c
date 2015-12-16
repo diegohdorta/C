@@ -1,6 +1,6 @@
 #define _BSD_SOURCE
 
-#include "library.h"
+#include "include/library.h"
 
 FILE *log_error;
 

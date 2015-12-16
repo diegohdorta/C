@@ -1,6 +1,6 @@
 #define _XOPEN_SOURCE 700
 
-#include "library.h"
+#include "include/library.h"
 
 int verify_cpf_on_database(char *token_cpf, char *name, char *cpf, char *phone)
 {

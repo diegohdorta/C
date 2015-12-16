@@ -1,6 +1,6 @@
 #define _XOPEN_SOURCE 700
 
-#include "library.h"
+#include "include/library.h"
 
 int create_message_queue(void)
 {

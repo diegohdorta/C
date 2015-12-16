@@ -1,6 +1,6 @@
 #define _XOPEN_SOURCE 700
 
-#include "library.h"
+#include "include/library.h"
 
 static int wait_for_read(int *list_sockets, size_t elements);
 

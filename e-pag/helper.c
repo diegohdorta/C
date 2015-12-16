@@ -72,20 +72,19 @@ static int wait_for_read(int *list_sockets, size_t elements)
 {
 	int last;
 	size_t i;
-	/* criando lista de sockets */
+	/* Criando lista de sockets */
 	fd_set sockets;
 	
-	/* inicializando lista de sockets com zeros */
+	/* Inicializando lista de sockets com zeros */
 	FD_ZERO(&sockets);
 	last = 0;
-	/* adicionando socket na lista de sockets */
+	/* Adicionando socket na lista de sockets */
 	for (i = 0; i < elements; i++) {
 		FD_SET(list_sockets[i], &sockets);
 		if (list_sockets[i] > last)
 			last = list_sockets[i];
 	}
-	/* chamando o select */
-	
+	/* Chamando o select */	
 	select(last+1, &sockets, NULL, NULL, NULL);
 	
 	for (i = 0; i < elements; i++) {

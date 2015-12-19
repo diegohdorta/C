@@ -106,7 +106,3 @@ static bool receive_data_from_device(int socket, int my_queue, char *cpf)
 	
 	return false;
 }
-
-
-
-

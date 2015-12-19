@@ -1,6 +1,6 @@
 #define _XOPEN_SOURCE 700
 
-#include "../include/epnl.h"
+#include <kivatz/epnl.h>
 
 int main(void)
 {
@@ -10,9 +10,9 @@ int main(void)
         
         ready_socket_t socket;
         
-        socket = create_tcp_socket(1000);
+        socket = create_tcp_socket(10000);
         
-        
+ 	/* to be continued... */       
         
         
         return EXIT_SUCCESS;

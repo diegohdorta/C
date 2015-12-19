@@ -1,2 +1,6 @@
-16:47:29 # E-Pag - This log is only for debbuging in case something stops working.
+16:46:43 # E-Pag - This log is only for debbuging in case something stops working.
 
+16:46:57 # The device 192.168.0.102 is now connected!
+16:47:20 # The device 192.168.0.102 is now connected!
+16:47:36 # The device 192.168.0.102 is now connected!
+16:47:57 # The device 192.168.0.102 is now connected!

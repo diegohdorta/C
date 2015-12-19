@@ -75,13 +75,15 @@
 #define SENTINEL		-1
 #define COMM_APP		"COMMAPP"
 #define COMM_THREAD		"COMMTHREAD"
+#define ID_DEVICE               0
+#define ID_WEB                  1
 
 #define MESSAGE_PAYLOAD_SIZE (sizeof(message_t)-sizeof(message_type))
 
 extern FILE *log_error;
 
 struct process_arguments {
-	int brother_socket; /*!< Variável para utilizar na comunicação IPC */
+	int args;
 };
 
 typedef enum message_type message_type;

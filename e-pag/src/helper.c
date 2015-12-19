@@ -6,17 +6,17 @@ static int wait_for_read(int *list_sockets, size_t elements);
 
 void communication_thread(int my_queue, int *queue_list, void *data)
 {
-
-	int ready_idx;
+	int ready_index;
 	int devices_listener;
 	int web_listener;
 	int list_sockets[MAXIMUM_THREADS];
 	size_t counter;
-	message_t message;
 	ssize_t size;
 	
-	char buffer[1400];
-	
+	char buffer[BUFFER_SIZE];
+
+	message_t message;
+			
 	pthread_t devices[MAXIMUM_THREADS];
 	
 	devices_listener = create_tcp_socket(DEVICES_TCP_PORT);
@@ -25,14 +25,13 @@ void communication_thread(int my_queue, int *queue_list, void *data)
 	list_sockets[0] = devices_listener;
 	list_sockets[1] = web_listener;
 	counter = 2;
-	
+		
 	do {
-
-		ready_idx = wait_for_read(list_sockets, counter);
+		ready_index = wait_for_read(list_sockets, counter);
 		
-		switch(ready_idx) {
+		switch(ready_index) {
 		
-			case 0:
+			case ID_DEVICE:
 			
 				list_sockets[counter] = accept_new_device_connection(devices_listener);
 
@@ -40,7 +39,7 @@ void communication_thread(int my_queue, int *queue_list, void *data)
 				counter++;
 				break;
 			
-			case 1:
+			case ID_WEB:
 		
 				list_sockets[counter] = accept_new_device_connection(web_listener);
 
@@ -50,17 +49,17 @@ void communication_thread(int my_queue, int *queue_list, void *data)
 				
 			default:
 			
-				size = recv(list_sockets[ready_idx], buffer, BUFFER_SIZE, 0);
+				size = recv(list_sockets[ready_index], buffer, BUFFER_SIZE, 0);
 				message.type = MESSAGE_SOCKET_RECEIVE;
 				message.received_data.size = size;
 				strncpy(message.received_data.buffer, buffer, BUFFER_SIZE);
 				message.received_data.error = errno;
 				
-				send_queue_message(queue_list[ready_idx], &message);
+				send_queue_message(queue_list[ready_index], &message);
 				
 				/* Preciso arrumar isso urgentemente! */
 				if (size == 0) { //race condition não usar.
-					//memmove(&list_sockets[ready_idx], &list_sockets[ready_idx+1], (counter-ready_idx-1)*sizeof(int));
+					memmove(&list_sockets[ready_index], &list_sockets[ready_index+1], (counter-ready_index-1)*sizeof(int));
 					counter--;
 				}
 		}
@@ -72,19 +71,17 @@ static int wait_for_read(int *list_sockets, size_t elements)
 {
 	int last;
 	size_t i;
-	/* Criando lista de sockets */
+
 	fd_set sockets;
-	
-	/* Inicializando lista de sockets com zeros */
 	FD_ZERO(&sockets);
 	last = 0;
-	/* Adicionando socket na lista de sockets */
+
 	for (i = 0; i < elements; i++) {
 		FD_SET(list_sockets[i], &sockets);
 		if (list_sockets[i] > last)
 			last = list_sockets[i];
 	}
-	/* Chamando o select */	
+
 	select(last+1, &sockets, NULL, NULL, NULL);
 	
 	for (i = 0; i < elements; i++) {

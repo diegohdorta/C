@@ -7,5 +7,4 @@
 #define SLEEP_TIME_SIZE		20
 #define MICRO_PER_SECOND    	1000000
 
-
 #endif /* _LIBRARY_H_DEFINED_ */

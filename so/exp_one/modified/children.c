@@ -24,6 +24,11 @@ int main(int argc, char *argv[])
 	struct timeval start_time;
 	struct timeval stop_time;   
 
+	if (argc != 2) {
+		fprintf(stderr, "Missing parameters!\n");
+		return EXIT_FAILURE;
+	}
+	
 	sleep_time  = strtol(argv[1], NULL, 0);
 
 	gettimeofday(&start_time, NULL);  
@@ -39,7 +44,7 @@ int main(int argc, char *argv[])
 	drift_total = total_time - EXPECTED_TIME;
 	drift_medium += (total_time - EXPECTED_TIME)/NO_OF_ITERATIONS;
 
-	fprintf(stderr, "Filho # - Desvio Total: %.10f -- Desvio Médio: %.10f\n", drift_total, drift_medium);
+	fprintf(stderr, "Children # - Total drift: %.10f -- Medium drift: %.10f\n", drift_total, drift_medium);
 
 	exit(EXIT_SUCCESS);
 }

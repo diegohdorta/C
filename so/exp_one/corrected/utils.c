@@ -31,5 +31,6 @@ void get_time_and_print(int child_no)
 	drift_total =  total_time - EXPECTED_TIME;
 	drift_medium = (total_time - EXPECTED_TIME)/NO_OF_ITERATIONS;
 
-	fprintf(stderr,"Filho #%d -- Desvio total: %.5f -- Desvio médio: %.8f\n", child_no, drift_total, drift_medium);
+	fprintf(stderr,"Filho #%d -- Desvio total: %.5f -- Desvio médio: %.8f\n", 
+					child_no, drift_total, drift_medium);
 }

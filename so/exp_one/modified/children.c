@@ -43,3 +43,15 @@ int main(int argc, char *argv[])
 
 	exit(EXIT_SUCCESS);
 }
+
+/* struct timeval
+ * 10   -> tv_sec  = 10
+ *         tv_usec = 0
+ * 11,5 -> tv_sec  = 11
+ *	   tv_usec = 500.000
+ *
+ * 11 - 10 = 1
+ * (500.000 - 0)/1.000.000 = 0.5
+ *
+ * 1 + 0.5 = 1.5 seconds
+ */

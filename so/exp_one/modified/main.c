@@ -2,8 +2,10 @@
  * 1º Experiment - 09/03/2016
  */
 #define _XOPEN_SOURCE 500
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <signal.h>
 #include <sys/time.h>
 #include <sys/types.h>
@@ -23,7 +25,11 @@ int main(void)
 	
 		if(pid != 0) {		
 		
-			pid = fork();
+			if ((pid = fork()) < 0) {
+				fprintf(stderr, "The fork() function has failed: %s", strerror(errno));
+				return EXIT_FAILURE;
+			}
+			
 			pids[count] = pid;
 						
 			if (pid != 0)
@@ -37,9 +43,8 @@ int main(void)
 	
 		sprintf(sleep_time, "%d", SLEEP_TIME * count);
 		
-		if (execl("children", "children", sleep_time, NULL) < 0) {
-			perror("execl():\n");
-			fprintf(stderr, "The execl() function has failed!\n");
+		if (execl("children", "children", sleep_time, NULL) < 0) {		
+			fprintf(stderr, "The execl() function has failed: %s", strerror(errno));
 			return EXIT_FAILURE;
 		}
 	}

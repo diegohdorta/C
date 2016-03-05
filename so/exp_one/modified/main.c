@@ -1,6 +1,7 @@
 /* Diego Henrique Dorta RA: 10005460
-   1º Experiment - 23/02/2015
-*/
+ * 1º Experiment - 09/03/2016
+ */
+#define _XOPEN_SOURCE 500
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -10,40 +11,47 @@
 
 #include "library.h"
 
-
 int main(void)
 {
-    int count, pid;
-    char children_number[2]; 
-    char no_of_children_str[15];
+	int count;
+	char sleep_time[SLEEP_TIME_SIZE];
+	
+	pid_t pids[NO_OF_CHILDREN];
+	pid_t pid = 1;
 
-
-    int children_pid[NO_OF_CHILDREN];
-
-	pid = 1;
 	for(count = 0; count < NO_OF_CHILDREN; count++) {
-		if(pid != 0){
+	
+		if(pid != 0) {		
+		
 			pid = fork();
-			children_pid[count] = pid;
+			pids[count] = pid;
+						
 			if (pid != 0)
-				printf("Created pid process: %d\n",(children_pid[count]));
+				fprintf(stderr, "Created pid process: %d\n",(pids[count]));
 		}
 		else
 			break;
 	}
-    
-	if(pid == 0) {
 
-	sprintf(children_number, "%d", count);
-	sprintf(no_of_children_str, "%d", NO_OF_CHILDREN);
+	if(pid == 0) {	
+	
+		sprintf(sleep_time, "%d", SLEEP_TIME * count);
 		
-        execl("children", "children", children_number, no_of_children_str, NULL);
-
-	} else {
-		usleep(NO_OF_CHILDREN * SLEEP_TIME * NO_OF_ITERATIONS);
-		for(count = 0; count < no_of_children; count++) {
-			kill(children_pid[count], SIGKILL);
-			printf("Killing pid process: %d\n", children_pid[count]);
+		if (execl("children", "children", sleep_time, NULL) < 0) {
+			perror("execl():\n");
+			fprintf(stderr, "The execl() function has failed!\n");
+			return EXIT_FAILURE;
+		}
+	}
+	else {
+	
+		usleep(1.2 * NO_OF_CHILDREN * SLEEP_TIME * NO_OF_ITERATIONS);
+		
+		for(count = 0; count < NO_OF_CHILDREN; count++) {
+		
+			kill(pids[count], SIGKILL);
+			fprintf(stderr, "Killing pid process: %d\n", pids[count]);
+			
 		}
 	}
 	exit(EXIT_SUCCESS);

@@ -1,4 +1,6 @@
-/* Diego Henrique Dorta */
+/* Diego Henrique Dorta RA: 10005460
+   1º Experiment - 23/02/2015
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -26,5 +28,5 @@ int main(void)
 			wait(NULL);
 		}
 	}
-	exit(EXIT_FAILURE);
+	exit(EXIT_SUCCESS);
 }

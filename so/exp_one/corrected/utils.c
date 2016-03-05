@@ -1,3 +1,6 @@
+/* Diego Henrique Dorta RA: 10005460
+ * 1º Experiment - 09/03/2016
+ */
 #define _XOPEN_SOURCE 500 
 #include <stdio.h>
 #include <stdlib.h>

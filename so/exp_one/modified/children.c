@@ -24,12 +24,12 @@ int main(int argc, char *argv[])
 	struct timeval start_time;
 	struct timeval stop_time;   
 
-	if (argc != 2) {
+	if (argc < 1) {
 		fprintf(stderr, "Missing parameters!\n");
 		return EXIT_FAILURE;
 	}
 	
-	sleep_time  = strtol(argv[1], NULL, 0);
+	sleep_time  = strtol(argv[0], NULL, 0);
 
 	gettimeofday(&start_time, NULL);  
 

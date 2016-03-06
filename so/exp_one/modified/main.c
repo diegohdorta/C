@@ -43,7 +43,7 @@ int main(void)
 	
 		sprintf(sleep_time, "%d", SLEEP_TIME * count);
 		
-		if (execl("children", "children", sleep_time, NULL) < 0) {		
+		if (execl("children", sleep_time, NULL) < 0) {		
 			fprintf(stderr, "The execl() function has failed: %s", strerror(errno));
 			return EXIT_FAILURE;
 		}

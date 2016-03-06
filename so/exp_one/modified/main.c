@@ -16,6 +16,7 @@
 int main(void)
 {
 	int count;
+	int m = 0;
 	char sleep_time[SLEEP_TIME_SIZE];
 	
 	pid_t pids[NO_OF_CHILDREN];
@@ -31,7 +32,8 @@ int main(void)
 			}
 			
 			pids[count] = pid;
-						
+			m += 200;
+								
 			if (pid != 0)
 				fprintf(stderr, "Created pid process: %d\n",(pids[count]));
 		}
@@ -41,7 +43,7 @@ int main(void)
 
 	if(pid == 0) {	
 	
-		sprintf(sleep_time, "%d", SLEEP_TIME * count);
+		sprintf(sleep_time, "%d", SLEEP_TIME + m);
 		
 		if (execl("children", sleep_time, NULL) < 0) {		
 			fprintf(stderr, "The execl() function has failed: %s", strerror(errno));
@@ -50,7 +52,7 @@ int main(void)
 	}
 	else {
 	
-		usleep(1.2 * NO_OF_CHILDREN * SLEEP_TIME * NO_OF_ITERATIONS);
+		usleep(1.5 * NO_OF_CHILDREN * SLEEP_TIME * NO_OF_ITERATIONS);
 		
 		for(count = 0; count < NO_OF_CHILDREN; count++) {
 		

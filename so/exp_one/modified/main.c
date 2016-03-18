@@ -2,14 +2,8 @@
  * 1º Experiment - 09/03/2016
  */
 #define _XOPEN_SOURCE 500
-#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <signal.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
 
 #include "library.h"
 
@@ -32,7 +26,7 @@ int main(void)
 			}
 			
 			pids[count] = pid;
-			m += 200;
+			m += SLEEP_TIME;
 								
 			if (pid != 0)
 				fprintf(stderr, "Created pid process: %d\n",(pids[count]));
@@ -51,14 +45,14 @@ int main(void)
 		}
 	}
 	else {
-	
-		usleep(1.5 * NO_OF_CHILDREN * SLEEP_TIME * NO_OF_ITERATIONS);
+		
+		usleep(TIME_TO_WAIT_CHILDREN_FINISH);
 		
 		for(count = 0; count < NO_OF_CHILDREN; count++) {
-		
+
 			kill(pids[count], SIGKILL);
 			fprintf(stderr, "Killing pid process: %d\n", pids[count]);
-			
+		
 		}
 	}
 	exit(EXIT_SUCCESS);

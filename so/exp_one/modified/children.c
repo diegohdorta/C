@@ -4,14 +4,8 @@
 #define _XOPEN_SOURCE 500
 #include <stdio.h>
 #include <stdlib.h>
-#include <signal.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
 
 #include "library.h"
-
-#define EXPECTED_TIME (NO_OF_ITERATIONS * SLEEP_TIME / MICRO_PER_SECOND)
 
 int main(int argc, char *argv[])
 {
@@ -46,7 +40,7 @@ int main(int argc, char *argv[])
 
 	fprintf(stderr, "Children # - Total drift: %.10f -- Medium drift: %.10f\n", drift_total, drift_medium);
 
-	exit(EXIT_SUCCESS);
+	pause();
 }
 
 /* struct timeval

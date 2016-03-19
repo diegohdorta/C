@@ -9,6 +9,7 @@ void receiver(int msg_size)
 	int count;
 	int queue_id_sr;
 	int queue_id_rc;
+	
 	float delta = 0.0;
 	float max = 0.0;
 	float min = INFINITY;
@@ -25,7 +26,6 @@ void receiver(int msg_size)
 	data_t *data_ptr = (data_t *)(message_buffer.mtext);
 	values_t *values_ptr = (values_t *)(values_buffer.mtext);
 	
-
 	create_queue(&queue_id_sr, &key_sr);
 
 	fprintf(stderr, "#%d# Receiver - Inicialized...\n", getpid());

@@ -7,10 +7,11 @@
 void receiver(int queue_id)
 {
 	int count;
-	struct timeval receive_time;
 	float delta = 0.0;
 	float max = 0.0;
 	float total = 0.0;
+
+	struct timeval receive_time;
 
 	msgbuf_t message_buffer;
 

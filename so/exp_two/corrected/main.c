@@ -9,7 +9,7 @@ int main(void)
 	int count;
 	int queue_id;
 	
-	pid_t pid;
+	pid_t pid = 1;
 	key_t key = MESSAGE_QUEUE_ID;
 
 	create_queue(&queue_id, &key);

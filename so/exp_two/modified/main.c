@@ -45,8 +45,6 @@ int main(void)
 		
 		for (count = 0; count < NO_OF_CHILDREN; count++)
 			wait(NULL);
-		sleep(10);
-		//remove_queue(&queue_id);		
 	}
 	exit(EXIT_SUCCESS);
 }

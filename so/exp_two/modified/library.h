@@ -13,8 +13,8 @@
 
 #define NO_OF_ITERATIONS	500
 #define MICRO_PER_SECOND	1000000
-#define MESSAGE_QUEUE_ID_SR	3102
-#define MESSAGE_QUEUE_ID_RC	3103
+#define MESSAGE_QUEUE_ID_SR	31022
+#define MESSAGE_QUEUE_ID_RC	31032
 #define SENDER_DELAY_TIME	10
 #define MESSAGE_MTYPE		1
 #define NO_OF_CHILDREN		3
@@ -24,6 +24,13 @@
 #define RECEIVER		1
 #define CHILD			0
 #define SIZE			512
+
+typedef struct values values_t;
+
+struct values {
+	float max;
+	float total;
+};
 
 typedef struct data data_t;
 

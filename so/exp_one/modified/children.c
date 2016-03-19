@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 	drift_total = total_time - EXPECTED_TIME;
 	drift_medium += (total_time - EXPECTED_TIME)/NO_OF_ITERATIONS;
 
-	fprintf(stderr, "Children # - Total drift: %.10f -- Medium drift: %.10f\n", drift_total, drift_medium);
+	fprintf(stderr, "%d # Children - Total drift: %.10f -- Medium drift: %.10f\n", getpid(), drift_total, drift_medium);
 
 	pause();
 }

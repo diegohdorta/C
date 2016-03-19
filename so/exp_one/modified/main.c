@@ -29,7 +29,7 @@ int main(void)
 			m += SLEEP_TIME;
 								
 			if (pid != 0)
-				fprintf(stderr, "Created pid process: %d\n",(pids[count]));
+				fprintf(stderr, "%d # Created pid process: %d\n", getpid(), (pids[count]));
 		}
 		else
 			break;
@@ -51,7 +51,7 @@ int main(void)
 		for(count = 0; count < NO_OF_CHILDREN; count++) {
 
 			kill(pids[count], SIGKILL);
-			fprintf(stderr, "Killing pid process: %d\n", pids[count]);
+			fprintf(stderr, "%d # Killing pid process: %d\n", getpid(), pids[count]);
 		
 		}
 	}

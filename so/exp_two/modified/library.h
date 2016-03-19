@@ -3,6 +3,7 @@
 
 #define _SVID_SOURCE
 #include <errno.h>
+#include <math.h>
 #include <string.h>
 #include <sys/time.h>
 #include <sys/types.h>
@@ -31,6 +32,8 @@ typedef struct values values_t;
 
 struct values {
 	float max;
+	float min;
+	float average;
 	float total;
 };
 

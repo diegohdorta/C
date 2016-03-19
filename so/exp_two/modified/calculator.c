@@ -19,8 +19,10 @@ void calculator(int msg_size)
 	
 	receive_queue_message(&queue_id_rc, &values_buffer, msg_size);
 
-	fprintf(stderr, "#%d# Calculator - Medium time for transfering: %.10f\n", getpid(), values_ptr->total / NO_OF_ITERATIONS);
+	fprintf(stderr, "#%d# Calculator - Minimum time for transfering: %.10f\n", getpid(), values_ptr->min);
 	fprintf(stderr, "#%d# Calculator - Maximum time for transfering: %.10f\n", getpid(), values_ptr->max);
+	fprintf(stderr, "#%d# Calculator - Total time for transfering: %.10f\n", getpid(), values_ptr->total);
+	fprintf(stderr, "#%d# Calculator - Average time for transfering: %.10f\n", getpid(), values_ptr->average);
 	
 	remove_queue(&queue_id_rc);
 	

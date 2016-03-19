@@ -11,6 +11,7 @@ void receiver(int msg_size)
 	int queue_id_rc;
 	float delta = 0.0;
 	float max = 0.0;
+	float min = INFINITY;
 	float total = 0.0;
 
 	struct timeval receive_time;
@@ -41,13 +42,17 @@ void receiver(int msg_size)
 
 		if (delta > max)
 			max = delta;
+		if (delta < min)
+			min = delta;
 	}
 
 	create_queue(&queue_id_rc, &key_rc);
 	
 	values_buffer.mtype = MESSAGE_MTYPE;
-	values_ptr->max = max;
+	values_ptr->max = min;
+	values_ptr->min = max;
 	values_ptr->total = total;
+	values_ptr->average = total / NO_OF_ITERATIONS;
 	
 	send_queue_message(&queue_id_rc, &values_buffer, msg_size);	
 

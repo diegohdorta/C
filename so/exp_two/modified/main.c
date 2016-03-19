@@ -7,13 +7,13 @@
 int main(void)
 {
 	int count;
-	size_t msg_size;
+	int msg_size;
 	
 	pid_t pid = 1;
 
 	menu(&msg_size);
 	
-	msg_size = msg_size * SIZE;
+	msg_size = msg_size * SIZE_MESSAGE;
 
 	for (count = 0; count < NO_OF_CHILDREN; count++) {
 	

@@ -20,23 +20,23 @@ void remove_queue(int *queue_id)
 	}
 }
 
-void send_queue_message(int *queue_id, const msgbuf_t *message, size_t *msg_size)
+void send_queue_message(int *queue_id, const msgbuf_t *message, int msg_size)
 {
-	if (msgsnd(*queue_id, message, *msg_size, 0) == FAILURE) {
+	if (msgsnd(*queue_id, message, msg_size, 0) == FAILURE) {
 		fprintf(stderr, "#%d# The msgsnd() function has failed: %s\n", getpid(), strerror(errno));
 		exit(EXIT_FAILURE);
 	}	
 }
 
-void receive_queue_message(int *queue_id, msgbuf_t *message, size_t *msg_size)
+void receive_queue_message(int *queue_id, msgbuf_t *message, int msg_size)
 {
-	if (msgrcv(*queue_id, message, *msg_size, MESSAGE_MTYPE, 0) == FAILURE) {
+	if (msgrcv(*queue_id, message, msg_size, MESSAGE_MTYPE, 0) == FAILURE) {
 		fprintf(stderr, "#%d# The msgrcv() function has failed: %s\n", getpid(), strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 }
 
-void menu(size_t *msg_size)
+void menu(int *msg_size)
 {
 	do {
 		printf("Type a number between 1-10: ");

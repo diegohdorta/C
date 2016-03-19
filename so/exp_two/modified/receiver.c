@@ -4,7 +4,7 @@
 
 #include "library.h"
 
-void receiver(size_t msg_size)
+void receiver(int msg_size)
 {
 	int count;
 	int queue_id_sr;
@@ -31,7 +31,7 @@ void receiver(size_t msg_size)
 
 	for (count = 0; count < NO_OF_ITERATIONS; count++) {
 	
-		receive_queue_message(&queue_id_sr, &message_buffer, &msg_size);
+		receive_queue_message(&queue_id_sr, &message_buffer, msg_size);
 
 		gettimeofday(&receive_time,NULL);
 
@@ -49,7 +49,7 @@ void receiver(size_t msg_size)
 	values_ptr->max = max;
 	values_ptr->total = total;
 	
-	send_queue_message(&queue_id_rc, &values_buffer, &msg_size);	
+	send_queue_message(&queue_id_rc, &values_buffer, msg_size);	
 
 	exit(EXIT_SUCCESS);
 }

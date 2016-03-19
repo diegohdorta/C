@@ -4,7 +4,7 @@
 
 #include "library.h"
 
-void sender(size_t msg_size)
+void sender(int msg_size)
 {
 	int count;
 	int queue_id_sr;
@@ -28,10 +28,13 @@ void sender(size_t msg_size)
 		data_ptr->msg_no = count;
 		data_ptr->send_time = send_time;
 		
-		send_queue_message(&queue_id_sr, &message_buffer, &msg_size);
+		send_queue_message(&queue_id_sr, &message_buffer, msg_size);
 
 		usleep(SENDER_DELAY_TIME);
 	}
+	
+	remove_queue(&queue_id_sr);
+	
         exit(EXIT_SUCCESS);
 }
 

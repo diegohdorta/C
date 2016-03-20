@@ -49,8 +49,8 @@ void receiver(int msg_size)
 	create_queue(&queue_id_rc, &key_rc);
 	
 	values_buffer.mtype = MESSAGE_MTYPE;
-	values_ptr->max = min;
-	values_ptr->min = max;
+	values_ptr->max = max;
+	values_ptr->min = min;
 	values_ptr->total = total;
 	values_ptr->average = total / NO_OF_ITERATIONS;
 	

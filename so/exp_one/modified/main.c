@@ -7,10 +7,11 @@
 
 #include "library.h"
 
+static int choose_time(int no_of_children);
+
 int main(void)
 {
 	int count;
-	int m = 0;
 	char sleep_time[SLEEP_TIME_SIZE];
 	
 	pid_t pids[NO_OF_CHILDREN];
@@ -26,7 +27,6 @@ int main(void)
 			}
 			
 			pids[count] = pid;
-			m += SLEEP_TIME;
 								
 			if (pid != 0)
 				fprintf(stderr, "%d # Created pid process: %d\n", getpid(), (pids[count]));
@@ -37,7 +37,7 @@ int main(void)
 
 	if(pid == 0) {	
 	
-		sprintf(sleep_time, "%d", SLEEP_TIME + m);
+		sprintf(sleep_time, "%d", choose_time(count));
 		
 		if (execl("children", sleep_time, NULL) < 0) {		
 			fprintf(stderr, "The execl() function has failed: %s", strerror(errno));
@@ -57,3 +57,11 @@ int main(void)
 	}
 	exit(EXIT_SUCCESS);
 }
+
+int choose_time(int no_of_children)
+{
+	return ((SLEEP_TIME * no_of_children) + SLEEP_TIME);
+}
+
+
+

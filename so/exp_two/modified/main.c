@@ -17,14 +17,14 @@ int main(void)
 
 	for (count = 0; count < NO_OF_CHILDREN; count++) {
 	
-		if (pid != 0) {
+		if (pid) {
 
 			if ((pid = fork()) < 0) {
 				fprintf(stderr, "The fork() function has failed: %s", strerror(errno));
 				exit(EXIT_FAILURE);
 			}
 
-			if (pid != 0)
+			if (pid)
 				fprintf(stderr, "#%d# Father - Create child process: %d\n", getpid(), pid);
 		}
 		else

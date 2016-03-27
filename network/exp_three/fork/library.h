@@ -48,11 +48,15 @@ struct shm {
 /* network.c */
 void create_tcp_socket(int *s, uint16_t port);
 void accept_new_connection(int *s, int *ns, struct sockaddr_in *info);
+void create_tcp_socket_and_connect(int *s, char *ip, char *p);
 
 /* utils.c */
 void check_args(int *argc, char *argv[], bool flag);
 int recv_or_exit(int **ns, data_t *packet);
 void send_or_exit(int *ns, data_t *packet);
+void menu(int *option);
+void get_name(char *name);
+void get_message(char *message);
 
 /* semaphores */
 
@@ -69,7 +73,7 @@ void shared_memory_destroy(int shm);
 
 /* handler.c */
 void shandler(int *ns, int semaphore_id, struct sockaddr_in client, shm_t *g_shm);
-
+void chandler(int *s);
 
 #endif /* _LIBRARY_H_DEFINED_ */
 

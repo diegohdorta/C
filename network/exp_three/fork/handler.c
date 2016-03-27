@@ -132,3 +132,101 @@ void shandler(int *ns, int semaphore_id, struct sockaddr_in client, shm_t *shm_s
 	exit(EXIT_SUCCESS);
 }	
 
+
+void chandler(int *s)
+{	
+	int option;
+	int counter = 0;
+	int del_counter = 0;
+
+	char local_username[USERNAME_SIZE];
+	char local_message[MESSAGE_SIZE];
+
+	data_t packet;
+
+	do {
+		menu(&option);
+
+		switch(option) {
+		
+			case TYPE_SAVE_MESSAGE: 
+				
+				get_name(local_username);
+				strcpy(packet.username,local_username);
+				
+				get_message(local_message);
+				strcpy(packet.message,local_message);
+
+				packet.type = 1;
+
+				printf("\nSending messages to server...");
+				fflush(stdout);
+				sleep(2);
+
+				send_or_exit(s, &packet);
+				recv_or_exit(&s, &packet);
+
+				printf(CLEAR);
+				fprintf(stderr, "%s\n",packet.message);
+
+				break;
+
+			case TYPE_READ_MESSAGE:
+			
+				packet.type = 2;
+
+				send_or_exit(s, &packet);
+				recv_or_exit(&s, &packet);
+
+				if(packet.type == 0)
+					fprintf(stderr, "\n%s\n", packet.message);
+
+				else if(packet.type > 0) {
+					counter = packet.type;
+
+					fprintf(stderr, "\nNumbers of registered messages on storage: %d\n",counter);
+
+					do {
+						fprintf(stderr, "\nUser: %sMessage: %s\n", packet.username, packet.message);
+						counter--;
+
+						if(counter > 0)
+							recv_or_exit(&s, &packet);
+							
+					} while(counter > 0);
+				}
+				break;
+
+			case TYPE_ERASE_MESSAGE:
+			
+				packet.type = 3;
+
+				get_name(local_username);
+				strcpy(packet.username,local_username);
+
+				send_or_exit(s, &packet);
+				recv_or_exit(&s, &packet);
+
+				if(packet.used > 0) {
+				
+					del_counter = packet.used;
+
+					fprintf(stderr, "\nNumber of erased messages: %d\n",del_counter);
+
+					do {
+						fprintf(stderr, "\nUser: %sMessage: %s\n", packet.username, packet.message);
+						del_counter--;
+
+						if(del_counter > 0)
+							recv_or_exit(&s, &packet);
+
+					} while(del_counter > 0);
+				}
+				else
+					fprintf(stderr, "\n\nThere was not erase any message from %s",local_username);
+
+				break;	
+
+		} 
+	} while (option != EXIT);
+}

@@ -120,4 +120,30 @@ void send_or_exit(int *ns, data_t *packet)
 	}	
 }
 
+void menu(int *option)
+{
+	do {
+		printf("\nOptions:\n\n");
+		printf("1 - To save a message on server\n");
+		printf("2 - To read a message from server\n");
+		printf("3 - To erase messages\n");
+		printf("4 - To close the application\n\n");
+		scanf("%d", option);
+		
+	} while (*option < 1 && *option > 4);
+}
+
+void get_name(char *name)
+{
+	__fpurge(stdin);
+	printf("\nUsername: ");
+	fgets(name, USERNAME_SIZE, stdin);
+}
+
+void get_message(char *message)
+{
+	__fpurge(stdin);
+	printf("\nMessage: ");
+	fgets(message, MESSAGE_SIZE, stdin);
+}
 

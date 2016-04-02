@@ -40,7 +40,7 @@ void menu(int *msg_size)
 {
 	do {
 		printf("Type a number between 1-10: ");
-		scanf("%zd", msg_size);
+		scanf("%d", msg_size);
 			
 	} while (*msg_size < 1 || *msg_size > 10);
 }

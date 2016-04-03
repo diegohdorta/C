@@ -56,7 +56,7 @@ int create_shared_memory(key_t key)
 {
 	int shm;
 	
-	if ((shm = shmget(key, sizeof(buffer_t), IPC_CREAT | 0666)) == FAILURE) {
+	if ((shm = shmget(key, sizeof(info_t), IPC_CREAT | 0666)) == FAILURE) {
 		fprintf(stderr, "The shmget() function has failed: %s!\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}

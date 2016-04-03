@@ -27,24 +27,25 @@ void consumer(int count, char *g_letters_and_numbers)
 		p(consumer_lock, 1);
 		#endif
 
-		tmp_index = g_buffer_t->i_consumer;
+		tmp_index = global_info_t->index_consumer;
 
 		p(stderr_lock, 1);
 		fprintf(stderr, "\n\nChild %d consumed: ", count);
 
 		for (i = 0; i < number; i++) {
+		
 			if (!(tmp_index + i > BUFFER_SIZE)) {            
 			
-				fprintf(stderr,"%c", g_buffer_t->buffer[tmp_index + i]);
-				g_buffer_t->buffer[tmp_index + i] = '#';
-				usleep(STOP);
+				fprintf(stderr,"%c", global_info_t->buffer[tmp_index + i]);
+				global_info_t->buffer[tmp_index + i] = '#';
+				usleep(number);
 			
 			}			
 		}
 
 		v(stderr_lock, 1);
 
-		g_buffer_t->i_consumer = tmp_index + i;
+		global_info_t->index_consumer = tmp_index + i;
 
 		if (tmp_index + i >= BUFFER_SIZE) {
 			
@@ -52,11 +53,11 @@ void consumer(int count, char *g_letters_and_numbers)
 			fprintf(stderr, "\n\n[Consumer]Buffer: ");; 
        
 			for (i = 0; i < BUFFER_SIZE; i++)
-				fprintf(stderr, "%c", g_buffer_t->buffer[i]);
+				fprintf(stderr, "%c", global_info_t->buffer[i]);
 
 			v(stderr_lock, 1);
 						
-			g_buffer_t->i_consumer = 0;
+			global_info_t->index_consumer = 0;
 		}
 
 		#ifdef PROTECT

@@ -27,7 +27,7 @@ void producer(int count, char *g_letters_and_numbers)
 		p(producer_lock, 1);		
 		#endif
 
-		tmp_index = g_buffer_t->i_producer;
+		tmp_index = global_info_t->index_producer;
 		
 		p(stderr_lock, 1);
 		fprintf(stderr, "\n\nChild %d produced: ", count);
@@ -36,16 +36,16 @@ void producer(int count, char *g_letters_and_numbers)
 		
 			if (!(tmp_index + i >= BUFFER_SIZE)) {
 			
-				g_buffer_t->buffer[tmp_index + i] = g_letters_and_numbers[tmp_index + i];
+				global_info_t->buffer[tmp_index + i] = g_letters_and_numbers[tmp_index + i];
 				fprintf(stderr,"%c", g_letters_and_numbers[tmp_index + i]);
-				usleep(STOP);
+				usleep(number);
 
 			}
 		}
 		
 		v(stderr_lock, 1);
 		
-		g_buffer_t->i_producer = tmp_index + i;
+		global_info_t->index_producer = tmp_index + i;
 
 		if (tmp_index + i >= BUFFER_SIZE) {
 		
@@ -53,11 +53,11 @@ void producer(int count, char *g_letters_and_numbers)
 			fprintf(stderr, "\n\n[Producer] Buffer: ");
 			
 			for (i = 0; i < BUFFER_SIZE; i++)
-				fprintf(stderr, "%c", g_buffer_t->buffer[i]); 
+				fprintf(stderr, "%c", global_info_t->buffer[i]); 
 				
 			v(stderr_lock, 1);
 			
-			g_buffer_t->i_producer = 0;
+			global_info_t->index_producer = 0;
 		}
 
 		#ifdef PROTECT		

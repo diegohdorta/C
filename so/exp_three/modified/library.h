@@ -27,11 +27,11 @@
 #define STOP			1
 #define NEW_LINE		"\n\n"
 
-typedef struct buffer buffer_t;
+typedef struct info info_t;
 
-struct buffer {
-    int	i_producer;
-    int	i_consumer;        
+struct info {
+    int	index_producer;
+    int	index_consumer;        
     char buffer[BUFFER_SIZE];    
 };
 
@@ -42,7 +42,7 @@ int consumer_lock;
 int stderr_lock;
 int g_shm_id;
 
-buffer_t *g_buffer_t;
+info_t *global_info_t;
 
 int *tmp_addr;
 

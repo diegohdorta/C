@@ -85,11 +85,11 @@ static void shm(void)
 	g_shm_id = create_shared_memory(SHM_KEY);
 	tmp_addr = associate_shared_memory(g_shm_id);
 
-	g_buffer_t = (buffer_t *)tmp_addr;
+	global_info_t = (info_t *) tmp_addr;
 
-	g_buffer_t->i_producer = 0;
-	g_buffer_t->i_consumer = 0;
-	memset(g_buffer_t->buffer, 0, sizeof(g_buffer_t->buffer));
+	global_info_t->index_producer = 0;
+	global_info_t->index_consumer = 0;
+	memset(global_info_t->buffer, 0, BUFFER_SIZE);
 }
 
 static void end(void)

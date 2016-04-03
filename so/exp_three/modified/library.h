@@ -23,7 +23,7 @@
 #define NO_OF_CHILDREN		8
 #define FAILURE			-1
 #define WAIT_CHILDREN		20000
-#define DELAY			200
+#define DELAY			2000
 #define STOP			1
 #define NEW_LINE		"\n\n"
 
@@ -35,7 +35,19 @@ struct buffer {
     char buffer[BUFFER_SIZE];    
 };
 
+int free_id;
+int busy_id;
+int producer_lock;
+int consumer_lock;
+int stderr_lock;
+int g_shm_id;
 
+buffer_t *g_buffer_t;
+
+int *tmp_addr;
+
+void producer(int count, char *g_letters_and_numbers);
+void consumer(int count, char *g_letters_and_numbers);
 
 /* utils.c */
 int semaphore_new(key_t key);

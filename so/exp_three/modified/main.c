@@ -11,7 +11,7 @@ static void end(void);
 
 int main(void) 
 {
-	int count;     
+	unsigned int count;     
 	pid_t pid = 1;
 	pid_t pids[NO_OF_CHILDREN];
 	
@@ -32,11 +32,12 @@ int main(void)
 			if (pid)
 				fprintf(stderr, "%d # Created pid process: %d\n", getpid(), (pids[count]));
 		}
+		
 		else
 			break;
 	}
 
-	if(pid == 0) {
+	if (!pid) {
 	
 		printf("Child %i started...\n", count);
 
@@ -53,16 +54,18 @@ int main(void)
 	}
 	else {
 		usleep(WAIT_CHILDREN);
-
+		printf(NEW_LINE);
+		
 		for (count = 0; count < NO_OF_CHILDREN; count++) {
 		
 			kill(pids[count], SIGKILL);
 			fprintf(stderr, "%d # Killing pid process: %d\n", getpid(), pids[count]);
 		
 		}
-		
+
 		end();
 	}
+	
 	exit(EXIT_SUCCESS);
 }
 

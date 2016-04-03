@@ -15,7 +15,7 @@ void consumer(int count, char *g_letters_and_numbers)
 
 	while(true) {
 
-		if(gettimeofday( &tv, NULL) == FAILURE) {
+		if (gettimeofday(&tv, NULL) == FAILURE) {
 			fprintf(stderr, "The gettimeofday() function has failed: %s!\n", strerror(errno));
 			exit(EXIT_FAILURE);
 		}
@@ -32,24 +32,26 @@ void consumer(int count, char *g_letters_and_numbers)
 		p(stderr_lock, 1);
 		fprintf(stderr, "\n\nChild %d consumed: ", count);
 
-		for(i = 0; i < number; i++) {
-			if(!(tmp_index + i > (int)sizeof(g_letters_and_numbers))) {            
+		for (i = 0; i < number; i++) {
+			if (!(tmp_index + i > BUFFER_SIZE)) {            
+			
 				fprintf(stderr,"%c", g_buffer_t->buffer[tmp_index + i]);
 				g_buffer_t->buffer[tmp_index + i] = '#';
 				usleep(STOP);
-			}
+			
+			}			
 		}
 
 		v(stderr_lock, 1);
 
 		g_buffer_t->i_consumer = tmp_index + i;
 
-		if(tmp_index + i >= (int)sizeof(g_letters_and_numbers)) {
+		if (tmp_index + i >= BUFFER_SIZE) {
 			
 			p(stderr_lock, 1);
 			fprintf(stderr, "\n\n[Consumer]Buffer: ");; 
        
-			for(i=0; i<(int)sizeof(g_letters_and_numbers); i++)
+			for (i = 0; i < BUFFER_SIZE; i++)
 				fprintf(stderr, "%c", g_buffer_t->buffer[i]);
 
 			v(stderr_lock, 1);

@@ -34,7 +34,7 @@ void producer(int count, char *g_letters_and_numbers)
 
 		for (i = 0; i < number; i++) {
 		
-			if (!(tmp_index + i >= (int) sizeof(g_letters_and_numbers))) {
+			if (!(tmp_index + i >= BUFFER_SIZE)) {
 			
 				g_buffer_t->buffer[tmp_index + i] = g_letters_and_numbers[tmp_index + i];
 				fprintf(stderr,"%c", g_letters_and_numbers[tmp_index + i]);
@@ -47,12 +47,12 @@ void producer(int count, char *g_letters_and_numbers)
 		
 		g_buffer_t->i_producer = tmp_index + i;
 
-		if(tmp_index + i >= (int)sizeof(g_letters_and_numbers)) {
+		if (tmp_index + i >= BUFFER_SIZE) {
 		
 			p(stderr_lock, 1);
 			fprintf(stderr, "\n\n[Producer] Buffer: ");
 			
-			for (i = 0; i < (int) sizeof(g_letters_and_numbers); i++)
+			for (i = 0; i < BUFFER_SIZE; i++)
 				fprintf(stderr, "%c", g_buffer_t->buffer[i]); 
 				
 			v(stderr_lock, 1);

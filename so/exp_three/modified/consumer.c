@@ -13,7 +13,7 @@ void consumer(int count, char *g_letters_and_numbers)
 
 	usleep(DELAY);
 
-	while(true) {
+	while (true) {
 
 		if (gettimeofday(&tv, NULL) == FAILURE) {
 			fprintf(stderr, "The gettimeofday() function has failed: %s!\n", strerror(errno));

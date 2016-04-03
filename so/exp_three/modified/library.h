@@ -44,7 +44,7 @@ int g_shm_id;
 
 info_t *global_info_t;
 
-int *tmp_addr;
+int *shm_addr;
 
 void producer(int count, char *g_letters_and_numbers);
 void consumer(int count, char *g_letters_and_numbers);

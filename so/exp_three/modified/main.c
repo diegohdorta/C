@@ -41,7 +41,8 @@ int main(void)
 	
 		printf("Child %i started...\n", count);
 
-		if(count <= 4) {
+		if (count <= 4) {
+		
 			printf("+1 producer!\n");
 			producer(count, g_letters_and_numbers);
 			exit(EXIT_SUCCESS);
@@ -86,9 +87,9 @@ static void init(void)
 static void shm(void)
 {
 	g_shm_id = create_shared_memory(SHM_KEY);
-	tmp_addr = associate_shared_memory(g_shm_id);
+	shm_addr = associate_shared_memory(g_shm_id);
 
-	global_info_t = (info_t *) tmp_addr;
+	global_info_t = (info_t *) shm_addr;
 
 	global_info_t->index_producer = 0;
 	global_info_t->index_consumer = 0;

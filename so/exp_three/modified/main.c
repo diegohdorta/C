@@ -73,12 +73,12 @@ int main(void)
 static void init(void)
 {
 	free_id = semaphore_new(FREE_KEY);
-	v(free_id, BUFFER_SIZE);
 	busy_id = semaphore_new(BUSY_KEY);
 	producer_lock = semaphore_new(PRODUCT_KEY);
 	consumer_lock = semaphore_new(CONSUMER_KEY);
 	stderr_lock = semaphore_new(STDERR_KEY);
-	
+
+	v(free_id, BUFFER_SIZE);	
 	v(producer_lock, ONE);
 	v(consumer_lock, ONE);
 	v(stderr_lock, ONE);
@@ -104,3 +104,4 @@ static void end(void)
 	semaphore_destroy(free_id);
 	semaphore_destroy(busy_id);
 }
+

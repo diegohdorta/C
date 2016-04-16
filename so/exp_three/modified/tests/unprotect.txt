@@ -1,0 +1,424 @@
+################ 1 EXECUÇÃO ################
+
+
+5129 # Created pid process: 5130
+Child 1 started...
+5129 # Created pid process: 5131
++1 producer!
+5129 # Created pid process: 5132
+Child 2 started...
+5129 # Created pid process: 5133
+Child 3 started...
++1 producer!
++1 producer!
+5129 # Created pid process: 5134
+Child 4 started...
+Child 5 started...
+5129 # Created pid process: 5135
++1 producer!
++1 consumer!
+Child 6 started...
+5129 # Created pid process: 5136
++1 consumer!
+Child 7 started...
+5129 # Created pid process: 5137
++1 consumer!
+Child 8 started...
++1 consumer!
+
+
+Child 1 produced: ABC
+
+Child 3 produced: ABCDE
+
+Child 2 produced: AB
+
+Child 4 produced: AB
+
+Child 5 consumed: AB
+
+Child 6 consumed: ##C
+
+Child 1 produced: DEF
+
+Child 7 consumed: ###D
+
+Child 8 consumed: ####E
+
+Child 3 produced: FGHIJ
+
+Child 2 produced: CDE
+
+Child 4 produced: CD
+
+Child 5 consumed: CDEFG
+
+Child 6 consumed: ####H
+
+Child 1 produced: G
+
+Child 7 consumed: ##
+
+Child 8 consumed: #G#I
+
+Child 3 produced: KL
+
+Child 2 produced: F
+
+Child 4 produced: EFGH
+
+Child 5 consumed: H
+
+Child 6 consumed: #JKL
+
+Child 1 produced: H
+
+Child 7 consumed: GH##
+
+Child 8 consumed: ###
+
+Child 3 produced: MNO
+
+Child 2 produced: GHIJ
+
+Child 4 produced: IJKLM
+
+Child 5 consumed: IJ
+
+Child 6 consumed: MNO
+
+Child 1 produced: IJKLM
+
+Child 7 consumed: K
+
+Child 8 consumed: ##
+
+Child 3 produced: PQ
+
+Child 2 produced: KLM
+
+Child 4 produced: NOPQR
+
+Child 5 consumed: KLM
+
+Child 6 consumed: QR
+
+Child 1 produced: NOPQR
+
+Child 7 consumed: ##
+
+Child 8 consumed: R
+
+Child 3 produced: RSTU
+
+Child 2 produced: NOP
+
+Child 4 produced: S
+
+Child 5 consumed: N
+
+Child 6 consumed: 
+
+Child 1 produced: S
+
+Child 7 consumed: #OPQ
+
+Child 8 consumed: STU##
+
+Child 3 produced: V
+
+Child 2 produced: QRSTU
+
+Child 4 produced: TU
+
+Child 5 consumed: ##QR
+
+Child 6 consumed: 
+
+Child 1 produced: T
+
+Child 7 consumed: #S
+
+Child 8 consumed: ####
+
+Child 3 produced: W
+
+Child 2 produced: VWX
+
+Child 4 produced: V
+
+Child 5 consumed: #TU
+
+Child 6 consumed: 
+
+Child 1 produced: UVWXY
+
+Child 7 consumed: #UV
+
+Child 8 consumed: ####
+
+Child 3 produced: X
+
+Child 2 produced: YZ ab
+
+Child 4 produced: WX
+
+Child 5 consumed: #W
+
+Child 6 consumed: 
+
+Child 1 produced: Z abc
+
+Child 7 consumed: #XYZ
+
+Child 8 consumed: #####
+
+Child 3 produced: YZ
+
+Child 2 produced: cdef
+
+Child 4 produced: YZ
+
+Child 5 consumed: #YZ a
+
+Child 6 consumed: 
+
+Child 1 produced: d
+
+Child 7 consumed: ##
+
+Child 8 consumed: ####
+
+Child 3 produced:  a
+
+Child 2 produced: ghi
+
+5129 # Killing pid process: 5130
+5129 # Killing pid process: 5131
+5129 # Killing pid process: 5132
+5129 # Killing pid process: 5133
+5129 # Killing pid process: 5134
+5129 # Killing pid process: 5135
+5129 # Killing pid process: 5136
+5129 # Killing pid process: 5137
+
+
+################ 2 EXECUÇÃO ################
+
+
+5140 # Created pid process: 5141
+5140 # Created pid process: 5142
+Child 1 started...
+5140 # Created pid process: 5143
+Child 2 started...
++1 producer!
+Child 3 started...
+5140 # Created pid process: 5144
++1 producer!
++1 producer!
+Child 4 started...
+5140 # Created pid process: 5145
++1 producer!
+Child 5 started...
+5140 # Created pid process: 5146
++1 consumer!
+Child 6 started...
+5140 # Created pid process: 5147
++1 consumer!
+Child 7 started...
+5140 # Created pid process: 5148
++1 consumer!
+Child 8 started...
++1 consumer!
+
+
+Child 3 produced: ABCD
+
+Child 2 produced: ABCD
+
+Child 1 produced: ABCD
+
+Child 4 produced: ABCDE
+
+Child 5 consumed: A
+
+Child 6 consumed: #B
+
+Child 7 consumed: ##C
+
+Child 8 consumed: ###D
+
+Child 3 produced: EFGHI
+
+Child 2 produced: E
+
+Child 1 produced: EF
+
+Child 4 produced: FGHI
+
+Child 5 consumed: #
+
+Child 6 consumed: ##EF
+
+Child 7 consumed: ###
+
+Child 8 consumed: ##GH
+
+Child 3 produced: J
+
+Child 2 produced: FGH
+
+Child 1 produced: G
+
+Child 4 produced: JK
+
+Child 5 consumed: ###F
+
+Child 6 consumed: GHIJK
+
+Child 7 consumed: ####
+
+Child 8 consumed: ###
+
+Child 3 produced: KL
+
+Child 2 produced: I
+
+Child 1 produced: HIJ
+
+Child 4 produced: L
+
+Child 5 consumed: #
+
+Child 6 consumed: L#
+
+Child 7 consumed: K###
+
+Child 8 consumed: #
+
+Child 3 produced: MNOP
+
+Child 2 produced: J
+
+Child 1 produced: KLMNO
+
+Child 4 produced: MN
+
+Child 5 consumed: HIJK
+
+Child 6 consumed: P
+
+Child 7 consumed: O####
+
+Child 8 consumed: ##
+
+Child 3 produced: QRST
+
+Child 2 produced: K
+
+Child 1 produced: PQR
+
+Child 4 produced: O
+
+Child 5 consumed: LM
+
+Child 6 consumed: T
+
+Child 7 consumed: ###
+
+Child 8 consumed: QRS
+
+Child 3 produced: UVWX
+
+Child 2 produced: L
+
+Child 1 produced: STUVW
+
+Child 4 produced: PQ
+
+Child 5 consumed: NOPQ#
+
+Child 6 consumed: WX
+
+Child 7 consumed: #
+
+Child 8 consumed: T
+
+Child 3 produced: Y
+
+Child 2 produced: MNO
+
+Child 1 produced: XYZ a
+
+Child 4 produced: RST
+
+Child 5 consumed: S
+
+Child 6 consumed:  
+
+Child 7 consumed: Z#a
+
+Child 8 consumed: UV#XY
+
+Child 3 produced: Z 
+
+Child 2 produced: P
+
+Child 1 produced: bcd
+
+Child 4 produced: UVW
+
+Child 5 consumed: TUVW
+
+Child 6 consumed: #
+
+Child 7 consumed: bcd
+
+Child 8 consumed: Z 
+
+Child 3 produced: abcde
+
+Child 2 produced: QR
+
+Child 1 produced: e
+
+Child 4 produced: X
+
+Child 5 consumed: X
+
+Child 6 consumed: bcd
+
+Child 7 consumed: 
+
+Child 8 consumed: a##
+
+Child 3 produced: fghij
+
+Child 2 produced: STU
+
+Child 1 produced: fghij
+
+Child 4 produced: YZ
+
+Child 5 consumed: YZ#
+
+Child 6 consumed: efg
+
+Child 7 consumed: 
+
+Child 8 consumed: ####
+
+Child 3 produced: kl
+
+
+
+Child 2 produced: 5140 # Killing pid process: 5141
+V5140 # Killing pid process: 5142
+5140 # Killing pid process: 5143
+5140 # Killing pid process: 5144
+5140 # Killing pid process: 5145
+5140 # Killing pid process: 5146
+5140 # Killing pid process: 5147
+5140 # Killing pid process: 5148
+
+

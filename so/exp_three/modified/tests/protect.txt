@@ -1,0 +1,435 @@
+################ 1 EXECUÇÃO ################
+
+
+5194 # Created pid process: 5195
+Child 1 started...
+5194 # Created pid process: 5196
++1 producer!
+Child 2 started...
+5194 # Created pid process: 5197
+Child 3 started...
++1 producer!
+5194 # Created pid process: 5198
++1 producer!
+5194 # Created pid process: 5199
+Child 4 started...
+Child 5 started...
+5194 # Created pid process: 5200
++1 consumer!
++1 producer!
+Child 6 started...
+5194 # Created pid process: 5201
++1 consumer!
+Child 7 started...
+5194 # Created pid process: 5202
+Child 8 started...
++1 consumer!
++1 consumer!
+
+
+Child 1 produced: ABCDE
+
+Child 5 consumed: ABCDE
+
+Child 3 produced: FG
+
+Child 6 consumed: F
+
+Child 2 produced: HI
+
+Child 7 consumed: GHI
+
+Child 4 produced: JKLMN
+
+Child 8 consumed: JKLM
+
+Child 1 produced: OP
+
+Child 7 consumed: N
+
+Child 3 produced: QR
+
+Child 5 consumed: OPQR
+
+Child 2 produced: ST
+
+Child 5 consumed: ST
+
+Child 4 produced: UVWX
+
+Child 6 consumed: UVWX
+
+Child 1 produced: YZ
+
+Child 3 produced:  a
+
+Child 8 consumed: YZ a
+
+Child 2 produced: bcdef
+
+Child 7 consumed: bcde
+
+Child 4 produced: ghi
+
+Child 8 consumed: f
+
+Child 1 produced: jk
+
+Child 5 consumed: ghi
+
+Child 3 produced: lmnop
+
+Child 5 consumed: j
+
+Child 2 produced: qrs
+
+Child 6 consumed: klmn
+
+Child 4 produced: tuv
+
+Child 7 consumed: opqr
+
+Child 1 produced: wx
+
+Child 8 consumed: stuv
+
+Child 3 produced: yz 
+
+Child 5 consumed: wxyz 
+
+Child 2 produced: 1234
+
+Child 4 produced: 5678
+
+Child 8 consumed: 123
+
+Child 1 produced: 90
+
+Child 6 consumed: 45678
+
+[Producer] Buffer: ##############################################################90
+
+Child 8 consumed: 9
+
+Child 3 produced: ABC
+
+Child 6 consumed: 0
+
+Child 2 produced: D
+
+[Consumer]Buffer: ABCD############################################################
+
+Child 4 produced: E
+
+Child 8 consumed: AB
+
+Child 1 produced: FGHIJ
+
+Child 6 consumed: C
+
+Child 3 produced: KLMN
+
+Child 8 consumed: D
+
+Child 2 produced: OP
+
+Child 7 consumed: EFGHI
+
+Child 4 produced: QRS
+
+Child 5 consumed: JKLMN
+
+Child 1 produced: TUV
+
+Child 8 consumed: OP
+
+Child 3 produced: WXYZ 
+
+Child 7 consumed: QR
+
+Child 2 produced: abcde
+
+Child 6 consumed: STUV
+
+Child 4 produced: f
+
+Child 5 consumed: WXY
+
+Child 1 produced: ghi
+
+Child 8 consumed: Z
+
+Child 3 produced: jkl
+
+Child 7 consumed:  
+
+Child 2 produced: mno
+
+Child 6 consumed: abcd
+
+Child 4 produced: pqrst
+
+Child 5 consumed: efghi
+
+Child 1 produced: uvwx
+
+Child 8 consumed: j
+
+Child 3 produced: yz 12
+
+Child 7 consumed: kl
+
+Child 2 produced: 3
+
+Child 6 consumed: mn
+
+Child 4 produced: 4567
+
+Child 5 consumed: o
+
+Child 1 produced: 89
+
+Child 8 consumed: pqrs
+
+Child 3 produced: 0
+
+Child 7 consumed: tuvw
+
+[Producer] Buffer: ##################################################xyz 1234567890
+
+Child 6 consumed: xyz 
+
+Child 2 produced: A
+
+Child 5 consumed: 1
+
+Child 4 produced: BCDE
+
+Child 8 consumed: 23456
+
+Child 1 produced: FGH
+
+5194 # Killing pid process: 5195
+5194 # Killing pid process: 5196
+5194 # Killing pid process: 5197
+5194 # Killing pid process: 5198
+5194 # Killing pid process: 5199
+5194 # Killing pid process: 5200
+5194 # Killing pid process: 5201
+5194 # Killing pid process: 5202
+
+
+################ 2 EXECUÇÃO ################
+
+
+5203 # Created pid process: 5204
+5203 # Created pid process: 5205
+Child 1 started...
++1 producer!
+5203 # Created pid process: 5206
+Child 3 started...
+Child 2 started...
++1 producer!
+5203 # Created pid process: 5207
++1 producer!
+5203 # Created pid process: 5208
+Child 4 started...
+Child 5 started...
+5203 # Created pid process: 5209
++1 consumer!
++1 producer!
+Child 6 started...
+5203 # Created pid process: 5210
++1 consumer!
+Child 7 started...
+5203 # Created pid process: 5211
++1 consumer!
+Child 8 started...
++1 consumer!
+
+
+Child 1 produced: ABCD
+
+Child 5 consumed: ABCD
+
+Child 3 produced: E
+
+Child 2 produced: FGH
+
+Child 7 consumed: EF
+
+Child 4 produced: I
+
+Child 8 consumed: GH
+
+Child 1 produced: JK
+
+Child 5 consumed: IJK
+
+Child 3 produced: LMNO
+
+Child 7 consumed: LM
+
+Child 2 produced: PQRS
+
+Child 8 consumed: NO
+
+Child 4 produced: TUVW
+
+Child 5 consumed: PQRS
+
+Child 1 produced: XYZ a
+
+Child 7 consumed: TUV
+
+Child 3 produced: bcdef
+
+Child 6 consumed: WXYZ 
+
+Child 2 produced: ghij
+
+Child 8 consumed: ab
+
+Child 4 produced: klm
+
+Child 5 consumed: cdef
+
+Child 1 produced: nopqr
+
+Child 7 consumed: ghij
+
+Child 3 produced: st
+
+Child 8 consumed: kl
+
+Child 2 produced: uvwxy
+
+Child 5 consumed: mn
+
+Child 4 produced: z 
+
+Child 6 consumed: opqr
+
+Child 1 produced: 12345
+
+Child 8 consumed: s
+
+Child 3 produced: 678
+
+Child 7 consumed: tuvwx
+
+Child 2 produced: 90
+
+Child 5 consumed: y
+
+[Producer] Buffer: ####################################################z 1234567890
+
+Child 6 consumed: z 123
+
+Child 4 produced: ABCD
+
+Child 8 consumed: 4
+
+Child 1 produced: EFGH
+
+Child 7 consumed: 56
+
+Child 3 produced: IJKLM
+
+Child 5 consumed: 78
+
+Child 2 produced: NO
+
+Child 6 consumed: 90
+
+Child 4 produced: P
+
+[Consumer]Buffer: ABCDEFGHIJKLMNOP################################################
+
+Child 1 produced: QRS
+
+Child 8 consumed: AB
+
+Child 3 produced: TUV
+
+Child 7 consumed: C
+
+Child 2 produced: WXYZ
+
+Child 5 consumed: D
+
+Child 4 produced:  abcd
+
+Child 6 consumed: EFGH
+
+Child 1 produced: efgh
+
+Child 8 consumed: IJ
+
+Child 3 produced: i
+
+Child 7 consumed: KLM
+
+Child 2 produced: jkl
+
+Child 5 consumed: NOPQR
+
+Child 4 produced: mn
+
+Child 6 consumed: STU
+
+Child 1 produced: opqr
+
+Child 8 consumed: VW
+
+Child 3 produced: stu
+
+Child 7 consumed: XYZ
+
+Child 2 produced: vw
+
+Child 5 consumed:  abc
+
+Child 4 produced: xy
+
+Child 6 consumed: de
+
+Child 1 produced: z 
+
+Child 8 consumed: fghij
+
+Child 3 produced: 12345
+
+Child 7 consumed: klmn
+
+Child 2 produced: 67
+
+Child 5 consumed: op
+
+Child 4 produced: 890
+
+Child 6 consumed: qrst
+
+[Producer] Buffer: ###############################################uvwxyz 1234567890
+
+Child 8 consumed: uvwx
+
+Child 1 produced: A
+
+Child 7 consumed: yz
+
+Child 3 produced: B
+
+Child 5 consumed:  12
+
+Child 2 produced: CDEFG
+
+5203 # Killing pid process: 5204
+5203 # Killing pid process: 5205
+5203 # Killing pid process: 5206
+5203 # Killing pid process: 5207
+5203 # Killing pid process: 5208
+5203 # Killing pid process: 5209
+5203 # Killing pid process: 5210
+5203 # Killing pid process: 5211
+

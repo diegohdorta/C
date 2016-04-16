@@ -1,4 +1,4 @@
-CC:= clang
+CC:= gcc
 CFLAGS:= -Wall -Wextra -Werror -Wno-unused-parameter -g -std=c11 -DPROTECT
 SOURCES:= main.c utils.c consumer.c producer.c
 

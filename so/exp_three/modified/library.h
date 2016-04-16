@@ -26,6 +26,7 @@
 #define DELAY			2000
 #define STOP			1
 #define NEW_LINE		"\n\n"
+#define ONE			1
 
 typedef struct info info_t;
 
@@ -40,11 +41,11 @@ int busy_id;
 int producer_lock;
 int consumer_lock;
 int stderr_lock;
-int g_shm_id;
+int shm_id;
 
 info_t *global_info_t;
 
-int *shm_addr;
+char *shm_addr;
 
 void producer(int count, char *g_letters_and_numbers);
 void consumer(int count, char *g_letters_and_numbers);
@@ -55,8 +56,9 @@ void semaphore_destroy(int semaphore);
 void p(int semaphore, unsigned short subtract);
 void v(int semaphore, unsigned short add);
 int create_shared_memory(key_t key);
-int *associate_shared_memory(int shm);
+void associate_shared_memory(int shm_id, char **shm_addr);
 void shared_memory_destroy(int shm);
+unsigned short int get_number(void);
 
 /* print.c */
 void print_characters(int semaphore_id, int *g_shm_addr);

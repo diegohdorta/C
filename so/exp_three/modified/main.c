@@ -12,7 +12,7 @@ static void end(void);
 int main(void) 
 {
 	unsigned int count;     
-	pid_t pid = 1;
+	pid_t pid = ONE;
 	pid_t pids[NO_OF_CHILDREN];
 	
 	init();
@@ -63,7 +63,7 @@ int main(void)
 			fprintf(stderr, "%d # Killing pid process: %d\n", getpid(), pids[count]);
 		
 		}
-
+		
 		end();
 	}
 	
@@ -79,15 +79,15 @@ static void init(void)
 	consumer_lock = semaphore_new(CONSUMER_KEY);
 	stderr_lock = semaphore_new(STDERR_KEY);
 	
-	v(producer_lock, 1);
-	v(consumer_lock, 1);
-	v(stderr_lock, 1);
+	v(producer_lock, ONE);
+	v(consumer_lock, ONE);
+	v(stderr_lock, ONE);
 }
 
 static void shm(void)
 {
-	g_shm_id = create_shared_memory(SHM_KEY);
-	shm_addr = associate_shared_memory(g_shm_id);
+	shm_id = create_shared_memory(SHM_KEY);
+	associate_shared_memory(shm_id, &shm_addr);
 
 	global_info_t = (info_t *) shm_addr;
 
@@ -98,10 +98,9 @@ static void shm(void)
 
 static void end(void)
 {
-	shared_memory_destroy(g_shm_id);
+	shared_memory_destroy(shm_id);
 	semaphore_destroy(consumer_lock);
 	semaphore_destroy(producer_lock);
 	semaphore_destroy(free_id);
 	semaphore_destroy(busy_id);
 }
-

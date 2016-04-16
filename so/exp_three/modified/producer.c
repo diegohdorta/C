@@ -6,8 +6,7 @@
 
 void producer(int count, char *g_letters_and_numbers) 
 {
-	struct timeval tv;
-	int number;    
+	unsigned short int number;    
 	int tmp_index;
 	int i;
 
@@ -15,21 +14,16 @@ void producer(int count, char *g_letters_and_numbers)
 
 	while (true) {
 
-		if (gettimeofday(&tv, NULL) == FAILURE) {
-			fprintf(stderr, "The gettimeofday() function has failed: %s!\n", strerror(errno));
-			exit(EXIT_FAILURE);
-		}
-		
-		number = ((tv.tv_usec / 47) % 5) + 1;
+		number = get_number();
 
 		#ifdef PROTECT		
 		p(free_id, number);
-		p(producer_lock, 1);		
+		p(producer_lock, ONE);		
 		#endif
 
 		tmp_index = global_info_t->index_producer;
 		
-		p(stderr_lock, 1);
+		p(stderr_lock, ONE);
 		fprintf(stderr, "\n\nChild %d produced: ", count);
 
 		for (i = 0; i < number; i++) {
@@ -43,27 +37,26 @@ void producer(int count, char *g_letters_and_numbers)
 			}
 		}
 		
-		v(stderr_lock, 1);
+		v(stderr_lock, ONE);
 		
 		global_info_t->index_producer = tmp_index + i;
 
 		if (tmp_index + i >= BUFFER_SIZE) {
 		
-			p(stderr_lock, 1);
+			p(stderr_lock, ONE);
 			fprintf(stderr, "\n\n[Producer] Buffer: ");
 			
 			for (i = 0; i < BUFFER_SIZE; i++)
 				fprintf(stderr, "%c", global_info_t->buffer[i]); 
 				
-			v(stderr_lock, 1);
+			v(stderr_lock, ONE);
 			
 			global_info_t->index_producer = 0;
 		}
 
 		#ifdef PROTECT		
 		v(busy_id, number);
-		v(producer_lock, 1);		
+		v(producer_lock, ONE);		
 		#endif
 	}
 }
-

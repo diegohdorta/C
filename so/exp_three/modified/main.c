@@ -39,16 +39,16 @@ int main(void)
 
 	if (!pid) {
 	
-		printf("Child %i started...\n", count);
+		fprintf(stderr, "Child %i started...\n", count);
 
 		if (count <= 4) {
 		
-			printf("+1 producer!\n");
+			fprintf(stderr, "+1 producer!\n");
 			producer(count, g_letters_and_numbers);
 			exit(EXIT_SUCCESS);
 		}
 		else {
-			printf("+1 consumer!\n");
+			fprintf(stderr, "+1 consumer!\n");
 			consumer(count, g_letters_and_numbers);
 			exit(EXIT_SUCCESS);
 		}

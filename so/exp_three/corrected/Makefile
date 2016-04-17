@@ -1,5 +1,5 @@
 CC:= gcc
-CFLAGS:= -Wall -Wextra -Werror -Wno-unused-parameter -g -v -std=c11 
+CFLAGS:= -Wall -Wextra -Werror -Wno-unused-parameter -g -std=c11 
 CPROTECT:= -DPROTECT
 SOURCES:= main.c utils.c print.c
 

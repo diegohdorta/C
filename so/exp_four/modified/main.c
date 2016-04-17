@@ -6,10 +6,15 @@
 int main(void)
 {
 	tittle();
+	
+	initialize_mutexes();
+	
 	create_philosophers();
 	
-	sleep(100);
-	
-	exit(EXIT_SUCCESS);
+	destroy_mutexes();
+
+	pthread_exit(NULL);
+
+	return EXIT_SUCCESS;
 }
 

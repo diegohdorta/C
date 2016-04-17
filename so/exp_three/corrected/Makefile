@@ -1,11 +1,15 @@
-CC:= clang
-CFLAGS:= -Wall -Wextra -Werror -Wno-unused-parameter -g -v -std=c11 -DPROTECT
+CC:= gcc
+CFLAGS:= -Wall -Wextra -Werror -Wno-unused-parameter -g -v -std=c11 
+CPROTECT:= -DPROTECT
 SOURCES:= main.c utils.c print.c
 
-all: program load
+all: protect unprotect
 
-program: $(SOURCES) Makefile
-	$(CC) $(CFLAGS) $(SOURCES) -o program
+protect: $(SOURCES) Makefile
+	$(CC) $(CFLAGS) $(CPROTECT) $(SOURCES) -o protect
+	
+unprotect: $(SOURCES) Makefile
+	$(CC) $(CFLAGS) $(SOURCES) -o unprotect
 
 clean:
-	$(RM) program
+	$(RM) protect unprotect

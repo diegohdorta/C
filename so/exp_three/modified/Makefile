@@ -1,11 +1,15 @@
 CC:= gcc
-CFLAGS:= -Wall -Wextra -Werror -Wno-unused-parameter -g -std=c11 -DPROTECT
+CFLAGS:= -Wall -Wextra -Werror -Wno-unused-parameter -g -std=c11
+CPROTECT:= -DPROTECT
 SOURCES:= main.c utils.c consumer.c producer.c
 
-all: program
+all: protect unprotect
 
-program: $(SOURCES) Makefile library.h characters.h
-	$(CC) $(CFLAGS) $(SOURCES) -o program
+protect: $(SOURCES) Makefile library.h characters.h
+	$(CC) $(CFLAGS) $(CPROTECT) $(SOURCES) -o protect
+
+unprotect: $(SOURCES) Makefile library.h characters.h
+	$(CC) $(CFLAGS) $(SOURCES) -o unprotect
 
 clean:
-	$(RM) program
+	$(RM) protect unprotect

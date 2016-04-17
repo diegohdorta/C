@@ -18,12 +18,12 @@ void philosopher(int philosopher)
 	printf("[%d] I'm Philosopher %s!\n", philosopher, philosophers_names[philosopher]);
 	
 	//do {
-		
+
 		thinking(philosopher);	
 		taking_forks(philosopher);
 		eating(philosopher);
 		return_fork(philosopher);
-	
+
 	//} while (x < TIMES);
 	
 	pthread_exit(NULL);
@@ -31,7 +31,7 @@ void philosopher(int philosopher)
 
 static void thinking(int philosopher)
 {
-	printf("[%d] Philosopher %s is thinking: FRASE DO FILOSOFO\n", philosopher, philosophers_names[philosopher]);
+	printf("[%d] Philosopher %s is thinking: %s\n", philosopher, philosophers_names[philosopher], philosophers_phrases[philosopher]);
 	usleep(MICROSECONDS);
 }
 
@@ -78,7 +78,5 @@ static void return_fork(int philosopher)
 	philosopher_wants_to_eat((int)(philosopher + NUMBER_OF_PHILOSOPHERS) % NUMBER_OF_PHILOSOPHERS);
 	pthread_mutex_unlock(&mutex);
 }
-
-
 
 

@@ -6,7 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#define MAXIMUM				6
+#define MAXIMUM				5
 #define NUMBER_OF_PHILOSOPHERS		MAXIMUM
 #define NUMBER_OF_FORKS			MAXIMUM
 #define TITTLE 				"\t### Dining Philosopher Problem ###\n\n"
@@ -36,7 +36,7 @@ struct parameters {
 /* utils.c */
 void create_philosophers(void);
 void tittle(void);
-void initialize_mutexes(void);
+void initializes_mutexes(void);
 void destroy_mutexes(void);
 
 /* philospher.c */

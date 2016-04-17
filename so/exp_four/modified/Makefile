@@ -5,7 +5,7 @@ SOURCES:= main.c utils.c philosopher.c
 all: program
 
 program: $(SOURCES) Makefile library.h philosopher.h
-	$(CC) $(CFLAGS) $(SOURCES) -o program
+	scan-build $(CC) $(CFLAGS) $(SOURCES) -o program
 
 clean:
 	$(RM) program

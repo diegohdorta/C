@@ -42,7 +42,7 @@ void create_philosophers(void)
 {
 	int x;
 		
-	for (x = 1; x < NUMBER_OF_PHILOSOPHERS; x++)	
+	for (x = 0; x < NUMBER_OF_PHILOSOPHERS; x++)	
 		create_thread(&philosophers[x], philosopher, x, NULL);
 }
 
@@ -51,7 +51,7 @@ void tittle(void)
 	printf(TITTLE);
 }
 
-void initialize_mutexes(void)
+void initializes_mutexes(void)
 {
 	int x;
 	

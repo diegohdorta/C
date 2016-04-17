@@ -5,9 +5,8 @@
 
 int main(void)
 {
-	tittle();
-	
-	initialize_mutexes();
+	tittle();	
+	initializes_mutexes();
 	
 	create_philosophers();
 	

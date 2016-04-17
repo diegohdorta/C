@@ -10,6 +10,8 @@ static void taking_forks(unsigned int philosopher);
 static void philosopher_wants_to_eat(unsigned int philosopher);
 static void eating(unsigned int philosopher);
 static void return_fork(unsigned int philosopher);
+static unsigned int left_position(int philosopher);
+static unsigned int right_position(int philosopher);
 
 void philosopher(unsigned int philosopher)
 {
@@ -53,15 +55,9 @@ static void taking_forks(unsigned int philosopher)
 
 static void philosopher_wants_to_eat(unsigned int philosopher)
 {
-	unsigned int left;
-	unsigned int right;
-	
 	printf("[%d] Philosopher %s wants to eat!\n", philosopher, philosophers_names[philosopher]);
 
-	left = (philosopher + NUMBER_OF_PHILOSOPHERS - 1) % NUMBER_OF_PHILOSOPHERS;
-	right = (philosopher + NUMBER_OF_PHILOSOPHERS) % NUMBER_OF_PHILOSOPHERS;
-
-	if ((status[philosopher] == HUNGRY) && (status[left] != EATING) && (status[right] != EATING)) {
+	if ((status[philosopher] == HUNGRY) && (status[left_position(philosopher)] != EATING) && (status[right_position(philosopher)] != EATING)) {
 	
 		printf("[%d] Philosopher %s can eat now!\n", philosopher, philosophers_names[philosopher]);
 		status[philosopher] = EATING;
@@ -81,9 +77,18 @@ static void return_fork(unsigned int philosopher)
 	printf("[%d] Philosopher %s is thinking again!\n", philosopher, philosophers_names[philosopher]);
 	status[philosopher] = THINKING;
 	
-	philosopher_wants_to_eat((unsigned int)(philosopher + NUMBER_OF_PHILOSOPHERS - 1) % NUMBER_OF_PHILOSOPHERS);
-	philosopher_wants_to_eat((unsigned int)(philosopher + NUMBER_OF_PHILOSOPHERS) % NUMBER_OF_PHILOSOPHERS);
+	philosopher_wants_to_eat(left_position(philosopher));
+	philosopher_wants_to_eat(right_position(philosopher));
 	pthread_mutex_unlock(&mutex);
 }
 
+static unsigned int left_position(int philosopher)
+{
+	return ((philosopher + NUMBER_OF_PHILOSOPHERS - 1) % NUMBER_OF_PHILOSOPHERS);
+}
+
+static unsigned int right_position(int philosopher)
+{
+	return ((philosopher + NUMBER_OF_PHILOSOPHERS) % NUMBER_OF_PHILOSOPHERS);
+}
 

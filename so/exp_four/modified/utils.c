@@ -48,7 +48,8 @@ void create_philosophers(void)
 	for (x = 0; x < NUMBER_OF_PHILOSOPHERS; x++)	
 		create_thread(&philosophers[x], philosopher, x, NULL);
 		
-	//destroy_threads();
+		
+	destroy_threads();
 }
 
 void tittle(void)
@@ -81,9 +82,8 @@ void destroy_threads(void)
 {
 	int x;
 	
-	printf("Destroying all Philosophers...\n");
-	sleep(DELAY);
-	
+	printf("Joing all Philosophers...\n");
+
 	for (x = 0; x < NUMBER_OF_PHILOSOPHERS; x++)
 		pthread_join(philosophers[x], NULL);
 }

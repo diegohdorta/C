@@ -10,8 +10,6 @@ int main(void)
 	initializes_mutexes();	
 	create_philosophers();	
 	destroy_mutexes();
-	
-	pthread_exit(NULL);
 
 	return EXIT_SUCCESS;
 }

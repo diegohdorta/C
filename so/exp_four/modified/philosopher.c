@@ -10,8 +10,8 @@ static void taking_forks(unsigned int philosopher);
 static void philosopher_wants_to_eat(unsigned int philosopher);
 static void eating(unsigned int philosopher);
 static void return_fork(unsigned int philosopher);
-static unsigned int left_position(int philosopher);
-static unsigned int right_position(int philosopher);
+static unsigned int left_position(unsigned int philosopher);
+static unsigned int right_position(unsigned int philosopher);
 
 void philosopher(unsigned int philosopher)
 {
@@ -82,12 +82,12 @@ static void return_fork(unsigned int philosopher)
 	pthread_mutex_unlock(&mutex);
 }
 
-static unsigned int left_position(int philosopher)
+static unsigned int left_position(unsigned int philosopher)
 {
 	return ((philosopher + NUMBER_OF_PHILOSOPHERS - 1) % NUMBER_OF_PHILOSOPHERS);
 }
 
-static unsigned int right_position(int philosopher)
+static unsigned int right_position(unsigned int philosopher)
 {
 	return ((philosopher + NUMBER_OF_PHILOSOPHERS) % NUMBER_OF_PHILOSOPHERS);
 }

@@ -41,9 +41,14 @@ static void create_thread(pthread_t *thread, void (*function)(unsigned int), uns
 void create_philosophers(void)
 {
 	unsigned int x;
-		
+	
+	printf("Creating all Philosophers...\n\n");
+	sleep(DELAY);
+	
 	for (x = 0; x < NUMBER_OF_PHILOSOPHERS; x++)	
 		create_thread(&philosophers[x], philosopher, x, NULL);
+		
+	//destroy_threads();
 }
 
 void tittle(void)
@@ -66,9 +71,19 @@ void destroy_mutexes(void)
 {
 	int x;
 
-	pthread_mutex_init(&(mutex), NULL);
+	pthread_mutex_destroy(&mutex);
 
 	for (x = 0; x < NUMBER_OF_PHILOSOPHERS; x++)
 		pthread_mutex_destroy(&(philosophers_mutex[x]));
 }
 
+void destroy_threads(void)
+{
+	int x;
+	
+	printf("Destroying all Philosophers...\n");
+	sleep(DELAY);
+	
+	for (x = 0; x < NUMBER_OF_PHILOSOPHERS; x++)
+		pthread_join(philosophers[x], NULL);
+}

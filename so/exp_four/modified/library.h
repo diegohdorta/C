@@ -11,7 +11,8 @@
 #define NUMBER_OF_PHILOSOPHERS		MAXIMUM
 #define NUMBER_OF_FORKS			MAXIMUM
 #define TITTLE 				"\t### Dining Philosopher Problem ###\n\n"
-#define TIMES				365
+#define TIMES				10
+#define DELAY				1
 
 #define THINKING			0
 #define HUNGRY				1
@@ -36,6 +37,7 @@ void create_philosophers(void);
 void tittle(void);
 void initializes_mutexes(void);
 void destroy_mutexes(void);
+void destroy_threads(void);
 
 /* philospher.c */
 void philosopher(unsigned int philosopher);

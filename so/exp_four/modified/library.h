@@ -24,13 +24,13 @@ pthread_mutex_t philosophers_mutex[NUMBER_OF_PHILOSOPHERS];
 
 pthread_t philosophers[NUMBER_OF_PHILOSOPHERS];
 
-int status[NUMBER_OF_PHILOSOPHERS];
+unsigned int status[NUMBER_OF_PHILOSOPHERS];
 
 typedef struct parameters parameters_t;
 
 struct parameters {
-	void (*parameters_fn)(int);
-	int philosopher_number;
+	void (*parameters_fn)(unsigned int);
+	unsigned int philosopher_number;
 };
 
 /* utils.c */
@@ -40,6 +40,6 @@ void initializes_mutexes(void);
 void destroy_mutexes(void);
 
 /* philospher.c */
-void philosopher(int philosopher);
+void philosopher(unsigned int philosopher);
 
 #endif /* _LIBRARY_H_DEFINED_ */

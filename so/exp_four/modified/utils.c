@@ -3,7 +3,7 @@
 
 #include "library.h"
 
-static void check_thread_creation(int id)
+static void check_thread_creation(unsigned int id)
 {
 	if (id) {
 		fprintf(stderr, "The pthread_create() function has failed: %s\n", strerror(errno));
@@ -21,7 +21,7 @@ static void *entry(void *entry_data)
 	return NULL;
 }
 
-static void create_thread(pthread_t *thread, void (*function)(int), int philosopher_number, void *data)
+static void create_thread(pthread_t *thread, void (*function)(unsigned int), unsigned int philosopher_number, void *data)
 {
 	parameters_t *args;
 	args = (malloc(sizeof(parameters_t)));
@@ -40,7 +40,7 @@ static void create_thread(pthread_t *thread, void (*function)(int), int philosop
 
 void create_philosophers(void)
 {
-	int x;
+	unsigned int x;
 		
 	for (x = 0; x < NUMBER_OF_PHILOSOPHERS; x++)	
 		create_thread(&philosophers[x], philosopher, x, NULL);

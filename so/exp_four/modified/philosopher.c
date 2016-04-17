@@ -5,20 +5,19 @@
 #include "library.h"
 #include "philosopher.h"
 
-static void thinking(int philosopher);
-static void taking_forks(int philosopher);
-static void philosopher_wants_to_eat(int philosopher);
-static void eating(int philosopher);
-static void return_fork(int philosopher);
+static void thinking(unsigned int philosopher);
+static void taking_forks(unsigned int philosopher);
+static void philosopher_wants_to_eat(unsigned int philosopher);
+static void eating(unsigned int philosopher);
+static void return_fork(unsigned int philosopher);
 
-void philosopher(int philosopher)
+void philosopher(unsigned int philosopher)
 {
-	//int x = 0;
+	//unsigned int x = 0;
 
 	printf("[%d] I'm Philosopher %s!\n", philosopher, philosophers_names[philosopher]);
 	
 	//do {
-
 		thinking(philosopher);	
 		taking_forks(philosopher);
 		eating(philosopher);
@@ -29,13 +28,13 @@ void philosopher(int philosopher)
 	pthread_exit(NULL);
 }
 
-static void thinking(int philosopher)
+static void thinking(unsigned int philosopher)
 {
 	printf("[%d] Philosopher %s is thinking: %s\n", philosopher, philosophers_names[philosopher], philosophers_phrases[philosopher]);
 	usleep(MICROSECONDS);
 }
 
-static void taking_forks(int philosopher)
+static void taking_forks(unsigned int philosopher)
 {
 	pthread_mutex_lock(&mutex);
 
@@ -48,7 +47,7 @@ static void taking_forks(int philosopher)
 	pthread_mutex_lock(&(philosophers_mutex[philosopher]));
 }
 
-static void philosopher_wants_to_eat(int philosopher)
+static void philosopher_wants_to_eat(unsigned int philosopher)
 {
 	printf("[%d] Philosopher %s wants to eat!\n", philosopher, philosophers_names[philosopher]);
 
@@ -62,20 +61,20 @@ static void philosopher_wants_to_eat(int philosopher)
 	} 
 }
 
-static void eating(int philosopher)
+static void eating(unsigned int philosopher)
 {
 	printf("[%d] Philosopher %s is eating for %d microseconds!\n", philosopher, philosophers_names[philosopher], MICROSECONDS);
 	usleep(MICROSECONDS);
 }
 
-static void return_fork(int philosopher)
+static void return_fork(unsigned int philosopher)
 {
 	pthread_mutex_lock(&mutex);
 	printf("[%d] Philosopher %s is thinking again!\n", philosopher, philosophers_names[philosopher]);
 	status[philosopher] = THINKING;
 	
-	philosopher_wants_to_eat((int)(philosopher + NUMBER_OF_PHILOSOPHERS - 1) % NUMBER_OF_PHILOSOPHERS);
-	philosopher_wants_to_eat((int)(philosopher + NUMBER_OF_PHILOSOPHERS) % NUMBER_OF_PHILOSOPHERS);
+	philosopher_wants_to_eat((unsigned int)(philosopher + NUMBER_OF_PHILOSOPHERS - 1) % NUMBER_OF_PHILOSOPHERS);
+	philosopher_wants_to_eat((unsigned int)(philosopher + NUMBER_OF_PHILOSOPHERS) % NUMBER_OF_PHILOSOPHERS);
 	pthread_mutex_unlock(&mutex);
 }
 

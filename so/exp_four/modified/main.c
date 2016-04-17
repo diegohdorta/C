@@ -5,11 +5,10 @@
 
 int main(void)
 {
-	tittle();	
-	initializes_mutexes();
-	
-	create_philosophers();
-	
+	tittle();
+		
+	initializes_mutexes();	
+	create_philosophers();	
 	destroy_mutexes();
 
 	pthread_exit(NULL);

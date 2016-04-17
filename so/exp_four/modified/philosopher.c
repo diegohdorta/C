@@ -13,17 +13,21 @@ static void return_fork(unsigned int philosopher);
 
 void philosopher(unsigned int philosopher)
 {
-	//unsigned int x = 0;
+	unsigned int x = 0;
 
 	printf("[%d] I'm Philosopher %s!\n", philosopher, philosophers_names[philosopher]);
 	
-	//do {
+	do {
 		thinking(philosopher);	
 		taking_forks(philosopher);
 		eating(philosopher);
 		return_fork(philosopher);
+		x++;
 
-	//} while (x < TIMES);
+	} while (x < TIMES);
+	
+	printf("[%d] Philosopher %s ate %d times!\n", philosopher, philosophers_names[philosopher], x);
+	printf("[%d] Philosopher %s says bye!\n", philosopher, philosophers_names[philosopher]);
 	
 	pthread_exit(NULL);
 }

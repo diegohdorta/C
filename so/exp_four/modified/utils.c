@@ -48,6 +48,7 @@ void create_philosophers(void)
 
 void tittle(void)
 {
+	printf(CLEAR);
 	printf(TITTLE);
 }
 

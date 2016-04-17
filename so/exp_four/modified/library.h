@@ -6,18 +6,16 @@
 #include <string.h>
 #include <unistd.h>
 
+#define CLEAR "\e[H\e[2J"
 #define MAXIMUM				5
 #define NUMBER_OF_PHILOSOPHERS		MAXIMUM
 #define NUMBER_OF_FORKS			MAXIMUM
 #define TITTLE 				"\t### Dining Philosopher Problem ###\n\n"
-#define TIMES				2
+#define TIMES				4
 
 #define THINKING			0
 #define HUNGLY				1
 #define EATING				2
-
-#define LEFT				10
-#define RIGHT				10
 
 pthread_mutex_t mutex;
 pthread_mutex_t philosophers_mutex[NUMBER_OF_PHILOSOPHERS];

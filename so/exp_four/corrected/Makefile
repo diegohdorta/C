@@ -1,6 +1,6 @@
 CC:= clang
-CFLAGS:= -Wall -Wextra -Werror -Wno-unused-parameter -pthread -g -v -std=c11
-SOURCES:= main.c utils.c
+CFLAGS:= -Wall -Wextra -Werror -Wno-unused-parameter -pthread -g -std=c11
+SOURCES:= main.c utils.c producer.c consumer.c
 
 all: program
 

@@ -11,10 +11,10 @@
 #define NUMBER_OF_PHILOSOPHERS		MAXIMUM
 #define NUMBER_OF_FORKS			MAXIMUM
 #define TITTLE 				"\t### Dining Philosopher Problem ###\n\n"
-#define TIMES				4
+#define TIMES				365
 
 #define THINKING			0
-#define HUNGLY				1
+#define HUNGRY				1
 #define EATING				2
 
 pthread_mutex_t mutex;

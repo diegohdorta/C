@@ -42,8 +42,8 @@ static void taking_forks(unsigned int philosopher)
 {
 	pthread_mutex_lock(&mutex);
 
-	printf("[%d] Philosopher %s is hungly!\n", philosopher, philosophers_names[philosopher]);
-	status[philosopher] = HUNGLY;
+	printf("[%d] Philosopher %s is hungry!\n", philosopher, philosophers_names[philosopher]);
+	status[philosopher] = HUNGRY;
 	
 	philosopher_wants_to_eat(philosopher);
 	
@@ -53,11 +53,15 @@ static void taking_forks(unsigned int philosopher)
 
 static void philosopher_wants_to_eat(unsigned int philosopher)
 {
+	unsigned int left;
+	unsigned int right;
+	
 	printf("[%d] Philosopher %s wants to eat!\n", philosopher, philosophers_names[philosopher]);
 
-	if ((status[philosopher] == HUNGLY) && 
-	    (status[(philosopher + NUMBER_OF_PHILOSOPHERS - 1) % NUMBER_OF_PHILOSOPHERS] != EATING) && 
-	    (status[(philosopher + NUMBER_OF_PHILOSOPHERS) % NUMBER_OF_PHILOSOPHERS] != EATING)) {
+	left = (philosopher + NUMBER_OF_PHILOSOPHERS - 1) % NUMBER_OF_PHILOSOPHERS;
+	right = (philosopher + NUMBER_OF_PHILOSOPHERS) % NUMBER_OF_PHILOSOPHERS;
+
+	if ((status[philosopher] == HUNGRY) && (status[left] != EATING) && (status[right] != EATING)) {
 	
 		printf("[%d] Philosopher %s can eat now!\n", philosopher, philosophers_names[philosopher]);
 		status[philosopher] = EATING;

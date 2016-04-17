@@ -89,6 +89,6 @@ static unsigned int left_position(unsigned int philosopher)
 
 static unsigned int right_position(unsigned int philosopher)
 {
-	return ((philosopher + NUMBER_OF_PHILOSOPHERS) % NUMBER_OF_PHILOSOPHERS);
+	return ((philosopher + 1) % NUMBER_OF_PHILOSOPHERS);
 }
 

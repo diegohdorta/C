@@ -1,3 +1,4 @@
+#define _XOPEN_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -6,7 +7,8 @@
 int main(void)
 {
 	tittle();
-		
+	
+	create_semaphores();
 	initializes_mutexes();	
 	create_philosophers();	
 	destroy_mutexes();

@@ -8,6 +8,7 @@
 #define CYAN		"\e[36m"
 #define NORMAL		"\e[0m"
 
+#define MAXIMUM_PHILOSOPHERS		5
 #define MAXIMUM_SIZE_NAME		25
 #define MAXIMUM_SIZE_MESSAGE		150
 #define MICROSECONDS			25
@@ -18,7 +19,7 @@
 #define ROUSSEAU			YELLOW "Geralmente, aqueles que sabem pouco falam muito e aqueles que sabem muito falam pouco!" NORMAL
 #define NIETZSCHE			CYAN "Não há fatos eternos, como não há verdades absolutas!" NORMAL
 
-char philosophers_names[MAXIMUM][MAXIMUM_SIZE_NAME] = {RED "Sócrates" NORMAL, BLUE "Aristóteles" NORMAL, GREEN "Descartes" NORMAL, YELLOW "Rousseau" NORMAL, CYAN "Nietzsche" NORMAL}; 
-char philosophers_phrases[MAXIMUM][MAXIMUM_SIZE_MESSAGE] = {SOCRATES, ARISTOTELES, DESCARTES, ROUSSEAU, NIETZSCHE}; 
+char philosophers_names[MAXIMUM_PHILOSOPHERS][MAXIMUM_SIZE_NAME] = {RED "Sócrates" NORMAL, BLUE "Aristóteles" NORMAL, GREEN "Descartes" NORMAL, YELLOW "Rousseau" NORMAL, CYAN "Nietzsche" NORMAL}; 
+char philosophers_phrases[MAXIMUM_PHILOSOPHERS][MAXIMUM_SIZE_MESSAGE] = {SOCRATES, ARISTOTELES, DESCARTES, ROUSSEAU, NIETZSCHE}; 
 
 #endif /* _PHILOSOPHER_H_DEFINED_ */

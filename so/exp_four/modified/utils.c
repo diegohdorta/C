@@ -1,3 +1,4 @@
+#define _XOPEN_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -42,6 +43,8 @@ void create_philosophers(void)
 {
 	unsigned int x;
 	
+	memset(status, 0, NUMBER_OF_PHILOSOPHERS);
+	
 	printf("Creating all Philosophers...\n\n");
 	sleep(DELAY);
 	
@@ -60,22 +63,22 @@ void tittle(void)
 
 void initializes_mutexes(void)
 {
-	int x;
+	//int x;
 	
 	pthread_mutex_init(&(mutex), NULL);
 	
-	for (x = 0; x < NUMBER_OF_PHILOSOPHERS; x++)
-		pthread_mutex_init(&(philosophers_mutex[x]), NULL);
+	/*for (x = 0; x < NUMBER_OF_PHILOSOPHERS; x++)
+		pthread_mutex_init(&(philosophers_mutex[x]), NULL);*/
 }
 
 void destroy_mutexes(void)
 {
-	int x;
+	//int x;
 
 	pthread_mutex_destroy(&mutex);
 
-	for (x = 0; x < NUMBER_OF_PHILOSOPHERS; x++)
-		pthread_mutex_destroy(&(philosophers_mutex[x]));
+	/*for (x = 0; x < NUMBER_OF_PHILOSOPHERS; x++)
+		pthread_mutex_destroy(&(philosophers_mutex[x]));*/
 }
 
 void destroy_threads(void)

@@ -8,7 +8,7 @@
 static void thinking(unsigned int philosopher);
 static void taking_forks(unsigned int philosopher);
 static void philosopher_wants_to_eat(unsigned int philosopher);
-static void eating(unsigned int philosopher);
+static unsigned int eating(unsigned int philosopher);
 static void return_fork(unsigned int philosopher);
 static unsigned int left_position(unsigned int philosopher);
 static unsigned int right_position(unsigned int philosopher);
@@ -22,10 +22,9 @@ void philosopher(unsigned int philosopher)
 	do {
 		thinking(philosopher);	
 		taking_forks(philosopher);
-		eating(philosopher);
+		x += eating(philosopher);
 		return_fork(philosopher);
-		x++;
-
+		
 	} while (x < TIMES);
 	
 	printf("[%d] Philosopher %s ate %d times!\n", philosopher, philosophers_names[philosopher], x);
@@ -50,27 +49,32 @@ static void taking_forks(unsigned int philosopher)
 	philosopher_wants_to_eat(philosopher);
 	
 	pthread_mutex_unlock(&mutex);	
-	pthread_mutex_lock(&(philosophers_mutex[philosopher]));
+	//pthread_mutex_lock(&(philosophers_mutex[philosopher]));
+	
+	p(can_sit[philosopher], 1);
 }
 
 static void philosopher_wants_to_eat(unsigned int philosopher)
 {
-	printf("[%d] Philosopher %s wants to eat!\n", philosopher, philosophers_names[philosopher]);
-	
 	/* Imprimir aqui o status */
 
 	if ((status[philosopher] == HUNGRY) && (status[left_position(philosopher)] != EATING) && (status[right_position(philosopher)] != EATING)) {
 	
+		printf("[%d] Philosopher %s wants to eat!\n", philosopher, philosophers_names[philosopher]);
 		printf("[%d] Philosopher %s can eat now!\n", philosopher, philosophers_names[philosopher]);
 		status[philosopher] = EATING;
-		pthread_mutex_unlock(&(philosophers_mutex[philosopher]));
+		//pthread_mutex_unlock(&(philosophers_mutex[philosopher]));
+		
+		v(can_sit[philosopher], 1);
 	} 
 }
 
-static void eating(unsigned int philosopher)
+static unsigned int eating(unsigned int philosopher)
 {
 	printf("[%d] Philosopher %s is eating for %d microseconds!\n", philosopher, philosophers_names[philosopher], MICROSECONDS);
 	usleep(MICROSECONDS);
+	
+	return PLUS_ONE;
 }
 
 static void return_fork(unsigned int philosopher)

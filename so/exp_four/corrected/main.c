@@ -1,4 +1,4 @@
-#define _XOPEN_SOURCE 
+#define _XOPEN_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,6 +9,7 @@ int main(void)
 	int i;
 
 	first_position = &buffer[FIRST_POSITION];
+	final_position = first_position + SIZEOFBUFFER;
 	next_produce = first_position;
 	next_consume = first_position;
 
@@ -18,6 +19,6 @@ int main(void)
 		check_thread_creation(pthread_create(&producers[i], NULL, produce, (void *)(intptr_t)i + 1));
 	}
 	
-	exit(EXIT_SUCCESS);
+	pthread_exit(NULL);
 }
 

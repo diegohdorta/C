@@ -1,4 +1,4 @@
-#define _XOPEN_SOURCE 
+#define _XOPEN_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -31,12 +31,12 @@ int myremove(void)
 {
 	int retValue;
 
-	if (next_produce != next_consume) {
+	if (produced_itens - consumed_itens > 0) {
 	
 		retValue = *next_consume;
 		next_consume++;
 
-		if (next_consume == (first_position + SIZEOFBUFFER))
+		if (next_consume == final_position)
 			next_consume = first_position;
 			
 		return retValue;

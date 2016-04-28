@@ -1,4 +1,4 @@
-#define _XOPEN_SOURCE 
+#define _XOPEN_SOURCE 500
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -22,6 +22,7 @@ void *produce(void *threadid)
 			produced_itens++;
 			sum += VALUE_TO_ADD;
 		}
+		usleep(MICROSECOND);
 	}
 	printf("Soma produzida pelo Produtor #%d : %d\n", id, sum);
 	pthread_exit(NULL);
@@ -29,12 +30,12 @@ void *produce(void *threadid)
 
 int myadd(int item_to_add) 
 {
-	if ((next_consume != (next_produce + 1)) && (next_consume + SIZEOFBUFFER - 1 != next_produce)) {
+	if (produced_itens - consumed_itens < SIZEOFBUFFER) {
 
 		*next_produce = item_to_add;	
 		next_produce++;
 		
-		if (next_produce == (first_position + SIZEOFBUFFER))
+		if (next_produce == final_position)
 			next_produce = first_position;	
 			
 		return ITEM_ADDED_SUCCESS;		

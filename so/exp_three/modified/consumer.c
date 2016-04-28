@@ -16,14 +16,17 @@ void consumer(int count, char *g_letters_and_numbers)
 
 		number = get_number();
 
-		#ifdef PROTECT
+		#ifdef PROTECT/*
 		p(busy_id, number);
-		p(consumer_lock, ONE);
+		p(consumer_lock, ONE); */
+		
+		p(semaphore_1, number, 1);
+		p(semaphore_2, ONE, 2);
 		#endif
 
 		tmp_index = global_info_t->index_consumer;
 
-		p(stderr_lock, ONE);
+		p(stderr_lock, ONE, 0);
 		fprintf(stderr, "\n\nChild %d consumed: ", count);
 
 		for (i = 0; i < number; i++) {
@@ -37,26 +40,29 @@ void consumer(int count, char *g_letters_and_numbers)
 			}			
 		}
 
-		v(stderr_lock, ONE);
+		v(stderr_lock, ONE, 0);
 
 		global_info_t->index_consumer = tmp_index + i;
 
 		if (tmp_index + i >= BUFFER_SIZE) {
 			
-			p(stderr_lock, ONE);
+			p(stderr_lock, ONE, 0);
 			fprintf(stderr, "\n\n[Consumer]Buffer: ");
        
 			for (i = 0; i < BUFFER_SIZE; i++)
 				fprintf(stderr, "%c", global_info_t->buffer[i]);
 
-			v(stderr_lock, ONE);
+			v(stderr_lock, ONE, 0);
 						
 			global_info_t->index_consumer = 0;
 		}
 
-		#ifdef PROTECT
+		#ifdef PROTECT /*
 		v(free_id, number);
-		v(consumer_lock, ONE);
+		v(consumer_lock, ONE); */
+		
+		v(semaphore_1, number, 0);
+		v(semaphore_2, ONE, 1);
 		#endif
 	}
 }

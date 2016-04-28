@@ -8,11 +8,11 @@
 #define MODULE		5
 #define PERMISSIONS	0666
 
-int semaphore_new(key_t key) 
+int semaphore_new(key_t key, int n_of_sem) 
 {
 	int s;
 
-	if ((s = semget(key, 1, IPC_CREAT | PERMISSIONS)) == FAILURE) {
+	if ((s = semget(key, n_of_sem, IPC_CREAT | PERMISSIONS)) == FAILURE) {
 		fprintf(stderr, "The semget() function has failed: %s!\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
@@ -27,11 +27,11 @@ void semaphore_destroy(int semaphore)
         }
 }
 
-void p(int semaphore, unsigned short subtract) 
+void p(int semaphore, unsigned short subtract, int num_of_sem) 
 {
 	struct sembuf sem_lock;
 	
-	sem_lock.sem_num = 0;
+	sem_lock.sem_num = num_of_sem;
 	sem_lock.sem_op = -subtract;
 	sem_lock.sem_flg = 0;
 	
@@ -41,11 +41,11 @@ void p(int semaphore, unsigned short subtract)
 	}
 }
 
-void v(int semaphore, unsigned short add) 
+void v(int semaphore, unsigned short add, int num_of_sem) 
 {
 	struct sembuf sem_unlock;
 	
-	sem_unlock.sem_num = 0;
+	sem_unlock.sem_num = num_of_sem;
 	sem_unlock.sem_op = add;
 	sem_unlock.sem_flg = 0;
 	

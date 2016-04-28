@@ -72,16 +72,24 @@ int main(void)
 
 static void init(void)
 {
-	free_id = semaphore_new(FREE_KEY);
+
+	semaphore_1 = semaphore_new(SEMAPHORE_1_KEY, 2);
+	semaphore_2 = semaphore_new(SEMAPHORE_2_KEY, 2);
+
+	v(semaphore_1, BUFFER_SIZE, 0);
+	v(semaphore_2, ONE, 0);	
+	v(semaphore_2, ONE, 1);
+
+	/*free_id = semaphore_new(FREE_KEY);
 	busy_id = semaphore_new(BUSY_KEY);
 	producer_lock = semaphore_new(PRODUCT_KEY);
-	consumer_lock = semaphore_new(CONSUMER_KEY);
-	stderr_lock = semaphore_new(STDERR_KEY);
+	consumer_lock = semaphore_new(CONSUMER_KEY);*/
+	stderr_lock = semaphore_new(STDERR_KEY, 1);
 
-	v(free_id, BUFFER_SIZE);	
+	/*v(free_id, BUFFER_SIZE);	
 	v(producer_lock, ONE);
-	v(consumer_lock, ONE);
-	v(stderr_lock, ONE);
+	v(consumer_lock, ONE);*/
+	v(stderr_lock, ONE, 0);
 }
 
 static void shm(void)
@@ -99,9 +107,11 @@ static void shm(void)
 static void end(void)
 {
 	shared_memory_destroy(shm_id);
-	semaphore_destroy(consumer_lock);
+	semaphore_destroy(semaphore_1);
+	semaphore_destroy(semaphore_2);
+	/*semaphore_destroy(consumer_lock);
 	semaphore_destroy(producer_lock);
 	semaphore_destroy(free_id);
-	semaphore_destroy(busy_id);
+	semaphore_destroy(busy_id);*/
 }
 

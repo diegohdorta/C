@@ -30,6 +30,7 @@ void philosopher(unsigned int philosopher)
 	printf("[%d] Philosopher %s ate %d times!\n", philosopher, philosophers_names[philosopher], x);
 	printf("[%d] Philosopher %s says bye!\n", philosopher, philosophers_names[philosopher]);
 	
+	//pthread_exit(NULL);
 	exit(EXIT_SUCCESS);
 }
 
@@ -49,9 +50,7 @@ static void taking_forks(unsigned int philosopher)
 	philosopher_wants_to_eat(philosopher);
 	
 	pthread_mutex_unlock(&mutex);	
-	//pthread_mutex_lock(&(philosophers_mutex[philosopher]));
-	
-	p(can_sit[philosopher], 1);
+	pthread_mutex_lock(&(philosophers_mutex[philosopher]));
 }
 
 static void philosopher_wants_to_eat(unsigned int philosopher)
@@ -60,12 +59,10 @@ static void philosopher_wants_to_eat(unsigned int philosopher)
 
 	if ((status[philosopher] == HUNGRY) && (status[left_position(philosopher)] != EATING) && (status[right_position(philosopher)] != EATING)) {
 	
-		printf("[%d] Philosopher %s wants to eat!\n", philosopher, philosophers_names[philosopher]);
+		//printf("[%d] Philosopher %s wants to eat!\n", philosopher, philosophers_names[philosopher]);
 		printf("[%d] Philosopher %s can eat now!\n", philosopher, philosophers_names[philosopher]);
 		status[philosopher] = EATING;
-		//pthread_mutex_unlock(&(philosophers_mutex[philosopher]));
-		
-		v(can_sit[philosopher], 1);
+		pthread_mutex_unlock(&(philosophers_mutex[philosopher]));
 	} 
 }
 
@@ -80,11 +77,12 @@ static unsigned int eating(unsigned int philosopher)
 static void return_fork(unsigned int philosopher)
 {
 	pthread_mutex_lock(&mutex);
-	printf("[%d] Philosopher %s is thinking again!\n", philosopher, philosophers_names[philosopher]);
-	status[philosopher] = THINKING;
 	
+	printf("[%d] Philosopher %s is thinking again!\n", philosopher, philosophers_names[philosopher]);
+	status[philosopher] = THINKING;	
 	philosopher_wants_to_eat(left_position(philosopher));
 	philosopher_wants_to_eat(right_position(philosopher));
+	
 	pthread_mutex_unlock(&mutex);
 }
 

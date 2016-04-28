@@ -7,8 +7,7 @@
 int main(void)
 {
 	tittle();
-	
-	create_semaphores();
+
 	initializes_mutexes();	
 	create_philosophers();	
 	destroy_mutexes();

@@ -30,8 +30,7 @@ void philosopher(unsigned int philosopher)
 	printf("[%d] Philosopher %s ate %d times!\n", philosopher, philosophers_names[philosopher], x);
 	printf("[%d] Philosopher %s says bye!\n", philosopher, philosophers_names[philosopher]);
 	
-	//pthread_exit(NULL);
-	exit(EXIT_SUCCESS);
+	pthread_exit(NULL); /* It was being used exit(EXIT_SUCCESS); but, it was not working correctly. */
 }
 
 static void thinking(unsigned int philosopher)
@@ -56,10 +55,10 @@ static void taking_forks(unsigned int philosopher)
 static void philosopher_wants_to_eat(unsigned int philosopher)
 {
 	/* Imprimir aqui o status */
+	printf("[%d] Philosopher %s wants to eat!\n", philosopher, philosophers_names[philosopher]);
 
 	if ((status[philosopher] == HUNGRY) && (status[left_position(philosopher)] != EATING) && (status[right_position(philosopher)] != EATING)) {
 	
-		//printf("[%d] Philosopher %s wants to eat!\n", philosopher, philosophers_names[philosopher]);
 		printf("[%d] Philosopher %s can eat now!\n", philosopher, philosophers_names[philosopher]);
 		status[philosopher] = EATING;
 		pthread_mutex_unlock(&(philosophers_mutex[philosopher]));

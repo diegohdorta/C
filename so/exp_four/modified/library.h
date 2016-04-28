@@ -14,7 +14,7 @@
 #define NUMBER_OF_PHILOSOPHERS		MAXIMUM
 #define NUMBER_OF_FORKS			MAXIMUM
 #define TITTLE 				"\t### Dining Philosopher Problem ###\n\n"
-#define TIMES				1
+#define TIMES				10
 #define DELAY				1
 #define PLUS_ONE			1
 #define FAILURE				-1

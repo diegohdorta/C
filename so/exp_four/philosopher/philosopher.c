@@ -103,7 +103,6 @@ static void philosopher(unsigned int philosopher)
 				usleep(rand() % TIME);
 			} 
 			else {
-
 				/* The right fork is unavailable! */
 				printf("[%d] Philosopher %s - Right fork: %d - " BOLD " UNAVAILABLE " NORMAL "\n",
 					philosopher, philosophers_names[philosopher], forks[(philosopher + 1) % NUMBER_OF_PHILOSOPHERS]);
@@ -126,7 +125,6 @@ static void philosopher(unsigned int philosopher)
 			}
 		}
 		else {
-
 			/* The left fork is unavailable! */
 			printf("[%d] Philosopher %s - Left fork: %d - " BOLD " UNAVAILABLE " NORMAL " \n",
 				philosopher, philosophers_names[philosopher], forks[philosopher]);

@@ -6,6 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#define BOLD            "\e[1m"
 #define RED             "\e[31m"
 #define BLUE            "\e[34m"
 #define GREEN           "\e[32m"
@@ -15,8 +16,9 @@
 
 #define FAILURE				-1
 #define FORK_AVAILABLE			1
+#define FORK_UNAVAILABLE			0
 #define PLUS_ONE			1
-#define MAXIMUM_MEALS			10 
+#define MAXIMUM_MEALS			365 
 #define MAXIMUM				5
 #define NUMBER_OF_PHILOSOPHERS		MAXIMUM
 #define NUMBER_OF_FORKS			MAXIMUM
@@ -27,9 +29,9 @@
 #define NEW_LINE			"\n"
 #define TITLE 				"\t### Dining Philosopher Problem ###\n\n"
 
-#define SOCRATES                        RED "Só sei que nada sei!" NORMAL
+#define SOCRATES                        RED "All I know is that I know nothing!" NORMAL
 #define ARISTOTELES                     BLUE "O ignorante afirma, o sábio duvida, o sensato reflete!" NORMAL
-#define DESCARTES                       GREEN "Penso, logo existo! Ou será que estou com fome?" NORMAL
+#define DESCARTES                       GREEN "I think, therefore I am! Or am I hungry?" NORMAL
 #define ROUSSEAU                        YELLOW "Geralmente, aqueles que sabem pouco falam muito e aqueles que sabem muito falam pouco!" NORMAL
 #define NIETZSCHE                       CYAN "Não há fatos eternos, como não há verdades absolutas!" NORMAL
 
@@ -44,18 +46,13 @@ char philosophers_names[NUMBER_OF_PHILOSOPHERS][MAXIMUM_SIZE_NAME] = {RED "Sócr
 char philosophers_phrases[NUMBER_OF_PHILOSOPHERS][MAXIMUM_SIZE_MESSAGE] = {SOCRATES, ARISTOTELES, DESCARTES, ROUSSEAU, NIETZSCHE}; 
 
 /* Initial status of forks: 1 - The fork is available;  0 - The fork is not available */ 
-int forks[NUMBER_OF_FORKS] = {1, 1, 1, 1, 1}; 
+unsigned short forks[NUMBER_OF_FORKS] = {FORK_AVAILABLE, FORK_AVAILABLE, FORK_AVAILABLE, FORK_AVAILABLE, FORK_AVAILABLE}; 
  
 /* Mutex locks for each forks */ 
 pthread_mutex_t forks_mutex[NUMBER_OF_FORKS];  
- 
-/* Philosopher ID */ 
-int p[NUMBER_OF_PHILOSOPHERS] = {0, 1, 2, 3, 4}; 
+pthread_mutex_t mutex;
  
 /* number of meals consumed by each philosopher */ 
-int number_of_meals[NUMBER_OF_MEALS]={0,0,0,0,0}; 
- 
-/* counter for the number of meals eaten */ 
-//int meal_count = 0; 
+int number_of_meals[NUMBER_OF_MEALS] = {0, 0, 0, 0, 0}; 
 
 #endif /* _PHILOSOPHER_H_DEFINED_ */

@@ -5,7 +5,8 @@
 #include "philosopher.h"
  
 static void philosopher(unsigned int philosopher);
-static unsigned int eating(unsigned int philosopher);
+static void thinking(unsigned int philosopher);
+static unsigned int eating(unsigned int philosopher, unsigned int meal_count);
 static void check_thread_creation(unsigned int id);
 static void *entry(void *entry_data);
 static void create_thread(pthread_t *thread, void (*function)(unsigned int), unsigned int philosopher_number, void *data);
@@ -17,8 +18,6 @@ int main(void)
 	void *status;
 	
 	printf(TITLE);	
-	
-	srand((long)time(NULL));
 
 	for (i = 0; i < NUMBER_OF_PHILOSOPHERS; i++)
 		create_thread(&philosophers[i], philosopher, i, NULL);
@@ -36,7 +35,7 @@ int main(void)
 	for (i = 0; i < NUMBER_OF_PHILOSOPHERS; i++) 
 		printf("[%d] Philosopher %s ate %d meals!\n", i, philosophers_names[i], number_of_meals[i]);
 
-	printf("\nmain(): The philosophers have left. I am going to exit!\n\n"); 
+	fprintf(stderr, "\nmain(): The philosophers have left. I am going to exit!\n\n"); 
 
 	return EXIT_SUCCESS; 
 } 
@@ -47,14 +46,15 @@ static void philosopher(unsigned int philosopher)
 	unsigned int meal_count = 0;
 
 	while (meal_count < MAXIMUM_MEALS) {
-
-		printf("[%d] Philosopher %s: I am going to eat!\n", philosopher, philosophers_names[philosopher]);
+	
+		thinking(philosopher);
 
 		pthread_mutex_lock(forks_mutex + philosopher); 
 
 		if (forks[philosopher] == 1) { 
 
-			printf("[%d] Philosopher %s - Left fork: %d\n", philosopher, philosophers_names[philosopher], forks[philosopher]);
+			printf("[%d] Philosopher %s - Left fork: %d - " BOLD " AVAILABLE " NORMAL " \n", 
+				philosopher, philosophers_names[philosopher], forks[philosopher]);
 			printf("[%d] Philosopher %s - I got the left fork!\n", philosopher, philosophers_names[philosopher]);
 			
 			forks[philosopher] = 0;
@@ -64,7 +64,8 @@ static void philosopher(unsigned int philosopher)
 
 			if (forks[(philosopher + 1) % NUMBER_OF_PHILOSOPHERS] == FORK_AVAILABLE) { 
 
-				printf("[%d] Philosopher %s - Right fork: %d\n", philosopher, philosophers_names[philosopher], forks[(philosopher + 1) % NUMBER_OF_PHILOSOPHERS]);
+				printf("[%d] Philosopher %s - Right fork: %d - " BOLD " AVAILABLE " NORMAL "\n", 
+					philosopher, philosophers_names[philosopher], forks[(philosopher + 1) % NUMBER_OF_PHILOSOPHERS]);
 
 				forks[(philosopher + 1) % NUMBER_OF_PHILOSOPHERS] = 0; 
 
@@ -72,9 +73,9 @@ static void philosopher(unsigned int philosopher)
 
 				printf("[%d] Philosopher %s - I got two forks!\n", philosopher, philosophers_names[philosopher]);
 
-				meal_count += eating(philosopher);		
+				meal_count += eating(philosopher, meal_count);		
 				number_of_meals[philosopher]++; 
-				usleep(rand() % 3000000);
+				usleep(rand() % 2000000);
 				
 				pthread_mutex_lock(forks_mutex + philosopher);  
 				pthread_mutex_lock(forks_mutex + ((philosopher + 1) % NUMBER_OF_PHILOSOPHERS)); 
@@ -86,10 +87,11 @@ static void philosopher(unsigned int philosopher)
 				pthread_mutex_unlock(&forks_mutex[philosopher]); 
 				pthread_mutex_unlock(&forks_mutex[(philosopher + 1) % NUMBER_OF_PHILOSOPHERS]); 
 
-				usleep(rand() % 3000000);
+				usleep(rand() % 2000000);
 			} 
 			else {
-				printf("[%d] Philosopher %s - Right fork: %d\n", philosopher, philosophers_names[philosopher], forks[(philosopher + 1) % NUMBER_OF_PHILOSOPHERS]);
+				printf("[%d] Philosopher %s - Right fork: %d - " BOLD " UNAVAILABLE " NORMAL "\n", 
+					philosopher, philosophers_names[philosopher], forks[(philosopher + 1) % NUMBER_OF_PHILOSOPHERS]);
 				printf("[%d] Philosopher %s - I can't get the right fork!\n\n", philosopher, philosophers_names[philosopher]);
 
 				pthread_mutex_unlock(&forks_mutex[(philosopher + 1) % NUMBER_OF_PHILOSOPHERS]); 
@@ -98,16 +100,17 @@ static void philosopher(unsigned int philosopher)
 				forks[philosopher] = 1; 
 
 				pthread_mutex_unlock(&forks_mutex[philosopher]); 
-				usleep(rand() % 3000000); 
+				usleep(rand() % 2000000); 
 			} 
 		}     
 		else {
-			printf("[%d] Philosopher %s - Left fork: %d\n", philosopher, philosophers_names[philosopher], forks[philosopher]);
+			printf("[%d] Philosopher %s - Left fork: %d - " BOLD " UNAVAILABLE " NORMAL " \n", 
+				philosopher, philosophers_names[philosopher], forks[philosopher]);
 			printf("[%d] Philosopher %s - I can't even get the left fork!\n\n", philosopher, philosophers_names[philosopher]);
 
 			pthread_mutex_unlock(&forks_mutex[philosopher]); 
 
-			usleep(rand() % 3000000);
+			usleep(rand() % 2000000);
 		} 
 
 		sched_yield();
@@ -116,11 +119,20 @@ static void philosopher(unsigned int philosopher)
 	pthread_exit(EXIT_SUCCESS); 
 } 
 
-static unsigned int eating(unsigned int philosopher)
+static void thinking(unsigned int philosopher)
 {
-	printf("[%d] Philosopher %s is eating for %d microseconds!\n\n", philosopher, philosophers_names[philosopher], MICROSECONDS);
-	usleep(MICROSECONDS+1000000);
-	
+	pthread_mutex_lock(&mutex); 
+        printf("[%d] Philosopher %s - Thinking: '%s'\n", philosopher, philosophers_names[philosopher], philosophers_phrases[philosopher]);
+        printf("[%d] Philosopher %s - I am going to eat!\n", philosopher, philosophers_names[philosopher]);
+        pthread_mutex_unlock(&mutex);
+        usleep(MICROSECONDS);
+}
+
+static unsigned int eating(unsigned int philosopher, unsigned int meal_count)
+{
+	printf("[%d] Philosopher %s - " BOLD " Eating time [%d/%d] for %d microseconds! " NORMAL "\n\n", 
+		philosopher, philosophers_names[philosopher], meal_count, MAXIMUM_MEALS, MICROSECONDS);
+
 	return PLUS_ONE;
 }
 

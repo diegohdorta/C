@@ -31,20 +31,21 @@
 #define TITLE 				"\t### Dining Philosopher Problem ###\n\n"
 
 #define SOCRATES                        RED "All I know is that I know nothing!" NORMAL
-#define ARISTOTELES                     BLUE "O ignorante afirma, o sábio duvida, o sensato reflete!" NORMAL
+#define ARISTOTLE                   	BLUE "The ignorant says, the wise doubt, reflects the wise!" NORMAL
 #define DESCARTES                       GREEN "I think, therefore I am! Or am I hungry?" NORMAL
-#define ROUSSEAU                        YELLOW "Geralmente, aqueles que sabem pouco falam muito e aqueles que sabem muito falam pouco!" NORMAL
-#define NIETZSCHE                       CYAN "Não há fatos eternos, como não há verdades absolutas!" NORMAL
+#define ROUSSEAU                        YELLOW "n general, people who know little, talk a lot, and those who know much speak little!" NORMAL
+#define NIETZSCHE                       CYAN "There are no eternal facts, as there are no absolute truths!" NORMAL
 
 typedef struct parameters parameters_t;
 
 struct parameters {
-	void (*parameters_fn)(unsigned int);
+	void (*parameters_fn)(unsigned int, unsigned int);
 	unsigned int philosopher_number;
+	unsigned int maximum_meals;
 };
 
 char philosophers_names[NUMBER_OF_PHILOSOPHERS][MAXIMUM_SIZE_NAME] = {RED "Sócrates" NORMAL, BLUE "Aristóteles" NORMAL, GREEN "Descartes" NORMAL, YELLOW "Rousseau" NORMAL, CYAN "Nietzsche" NORMAL}; 
-char philosophers_phrases[NUMBER_OF_PHILOSOPHERS][MAXIMUM_SIZE_MESSAGE] = {SOCRATES, ARISTOTELES, DESCARTES, ROUSSEAU, NIETZSCHE}; 
+char philosophers_phrases[NUMBER_OF_PHILOSOPHERS][MAXIMUM_SIZE_MESSAGE] = {SOCRATES, ARISTOTLE, DESCARTES, ROUSSEAU, NIETZSCHE}; 
 
 /* Initial status of forks: 1 - The fork is available;  0 - The fork is not available */ 
 unsigned short forks[NUMBER_OF_FORKS] = {AVAILABLE, AVAILABLE, AVAILABLE, AVAILABLE, AVAILABLE}; 
@@ -54,6 +55,6 @@ pthread_mutex_t forks_mutex[NUMBER_OF_FORKS];
 pthread_mutex_t mutex;
  
 /* number of meals consumed by each philosopher */ 
-int number_of_meals[NUMBER_OF_MEALS] = {0, 0, 0, 0, 0}; 
+unsigned int number_of_meals[NUMBER_OF_MEALS] = {0, 0, 0, 0, 0}; 
 
 #endif /* _PHILOSOPHER_H_DEFINED_ */

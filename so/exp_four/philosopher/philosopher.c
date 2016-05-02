@@ -5,23 +5,31 @@
 
 #include "philosopher.h"
 
-static void philosopher(unsigned int philosopher);
+static void philosopher(unsigned int philosopher, unsigned int maximum_meals);
 static void thinking(unsigned int philosopher);
-static unsigned int eating(unsigned int philosopher, unsigned int meal_count);
+static unsigned int eating(unsigned int philosopher, unsigned int meal_count, unsigned int maximum_meals);
 static void check_thread_creation(unsigned int id);
 static void *entry(void *entry_data);
-static void create_thread(pthread_t *thread, void (*function)(unsigned int), unsigned int philosopher_number, void *data);
+static void create_thread(pthread_t *thread, void (*function)(unsigned int, unsigned int), unsigned int philosopher_number, unsigned int maximum_meals, void *data);
  
-int main(void) 
+int main(int argc, char *argv[]) 
 { 
-	int i;
+	unsigned int i;
+	unsigned int maximum_meals;
 	pthread_t philosophers[NUMBER_OF_PHILOSOPHERS];
 	void *status;
 
+	if (argc < 2)
+		maximum_meals = MAXIMUM_MEALS;
+	else
+		maximum_meals = atoi(argv[1]);
+
 	printf(TITLE);
+	printf("The number of meals are: %u\n\n", maximum_meals);
+	usleep(TIME);
 
 	for (i = 0; i < NUMBER_OF_PHILOSOPHERS; i++)
-		create_thread(&philosophers[i], philosopher, i, NULL);
+		create_thread(&philosophers[i], philosopher, i, maximum_meals, NULL);
 
 	for (i = 0; i < NUMBER_OF_PHILOSOPHERS; i++) {
 
@@ -42,11 +50,11 @@ int main(void)
 }
 
 
-static void philosopher(unsigned int philosopher)
+static void philosopher(unsigned int philosopher, unsigned int maximum_meals)
 {
 	unsigned int meal_count = 0;
 
-	while (meal_count < MAXIMUM_MEALS) {
+	while (meal_count < maximum_meals) {
 
 		thinking(philosopher);
 
@@ -84,7 +92,7 @@ static void philosopher(unsigned int philosopher)
 				printf("[%d] Philosopher %s - I got two forks!\n", philosopher, philosophers_names[philosopher]);
 
 				/* Eating time! */
-				meal_count += eating(philosopher, meal_count);
+				meal_count += eating(philosopher, meal_count, maximum_meals);
 				number_of_meals[philosopher]++;
 				usleep(rand() % TIME);
 
@@ -153,10 +161,10 @@ static void thinking(unsigned int philosopher)
         usleep(MICROSECONDS);
 }
 
-static unsigned int eating(unsigned int philosopher, unsigned int meal_count)
+static unsigned int eating(unsigned int philosopher, unsigned int meal_count, unsigned int maximum_meals)
 {
 	printf("[%d] Philosopher %s - " BOLD " Eating time [%d/%d] for %d microseconds! " NORMAL "\n\n", 
-		philosopher, philosophers_names[philosopher], meal_count, MAXIMUM_MEALS, MICROSECONDS);
+		philosopher, philosophers_names[philosopher], meal_count + 1, maximum_meals, MICROSECONDS);
 
 	return PLUS_ONE;
 }
@@ -172,14 +180,13 @@ static void check_thread_creation(unsigned int id)
 static void *entry(void *entry_data)
 {
 	parameters_t *args = entry_data;
-
-	args->parameters_fn(args->philosopher_number);
-
+	args->parameters_fn(args->philosopher_number, args->maximum_meals);
 	free(args);
+	
 	return NULL;
 }
 
-static void create_thread(pthread_t *thread, void (*function)(unsigned int), unsigned int philosopher_number, void *data)
+static void create_thread(pthread_t *thread, void (*function)(unsigned int, unsigned int), unsigned int philosopher_number, unsigned int maximum_meals, void *data)
 {
 	parameters_t *args;
 	args = (malloc(sizeof(parameters_t)));
@@ -190,6 +197,7 @@ static void create_thread(pthread_t *thread, void (*function)(unsigned int), uns
 	}
 
 	args->philosopher_number = philosopher_number;
+	args->maximum_meals = maximum_meals;
 	args->parameters_fn = function;
 
 	check_thread_creation(pthread_create(thread, NULL, entry, args));	

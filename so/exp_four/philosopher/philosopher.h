@@ -15,8 +15,8 @@
 #define NORMAL          "\e[0m"
 
 #define FAILURE				-1
-#define FORK_AVAILABLE			1
-#define FORK_UNAVAILABLE			0
+#define AVAILABLE			1
+#define UNAVAILABLE			0
 #define PLUS_ONE			1
 #define MAXIMUM_MEALS			365 
 #define MAXIMUM				5
@@ -26,6 +26,7 @@
 #define MAXIMUM_SIZE_NAME               25
 #define MAXIMUM_SIZE_MESSAGE            150
 #define MICROSECONDS                    25
+#define TIME		                3000000
 #define NEW_LINE			"\n"
 #define TITLE 				"\t### Dining Philosopher Problem ###\n\n"
 
@@ -46,7 +47,7 @@ char philosophers_names[NUMBER_OF_PHILOSOPHERS][MAXIMUM_SIZE_NAME] = {RED "Sócr
 char philosophers_phrases[NUMBER_OF_PHILOSOPHERS][MAXIMUM_SIZE_MESSAGE] = {SOCRATES, ARISTOTELES, DESCARTES, ROUSSEAU, NIETZSCHE}; 
 
 /* Initial status of forks: 1 - The fork is available;  0 - The fork is not available */ 
-unsigned short forks[NUMBER_OF_FORKS] = {FORK_AVAILABLE, FORK_AVAILABLE, FORK_AVAILABLE, FORK_AVAILABLE, FORK_AVAILABLE}; 
+unsigned short forks[NUMBER_OF_FORKS] = {AVAILABLE, AVAILABLE, AVAILABLE, AVAILABLE, AVAILABLE}; 
  
 /* Mutex locks for each forks */ 
 pthread_mutex_t forks_mutex[NUMBER_OF_FORKS];  

@@ -6,9 +6,7 @@
 
 void barber(int queue_id, int barber_no);
 void customer(int queue_id, int customer_no);
-int cut_hair(char number[]);
-int mmc(int x,int y);
-void appreciate_hair(int customer_no, char str[], struct timeval start_time, int barber_no, int mmc, char str_b[]);
+void cut_hair(int no_of_customer, char number[]);
 
 static void create_queue(int *queue_id, key_t *key);
 static void remove_queue(int *queue_id);
@@ -21,6 +19,9 @@ static void v(int semaphore, unsigned short add, int num_of_sem);
 static int create_shared_memory(key_t key);
 static void associate_shared_memory(int shm_id, buffer_t **shm_addr);
 static void shared_memory_destroy(int shm);
+static unsigned short int get_number(void);
+
+/* main */
 
 int main(void) 
 {
@@ -88,9 +89,10 @@ int main(void)
 	}
 }
 
+/* barber */
+
 void barber(int queue_id, int barber_no) 
 {   
-	int mmc;
 	msgbuf_t message_buffer;
 
 	data_t *data_ptr = (data_t *)(message_buffer.mtext);
@@ -98,161 +100,101 @@ void barber(int queue_id, int barber_no)
 	while (true) {
 
 		/* down(&customers); (lock) */
-		receive_queue_message(&queue_id, &message_buffer, sizeof(data_t));
-		
+		receive_queue_message(&queue_id, &message_buffer, sizeof(data_t));		
 		
 		/* down(&exc_aces); (lock) */
 		p(g_sem_id, 1, 0);
 
 		g_buffer_t->waiting--;
 
-		printf("The Barber #%d is attending the hair of client #%d\n", barber_no, data_ptr->customer_no);
-		fflush(stdout);
+		fprintf(stderr, "#%d# Barber is attending the client #%d\n", barber_no, data_ptr->customer_no);
 		
 		/* up(&exc_aces); (unlock) */
 		v(g_sem_id, 1, 0);
 		
-		mmc = cut_hair(data_ptr->number);
+		cut_hair(data_ptr->customer_no, data_ptr->number);
 
 		/* sending the number of customer to work as the message type */
 		message_buffer.mtype = data_ptr->customer_no;
 		data_ptr->barber_no = barber_no;
-		data_ptr->mmc = mmc;
 
 		/* up(barbers); (unlock) */		
 		send_queue_message(&queue_id, &message_buffer, sizeof(data_t));
 	}
 }
 
+/* client */
+
 void customer(int queue_id, int customer_no) 
 {
-	struct timeval tv;
 	struct timeval start_time;
+	struct timeval stop_time;
+	float time = 0.0;
 
-	int number1 = 0, number2 = 0;
-	char str[9];
+	sleep(1);
 
 	msgbuf_t message_buffer;
 
 	data_t *data_ptr = (data_t *)(message_buffer.mtext); 
 
-	if(gettimeofday(&tv, NULL) == -1) {
-		fprintf(stderr,"Impossivel conseguir o tempo atual, terminando.\n");
-		exit(EXIT_FAILURE);
-	}
-	number1 = ((tv.tv_usec / 2) % 1023); 
-	
-	/* To vary a little these values */
-	usleep(10); 
-	
-	if(gettimeofday(&tv, NULL) == -1) {
-		fprintf(stderr,"Impossivel conseguir o tempo atual, terminando.\n");
-		exit(EXIT_FAILURE);
-	}
-	number2 = ((tv.tv_usec / 2) % 1023); 
-
-	sprintf(str, "%4d%4d", number1, number2); /* extra things */
-	
-	/* According the theory presented on class */
 	/* down(&exc_aces); (lock) */
 	p(g_sem_id, 1, 0);
 	
 	/*  if waiting < CHAIRS */
 	if (g_buffer_t->waiting < NO_OF_CHAIRS) {
 
-		gettimeofday( &start_time, NULL );
-		/* waiting=waiting+1; */
+		gettimeofday(&start_time, NULL);
+		/* waiting = waiting + 1; */
 		g_buffer_t->waiting++;
 
-		printf("The client #%d is sitting waiting to be call. And he is %d of queue.\n", customer_no, g_buffer_t->waiting);
-		fflush(stdout);
+		fprintf(stderr, "#%d# Client is sitting! He is %d of queue! Waiting to be called...\n", customer_no, g_buffer_t->waiting);
 
 		message_buffer.mtype = MESSAGE_MTYPE;
-		//message_buffer.mtype = WAITING_BARBER;
-		data_ptr->mmc = 0;
-		strcpy(data_ptr->number, str);
+		sprintf(data_ptr->number, "%4d", get_number());
 		data_ptr->barber_no = 0;
 		data_ptr->customer_no = customer_no;
+
+		/* up(&exc_aces); (unlock) */
+		v(g_sem_id, 1, 0);
 
  		/* up(&custumers); (unlock) */ 		
  		send_queue_message(&queue_id, &message_buffer, sizeof(data_t));
  		
-		/* up(&exc_aces); (unlock) */
-		v(g_sem_id, 1, 0);
-
 		/* down(&barbers); */
 		receive_queue_message(&queue_id, &message_buffer, sizeof(data_t));
 		
-		/* apreciate_hair(); Used to print the queue contents */
-		appreciate_hair(customer_no, str, start_time, data_ptr->barber_no, data_ptr->mmc, data_ptr->number); 
+		/* apreciate_hair(); */
+		gettimeofday(&stop_time, NULL);
+		
+		time = (float)(stop_time.tv_sec  - start_time.tv_sec);
+		time += (stop_time.tv_usec - start_time.tv_usec)/(float)MICRO_PER_SECOND;
+
+		printf("#%d# Client was attended by barber #%d# in %8f seconds!\n", customer_no, data_ptr->barber_no, time);
 	}
 	else {   
-		printf("The client #%d was not attend because the Barbery was full.\n", customer_no);
-		fflush(stdout);
+		fprintf(stderr, "#%d# Client wasn't attended because the barbery is full!\n", customer_no);
 		/* up(&exc_aces); (unlock) */
 		v(g_sem_id, 1, 0);
 	}
 }
 
-int cut_hair(char number[]) {
+/* extras */
 
-	int num1 = 0, num2 = 0;
-	char n1[4], n2[4];
-	int i = 0;
-	int m = 0;
-
-	for(i = 0; i < 4; i++) {
-		n1[i] = number[i];
-		n2[i] = number[i+4];
-	}
-
-	num1 = atoi(n1);
-	num2 = atoi(n2);    
-	/* Call the mmc function */
-	m = mmc(num1, num2);
-	return m;
+void cut_hair(int no_of_customer, char number[]) 
+{
+	int i;
+	int integers[sizeof(*number)];
+	//char ordenated[sizeof(*number)];	
+	
+	for (i = 0; i < (int) sizeof(*number); i++)
+		integers[i] = atoi(&number[i]);
+	
+	//sprintf(ordenated, "%d", &integers);
+	
+	//printf("#%d# Client is having his hair cutted! Value of string is: %s and ordenated is: %s\n", no_of_customer, number, ordenated);
 }
 
-void appreciate_hair(int customer_no, char str[], struct timeval start_time, int barber_no, int mmc, char str_b[]) {
-
-	float time = 0;
-	struct timeval stop_time;
-
-	gettimeofday( &stop_time, NULL );
-
-	time = (float)(stop_time.tv_sec  - start_time.tv_sec);
-	time += (stop_time.tv_usec - start_time.tv_usec)/(float)MICRO_PER_SECOND;
-
-	printf("\n\nClient number #%d was attended by Barber #%d.\n", customer_no, barber_no);
-
-	fflush(stdout);
-}
-/* I have found this by searching on Google */
-int mmc (int x, int y) {
-
-	int aux = 0;
-	int mmc = 0;
-	int i = 0;
-
-	if (y > x) {
-		aux = x;
-		x = y;
-		y = aux;
-	}
-
-	if ((x % y) == 0)
-		mmc = x;
-	else {
-		for (i = 2; i <= y; i++) {
-			aux = x * i;
-			if ((aux%y) == 0) {
-				mmc = aux;
-				i = y+1;
-			}
-		}
-	}
-	return mmc;
-}
+/* utils */
 
 static void create_queue(int *queue_id, key_t *key)
 {
@@ -359,4 +301,16 @@ static void shared_memory_destroy(int shm)
 		fprintf(stderr, "The shmctl() function has failed: %s!\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
+}
+
+static unsigned short int get_number(void)
+{
+	struct timeval tv;
+	
+	if (gettimeofday(&tv, NULL) == FAILURE) {
+		fprintf(stderr, "The gettimeofday() function has failed: %s!\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+	
+	return (((tv.tv_usec / 2) % 1023));
 }

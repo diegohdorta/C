@@ -17,6 +17,7 @@
 #define NO_OF_CHAIRS		5
 #define NO_OF_BARBERS		2
 #define NO_OF_CUSTOMER		10
+#define SIZE_OF_NUMBER		5
 #define MICRO_PER_SECOND	1000000
 #define FAILURE			-1
 #define PERMISSIONS		0666
@@ -36,8 +37,7 @@ buffer_t *g_buffer_t;
 typedef struct {
     unsigned int barber_no;
     unsigned int customer_no;
-    int mmc;
-    char number[9];
+    char number[SIZE_OF_NUMBER];
 } data_t; 
 
 typedef struct {

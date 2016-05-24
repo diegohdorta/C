@@ -32,8 +32,8 @@ int main(void)
 
 	key_t key = MESSAGE_QUEUE_ID;
 
-	g_sem_id = semaphore_new(SEM_KEY, 1);
-	v(g_sem_id, 1, 0);
+	aces_exc = semaphore_new(SEM_KEY, 1);
+	v(aces_exc, 1, 0);
 
 	g_shm_id = create_shared_memory(SHM_KEY);
 	associate_shared_memory(g_shm_id, &g_buffer_t);
@@ -78,12 +78,12 @@ int main(void)
 	}
 	else {
 
-		for(i = 0; i < NO_OF_BARBERS + NO_OF_CUSTOMER; i++)
+		for (i = 0; i < NO_OF_BARBERS + NO_OF_CUSTOMER; i++)
 			wait(NULL);
 
 		remove_queue(&queue_id);
 		shared_memory_destroy(g_shm_id);
-		semaphore_destroy(g_sem_id);
+		semaphore_destroy(aces_exc);
 
 		exit(EXIT_SUCCESS);
 	}
@@ -100,17 +100,16 @@ void barber(int queue_id, int barber_no)
 	while (true) {
 
 		/* down(&customers); (lock) */
-		receive_queue_message(&queue_id, &message_buffer, sizeof(data_t));		
-		
+		receive_queue_message(&queue_id, &message_buffer, sizeof(data_t));
+				
 		/* down(&exc_aces); (lock) */
-		p(g_sem_id, 1, 0);
+		p(aces_exc, 1, 0);
 
 		g_buffer_t->waiting--;
-
 		fprintf(stderr, "#%d# Barber is attending the client #%d\n", barber_no, data_ptr->customer_no);
 		
 		/* up(&exc_aces); (unlock) */
-		v(g_sem_id, 1, 0);
+		v(aces_exc, 1, 0);
 		
 		cut_hair(data_ptr->customer_no, data_ptr->number);
 
@@ -131,14 +130,14 @@ void customer(int queue_id, int customer_no)
 	struct timeval stop_time;
 	float time = 0.0;
 
-	sleep(1);
+	sleep(1); /* to wait all process inicialized... */
 
 	msgbuf_t message_buffer;
 
 	data_t *data_ptr = (data_t *)(message_buffer.mtext); 
 
 	/* down(&exc_aces); (lock) */
-	p(g_sem_id, 1, 0);
+	p(aces_exc, 1, 0);
 	
 	/*  if waiting < CHAIRS */
 	if (g_buffer_t->waiting < NO_OF_CHAIRS) {
@@ -147,25 +146,25 @@ void customer(int queue_id, int customer_no)
 		/* waiting = waiting + 1; */
 		g_buffer_t->waiting++;
 
-		fprintf(stderr, "#%d# Client is sitting! He is %d of queue! Waiting to be called...\n", customer_no, g_buffer_t->waiting);
+		fprintf(stderr, "#%d# Client is sitting! He is [%d/%d] of queue! Waiting to be called...\n", customer_no, g_buffer_t->waiting, NO_OF_CHAIRS);
 
 		message_buffer.mtype = MESSAGE_MTYPE;
 		sprintf(data_ptr->number, "%4d", get_number());
-		data_ptr->barber_no = 0;
+		data_ptr->barber_no = 1;
 		data_ptr->customer_no = customer_no;
 
 		/* up(&exc_aces); (unlock) */
-		v(g_sem_id, 1, 0);
+		v(aces_exc, 1, 0);
 
  		/* up(&custumers); (unlock) */ 		
  		send_queue_message(&queue_id, &message_buffer, sizeof(data_t));
  		
 		/* down(&barbers); */
-		receive_queue_message(&queue_id, &message_buffer, sizeof(data_t));
-		
-		/* apreciate_hair(); */
+		receive_queue_message(&queue_id, &message_buffer, sizeof(data_t));		
+
+		/* appreciate_hair */
 		gettimeofday(&stop_time, NULL);
-		
+	
 		time = (float)(stop_time.tv_sec  - start_time.tv_sec);
 		time += (stop_time.tv_usec - start_time.tv_usec)/(float)MICRO_PER_SECOND;
 
@@ -174,24 +173,42 @@ void customer(int queue_id, int customer_no)
 	else {   
 		fprintf(stderr, "#%d# Client wasn't attended because the barbery is full!\n", customer_no);
 		/* up(&exc_aces); (unlock) */
-		v(g_sem_id, 1, 0);
+		v(aces_exc, 1, 0);
 	}
 }
 
 /* extras */
 
-void cut_hair(int no_of_customer, char number[]) 
+void cut_hair(int no_of_customer, char vetor[]) 
 {
-	int i;
-	int integers[sizeof(*number)];
-	//char ordenated[sizeof(*number)];	
+	int i, y, aux;
+	int size = sizeof(*vetor);
+	int integers[size];
 	
-	for (i = 0; i < (int) sizeof(*number); i++)
-		integers[i] = atoi(&number[i]);
+
+	for (i = 0; i < size; i++)
+		integers[i] = atoi(&vetor[i]);
+
 	
-	//sprintf(ordenated, "%d", &integers);
+	for (i = 0; i < size; i++) {
 	
-	//printf("#%d# Client is having his hair cutted! Value of string is: %s and ordenated is: %s\n", no_of_customer, number, ordenated);
+		for (y = i + 1; y < size; y++) {
+		
+			if (integers[y] > integers[i]) {
+			
+				aux = integers[y];
+				integers[y] = integers[i];
+				integers[i] = aux;
+			}
+		}
+	}	
+	
+	printf("#%d# Client is having his hair cutted! Value of string is: %s and ordenated is: ", no_of_customer, vetor);
+	
+	for (i = 0; i < (int) sizeof(*vetor); i++)
+		printf("%d", integers[i]);
+		
+	printf("\n");
 }
 
 /* utils */

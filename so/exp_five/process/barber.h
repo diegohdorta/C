@@ -16,7 +16,7 @@
 #define NO_OF_ITERATIONS	1000
 #define NO_OF_CHAIRS		5
 #define NO_OF_BARBERS		2
-#define NO_OF_CUSTOMER		10
+#define NO_OF_CUSTOMER		20
 #define SIZE_OF_NUMBER		5
 #define MICRO_PER_SECOND	1000000
 #define FAILURE			-1
@@ -35,8 +35,8 @@ typedef struct {
 buffer_t *g_buffer_t;
 
 typedef struct {
-    unsigned int barber_no;
-    unsigned int customer_no;
+    int barber_no;
+    int customer_no;
     char number[SIZE_OF_NUMBER];
 } data_t; 
 
@@ -49,7 +49,7 @@ typedef struct {
 struct sembuf g_lock_sembuf[1];
 struct sembuf g_unlock_sembuf[1];
 
-int g_sem_id;
+int aces_exc;
 int g_shm_id;
 
 #endif /* _BARBER_H_DEFINED_ */

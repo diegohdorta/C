@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// teste
+
 static void generate_combination(int team_a, int team_b, int i, char team, int goal_a, int goal_b, char *storage)
 {
 	if (team != ' ')

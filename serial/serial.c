@@ -12,7 +12,7 @@
 #include <sys/types.h>
 #include <termios.h>
 #include <unistd.h>
-
+aaaaaaaaaaaaaaaaaaaaaaaaaa
 static const tcflag_t lflags = ISIG | ICANON | IEXTEN;
 static const tcflag_t oflags = 0;
 static const tcflag_t iflags = BRKINT | ICRNL | IXON;

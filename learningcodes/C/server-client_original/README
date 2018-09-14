@@ -1,0 +1,63 @@
+Name: *PUT_HERE_YOUR_FULL_NAME*
+E-mail: *PUT_HERE_YOUR_EMAIL_ADDRESS*
+
+The project contains some files for creating a basic server client program.
+
+1 - server.c
+2 - client.c
+3 - network.c
+4 - utils.c
+5 - library.h
+6 - Makefile
+
+** DO NOT MODIFY THIS FILES, UNLESS YOU FIND OUT ANY INCONSISTENCES **
+
+### STEP 0: (1.0)
+
+** THIS DOCUMENT HAS ENGLISH MISTAKES, SO YOU NEED TO CORRECT ALL **
+
+### STEP 1: (1.0)
+
+For compiling, just type 'make'. However, it wouldn't be so easy, right?
+The code were modified on purpose for not compiling inicially.
+Fix all the bugs, between them are errors such as: logicals, typos and more.
+
+### STEP 2: (1.0)
+
+Modify the code enabling the client to send messages to server. The server needs
+to return a confirmation if the message was received succesfully.
+
+### STEP 3: (2.0)
+
+Mofidy the code for each client being able to store messages in the server, and
+also reading all the messages its stores on server. Each client must have your
+own store space on the server.
+
+
+### GRADE CARD
+
+Your grade: (--)
+
+if (grade < 3.5)
+	*You will redoo everything from the beginning without any kind of help.*
+else
+	*Next challenge!*
+	
+
+### HOW TO SEND:
+
+Put all the files inside a folder with the following example name:
+
+DATA + VERSION + PROJECT_NAME + YOUR_NAME
+
+Example: 1993_08_04_01_SERVER_CLIENT_JOSE_SILVA
+
+Compress the folder for using tar.gz and post here the line you used:
+
+= 
+
+Send to my e-mail <diegohdorta@gmail.com> with the title being equals to 
+the folder's name.
+
+	
+English errors:

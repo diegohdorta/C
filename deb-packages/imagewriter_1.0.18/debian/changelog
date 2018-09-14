@@ -1,0 +1,5 @@
+imagewriter (1.0.18) xenial; urgency=low
+
+  * Initial release. (Closes: #XXXXXX)
+
+ -- Diego Dorta <diegohdorta@gmail.com>  Wed, 26 Apr 2017 13:27:57 -0300

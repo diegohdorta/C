@@ -1,0 +1,13 @@
+Source: imagewriter
+Section: editors
+Priority: optional
+Maintainer: Diego Dorta <diegohdorta@gmail.com>
+Build-Depends: debhelper (>= 9), qtbase5-dev, qtbase5-dev-tools, qt5-qmake, libqt5qml5, libqt5quickwidgets5, qml-module-qt-labs-settings, qml-module-qtquick2, qtdeclarative5-dev, qml-module-qtquick-dialogs, qml-module-qtquick-controls, gksu
+Standards-Version: 3.9.6
+Homepage: https://github.com/diegohdorta
+
+Package: imagewriter
+Architecture: any
+Depends: qtbase5-dev, qtbase5-dev-tools, qt5-qmake, libqt5qml5, libqt5quickwidgets5, qml-module-qt-labs-settings, qml-module-qtquick2, qtdeclarative5-dev, qml-module-qtquick-dialogs, qml-module-qtquick-controls, gksu, ${misc:Depends}, ${shlibs:Depends}
+Description: Image Writer is a tool for downloading and writing images.
+

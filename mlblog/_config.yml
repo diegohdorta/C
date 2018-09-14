@@ -1,0 +1,14 @@
+theme:
+title: Machine Learning
+description: 
+
+BASE_PATH : /mlblog
+
+url: "http://diegohdorta.github.io"
+baseurl: "/mlblog"
+
+analytics:
+  provider               : "google"
+  google:
+    tracking_id          : "UA-117915917-2"
+

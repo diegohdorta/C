@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+source /opt/fsl-imx-internal-xwayland/4.9.51-mx8-beta/environment-setup-aarch64-poky-linux

@@ -50,11 +50,10 @@ int main(void)
 	source_str = (char *) malloc(MAX_SOURCE_SIZE);
 	if (source_str == NULL) {
 		fprintf(stderr, "Failed malloc() %s.\n", strerror(errno));
-	    return EXIT_FAILURE;	
+		return EXIT_FAILURE;	
 	}	
 	source_size = fread(source_str, 1, MAX_SOURCE_SIZE, fp);
 	fclose(fp);
-	
 	
 	for(i = 0; i < VEC_VALUES_SIZE; i++) {
 		a[i] = i * i;
@@ -105,7 +104,6 @@ int main(void)
 	event = clCreateUserEvent(context, NULL);
 	 
 	size_t work_size[1] = {SIZE};
-
 	clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL,
 			work_size, NULL, 0, NULL, &event);
 

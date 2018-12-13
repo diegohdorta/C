@@ -30,7 +30,7 @@ int main(void)
 		vec_3[i] = 0;
 	}
     
-    start = clock();
+	start = clock();
 	for(i = 0; i < SIZE; i++) {
         vec_3[i] = vec_1[i] + vec_2[i];
 	}

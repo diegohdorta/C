@@ -1,0 +1,20 @@
+
+window {
+      background-image: -gtk-gradient (linear,
+                                       left top,
+       left bottom,
+       from (#001a33),
+       color-stop (0.5, darker (#001a33)),
+       to (#00284d));
+    }
+    
+
+label {
+    color: #ffffff;
+}
+ 
+button {
+    color: #001a33;
+
+             
+}

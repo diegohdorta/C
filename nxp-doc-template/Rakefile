@@ -1,0 +1,10 @@
+namespace :build do
+task :pdf do
+`bundle exec asciidoctor-pdf -apdf-style=themes/custom-theme.yml -a pdf-fontsdir=themes/fonts eIQSamplesApps.adoc -o output/eIQSamplesApps.pdf`
+end
+task :html do
+`bundle exec asciidoctor eIQSamplesApps.adoc -o output/eIQSamplesApps.html`
+end
+end
+desc 'Build all default formats'
+task :build => [ 'build:html', 'build:pdf' ]

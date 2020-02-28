@@ -1,0 +1,11 @@
+= robinbird
+:title-logo-image: image::media/nxplogo.png[pdfwidth=40%, align=right]
+© 2019 NXP Semiconductor, Inc. All rights reserved.
+REV 1.0, September 18, 2019
+:doctype: book
+:reproducible:
+:toc2:
+:toclevels: 5
+:source-highlighter: coderay
+:numbered:
+include::chapters/1-chapter.adoc[]

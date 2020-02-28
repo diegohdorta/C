@@ -1,0 +1,41 @@
+
+
+
+$CXX  --std=c++11 -ltensorflow-lite -lpthread -ldl -lopencv_core -lopencv_highgui -lopencv_videoio -lopencv_imgcodecs -Itensorflow/contrib/lite -Itensorflow/contrib/lite/tools/make/downloads/flatbuffers/include/  -Itensorflow/contrib/lite/tools  -Itensorflow/contrib/lite/examples -Itensorflow/contrib/lite/examples/label_image cam_label_image.cc
+
+
+
+
+
+$CXX  --std=c++11 -ltensorflow-lite -Itensorflow/contrib/lite -Itensorflow/contrib/lite/tools/make/downloads/flatbuffers/include/  -Itensorflow/contrib/lite/tools  -Itensorflow/contrib/lite/examples -Itensorflow/contrib/lite/examples/label_image switch.cpp
+
+tensorflow/contrib/lite/examples/label_image/bitmap_helpers.h
+
+
+
+
+
+ $CXX  --std=c++11 -I /usr/include/tensorflow/contrib/lite/tools/make/downloads/flatbuffers/include/ -ltensorflow-lite -lpthread -ldl -g -lopencv_objdetect -lopencv_highgui -lopencv_imgproc -lopencv_core -lopencv_videoio -lopencv_imgcodecs switch.cpp
+
+
+
+LIBS= -ltensorflow-lite -lpthread -ldl -g \
+      -lopencv_objdetect -lopencv_highgui -lopencv_imgproc -lopencv_core -lopencv_videoio -lopencv_imgcodecs
+INC=-I /usr/include/tensorflow/contrib/lite/tools/make/downloads/flatbuffers/include/
+
+
+ $CXX  --std=c++11 -ltensorflow-lite -Itensorflow/contrib/lite -I /usr/include/tensorflow/contrib/lite/tools/make/downloads/flatbuffers/include/  -Itensorflow/contrib/lite/tools  switch.cpp
+
+
+ $CXX --std=c++11 -ltensorflow-lite -lpthread -ldl -g -I /usr/include/tensorflow/contrib/lite/tools/make/downloads/flatbuffers/include/ -I -Itensorflow/contrib/lite switch.cpp
+
+ $CXX --std=c++11 -O3 bitmap_helpers.cc cam_label_image.cc -I /opt/fsl-imx-internal-xwayland/4.19-thud/sysroots/aarch64-poky-linux/usr/include/tensorflow/contrib/lite/tools/make/downloads/flatbuffers/include/ -I /opt/fsl-imx-internal-xwayland/4.19-thud/sysroots/aarch64-poky-linux/usr/include/opencv2/ -I /opt/fsl-imx-internal-xwayland/4.19-thud/sysroots/aarch64-poky-linux/usr/include/opencv4/opencv2/ -ltensorflow-lite -lpthread -ldl -lopencv_core -lopencv_highgui -lopencv_videoio -lopencv_imgcodecs -L /opt/fsl-imx-internal-xwayland/4.19-thud/sysroots/aarch64-poky-linux/usr/lib/ -o cam_label
+ 
+ 
+ 
+  $CXX --std=c++11 -O3 bitmap_helpers.cc cam_label_image.cc -ltensorflow-lite -lpthread -ldl -lopencv_core -lopencv_highgui -lopencv_videoio -lopencv_imgcodecs  -o cam_label
+ 
+ 
+ $CXX --std=c++11 -ltensorflow-lite -lopencv_objdetect -lopencv_highgui -lopencv_imgproc -lopencv_core -lopencv_videoio -lopencv_imgcodecs -Itensorflow/contrib/lite/tools/make/downloads/flatbuffers/include/  bitmap_helpers.cc cam_label_image.cc
+ 
+ 

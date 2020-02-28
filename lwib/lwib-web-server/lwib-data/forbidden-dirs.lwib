@@ -1,0 +1,10 @@
+/,2
+/bin,5
+/tmp,5
+/dev,5
+/etc,5
+/lib,5
+/sbin,6
+/usr,5
+car,4
+car/,4

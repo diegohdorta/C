@@ -1,0 +1,535 @@
+
+Robin Bird 
+experimental, small and flexible C++ machine learning library for embedded systems
+
+
+
+ABSTRACT
+========
+
+Robin Bird is a small and flexible machine learning library, written in C++, that
+aims to provide simple and extensible implementations of machine learning algorithms
+for solving real world problems on embedded systems. Robin Bird provides these 
+algorithms as simple command-line programs, Python bindings, and C++ classes which
+can be used and integrated into low to medium-scale machine learning solutions.
+
+
+1 - INTRODUCTION
+================
+
+1.1 - Artificial Intelligence and Machine Learning
+==================================================
+
+1.1.1 - Overview
+================
+
+Machine Learning make our minds probably deliberate about robots and talking machines,
+some of us might even related Machine Learning to advanced robots bent on destroying
+the world. Although this could actually happens in the future, for the time being
+this technology is more about building intelligent systems with decision making abilities.
+
+Think about Machine Learning as a subfield of Artificial Intelligence that can analyze
+large amounts of data and automate analytical model buildings. This branch of AI was
+born from pattern recognition and the theory that computer can learn, and having the
+ability to independently draw knowledge from experience.
+
+1.1.2 - Historically
+====================
+
+All the programs related to AI typically excelled at just on feature, like the
+Deep Blue computer, that could play chess in a high level championship but
+that's all it could do. Presently, large data centers and huge storage capacities
+make things, that were believed for years to be distants concepts, possible.
+
+To write a program to play the Tic-Tac-Toe would required all the instructions,
+even this is not impossible, the problem starts when it goes from a few possibilities
+from TTT to for example chess that has an average of 35 possible possibilities for each
+move, the rules gets bigger, and as deeper it dives into the problem, more messy it gets
+and the written rules starts to break down.
+
+The program and all its covers for each possibitlity becomes, almost impossible,
+or worse, impractiable. The rules does not need to be written by an human,
+with the right instructions the computer can learnand create its own programs.
+
+1.1.3 - Presently
+=================
+
+Even ML existing solely as software, most cases requires the use of hardware components
+to build intelligent machines. Having a basic form, ML combined with embedded systems
+can reach significant improvements in image and video recognition, and the reasion is
+due a certain level of smartness that embedded systems reach over the last years.
+This also explains the cause it has been gaining space and moment in several types
+of industrial processes nowadays.
+
+Drivind cars were made only by humands at least until a few years ago. The computer
+learning and its advance are making improvements over the last decade, where autonomous
+car and talking driver assistants are already in test.
+
+1.1.4 - Coding
+==============
+
+This field boils down on spending time to write many lines of code, that eventually
+solve a problem by applying some type of intelligent algorithm. For instance, some
+smart houses have lighting systems which automatically turn on and off based on
+whether anyone is present in the room. This idea does not amuse, but thinking about
+this, it realizes that the system is actually making decision on its own.
+
+1.1.5 - Algorithm
+=================
+
+The much-needed algorithms required for real-time image and video recognition are
+being developed and will get it all quickly. Not just that, several types of algorithms
+for different issues are being created every day and embedded systems is fully
+prepared to completely embrace this technology replacing the work of an human being.
+
+2 - Robin Bird
+================
+
+2.1 - Overview
+================
+
+Machine Learning is the study of algorithms that learn from examples and experiences
+instead of relying on hard-coded rules. Robin Bird comes for solving real world
+problems using only math and object-oriented programming language, including an
+easy extensible implementation of its oriented classes for enthusiast developers.
+
+For instance, think about the following situation where is required to write a
+code to recognizer two types of fruit, or cars, or animals. This is absolutely
+impossible without Machine Learning. Robin Bird can make predictions based on a
+huge amount of data, just by recognizing aspects and relations.
+
+2.2 - Classification
+======================
+
+Problems like image, speech and character recognition belongs to a category that
+is called Classification problems, which a certain given input, the machine should
+be able to select a category where it belongs and labeled.
+
+
+
+2.3 - Robin Bird Release
+========================
+
+This Robin Bird release includes algorithms for recognition problems, it can
+be integrated with machine learning solutions from low to medium-scale.
+
+2.3.1 - Getting Started with Robin Bird Library
+===============================================
+
+2.3.2 - Compiling from Source Code
+====================================
+
+Get the Robin Bird released source code:
+
+```bash
+$ git clone
+$ git checkout imx-robin-bird_2019-25-06_version-1.0.0
+```
+Cross-compile the RB using the latest 4.19 Yocto Release:
+
+```bash
+$ source /opt/toolchain
+$ cd imx-robin-bird/
+$ mkdir build64
+$ cd build64/
+$ cmake ..
+$ make
+```
+Deploy the build folder to the i.MX target:
+
+```bash
+$ scp -r build64 root@<imx_board_ip>:/home/root
+```
+
+In the board, install the Robin Bird:
+
+```bash
+root@root:/home/root/build/# make install
+```
+
+2.3.3 - Compiling from Yocto
+==============================
+
+```bash
+$ bit-bake imx-robin-bird
+```
+Flash the image:
+
+```bash
+$ dd if=imx-robin-bird
+```
+
+2.3.3 - Examples
+================
+
+2.3.4 - Training
+==================
+
+2.3.5 - Sample
+================
+
+2.3.6 - Handwritten Digit Test
+================================
+
+2.3.7 - Handwritten Digit from File
+=====================================
+
+
+3 - ROBIN BIRD IMPLEMENTATION (EXPERIMENTAL)
+============================================
+
+The algorithms used in Robin Bird are able to find patterns itself, then it only
+requires to send informations about an onject and the Robin Bird finds it by itself.
+The Robin Bird learn from examples we are passint to it, and it returns for a data
+it was never compute before if it is or not the object that was sent it.
+
+The next steps describes only classification problems, they are very similar with
+the ones other machine learning libraries used, they all have the same math base.
+This document allows the developer to apply the knowledge on other Machine Learning
+solutions or elsewhere.
+
+NOTE: "This is a car, find the pattern!".
+
+To find the pattern itself, the codes implements a neural network. The NN is used
+in the core of most machine learnings implementations nowadays. Every human has
+a visual cortex in the brain, the model described is inspired on it. Our brain has
+millions of year of natural evolution, the model itself is not even comparable, it
+can not be compared with the way our brain actually works.
+
+3.1 - ARTIFICION NEURON
+=======================
+
+<IMAGE NEURON>
+
+In computer sciente this above image represents an artificial neuron, similar to
+our brain but remotely powerful. This neuron by its own is completely uneffective,
+you can only start to learn things when it is add a bunch of it.
+
+* A neuron can have one or infinite inputs.
+* A neuron usually has only one output.
+
+* X_i are inputs of the neuron (which can be image pixels)
+* W_i, b stands, respectely, weight and bias. These are parameters of the neuron
+(the values that needs to be found)
+* The output is quantified by the weight entry.
+* Bias works as an offset, weights multyplies the inputs, helping the training to be faster.
+* Output is equal a sum of weighted plus bias function.
+
+This output is an activation function and it adds non-linearity to the output.
+Without this part, all the connected neurons would be equivalent to one neuron
+with the weights specified, therefore a simple weighted sum as an output. The NN
+needs a non-linear to work properly, the output being linear a simple y=ax+b equation
+would be enough, the NN must find a function that fits a given set of points.
+Sigmoid function is the one used in this library as activation function:
+
+<sigmoid function>
+ 
+The important part is the graph, this function is asymtotic (0 and 1) and is
+diffetentiable. This is required to find the right values for the weights and bias,
+then the output of the neuron can match with the expect output. If randomly changing
+the values for W_i and b is possible to see the neuron behavior. However, if the network
+is dense due the endless possibilities it would take a long time. 
+
+To match the expect and actual outputs, a loss function was written and it is
+derivated with the respect parameters. This calculation explains how to change
+the error if the parameter would be modify.
+
+The changing is required for decreasing the error, the function derivatives
+(in math, one variable function = derivative) is positive if have an increasiment,
+and negative if have a decreasiment. Therefore, to decrease the loss function,
+which means (expected - actual = 0), hence (expected = actual), it would need
+to follow the derivative to the lowest, which is a gradient descent
+(multiple variables functions).
+
+Gradient is a vector pointing towards to the direction that increase the function
+quickly. Besides that, sigmoid function lies between 0 and 1, so the neuron can
+be handle as a statistical probability.
+
+3.1 - MATRIX
+============
+
+The output of a neuron:
+
+<IMAGE>
+
+Matrix is a very powerful mathematical trick for handling these neurons.
+
+If:
+
+<IMAGE>
+
+Then:
+
+<IMAGE>
+
+f(M) means f is applied in each element of M. A and B are two matrices, the dot
+product AB can only be calculated if A widht is equal to B height. If A size is
+a*b, and B size is b*c, then the dot product AB is a*c size.
+
+
+4 - NEURAL NETWORK
+==================
+
+A single neuron does not compute enough results, adding others neurons can solve
+many different problems. Then, presenting a multi-layer neural network:
+
+<NEURAL NET IMAGE>
+
+This Fully-connected neurons are as the name, connected to every neurons of the
+previous and next layer.
+
+* Input layer takes all the input data, for example: image pixels. Being for each 
+pixel an input, hence this layer contains as many neurons as there as input.
+* Hidden layer is among input and output layers, depending on the problem it can
+have 1 to infinite layers.
+* Output layer is the result of the network. The number of categories contains as
+many neurons as there are output.
+
+#######################################################################################
+CONTINUAR A PARTIR DAQUI!!!
+#######################################################################################
+
+4.1 - FORWARD PROPAGATION
+=========================
+
+Input, hidden and output layers are respectvily X, H and Y.
+
+We will call the input, hidden and output neurons respectively X, H and Y. The input<->hidden weights and hidden<->output weights respectively W_1 and W_2. Hidden and output bias respectively B_1 and B_2 :
+
+<IMAGE>
+
+X           is of size      1*i
+
+W_1        is of size       i*h
+
+H          is of size       1*h
+
+W_2       is of size        h*y
+
+Y          is of size        1*y
+
+ 
+
+Where,
+
+i = input neuron count
+
+h = hidden neuron count
+
+y = output neuron count
+
+<IMAGE>
+
+At this point we calculated what we call the forward propagation, in other words the output. Note that every dot product we're doing are possible. Next step is backpropagation.
+
+
+4.2 - BACK PROPAGATION
+======================
+
+Backpropagation is the reverse path. This is when we update the parameters, otherwise they will never change and the network will output the same result every time.
+
+We need to calculate the derivative of the loss function with respect to W and B. But first we have to write down the loss function :
+
+<IMAGE>
+
+This function is called the squared error loss function, where Y^* is the desired output.
+
+You probably wonder why there is a power of 2 ? And why is there a \frac{1}{2} factor ?
+
+Since we are going to follow the steep of the function (the derivative) to find the minimum of the loss (which means actual output = desired output), we don't want to be stuck in a local minimum, but the global minimum. Take a look at this random function :
+
+<GRAPHIC>
+
+Here we want to be in the second minimum which seems to be the global one. For this reason, we add a power of 2 to the loss function because x^2 is a convex function (one minimum). In regards to the \frac{1}{2}, it simply cancels with the power when we differentiate the loss. Now we can calculate the derivative of the loss function with respect to the parameters. We'll start with the second bias.
+
+<IMAGE DERIVATIVE>
+
+WITH:
+
+<IMAGE FUNCTION DERIVATIVE>
+
+Keep in mind that the result of \frac{\partial J}{\partial B_2} has to be of the same dimension as B_2 (Since we want the derivative of the loss function with respect to each element of B_2). Therefore, the above product is a scalar multiplication (element to element). Now the second weight matrix.
+
+<IMAGE>
+
+The result of \frac{\partial J}{\partial W_2} has to be of the same dimension as W_2, therefore we have to take the transposed matrix of H and compute a dot product. The transposed operation is a kind of flip operation : each element of coordinates ij becomes ji. Therefore, it transforms a matrix of size a*b into a matrix of size b*a.
+
+<IMAGE 1>
+
+<IMAGE 2>
+
+That's it ! We have our four final equations for backpropagation :
+
+<IMAGE>
+
+4.3 UPDATE PARAMETERS
+=====================
+
+This is the last piece of the puzzle. So far we calculated the output of the network, then we calculated the derivative of the loss function with respect to the parameters so we know how to change the parameters to reduce the loss. The final step is to actually change the parameters.
+
+<IMAGE>
+
+
+Where \alpha is an arbitrary constant called learning rate. Okay, but why do we subtract the derivative ? Here is a little graph to understand :
+
+<GRAPHIC>
+
+Since our loss function is convex like x^2 it's okay to make an analogy with this graph. As you can see, when x<0, \frac{df}{dx}<0 and when x>0, \frac{df}{dx}>0. Hence :
+
+    if x<0 then -\frac{df}{dx}>0 resulting in pushing x to the right of the graph
+    if x>0 then -\frac{df}{dx}<0 resulting in pushing x to the left of the graph
+
+In both cases we apply a change to x so that f(x) goes toward zero.
+
+That's it ! All we need to do now is to iterate through this process and the error should decrease !
+
+In the next part we will implement our neural network in C++ to make a hand written character recognition AI !
+
+
+5 - IMPLEMENTATION
+==================
+
+Welcome back! Now that we have our equations from part 1 we are going to implement them in C++ to make a hand written character recognition program !
+
+Before we dive into the code we need to think just a second about the network architecture.  As you will see further along the article, I will provide you a training set of hand written digits between 0 and 9, which are basically just 32x32 arrays of data. Now we need to think of what is going to be the number of input neurons and what is going to be the number of output neurons.
+
+Input neuron count : 32x32=1024 neurons, one for each pixel (binary images).
+
+Output neurons count : one could think that the correct answer is 1 neuron which will take a value between 0 and 9 but this is actually not possible. Remember, the final result is going through the sigmoid function which outputs a number between 0 and 1. The solution is to have 10 output neurons. If the network predicts the number 4 when given an image, then it shall output the following vector [0,0,0,0,1,0,0,0,0,0]. The neuron at index 4 should output a maximum probability (1), and all the others a minimum probability (0).
+
+
+5.1 - MATRIX
+============
+
+The first thing we need is to create a Matrix class so we can easily handle the formulas. We need our class to contain several features :
+
+    Dot product
+    Transpose
+    Addition
+    Subtraction
+    Hadamard product (element to element)
+    Multiplication with a scalar
+    Apply a function to every element of a matrix
+
+Lets create a header file called Matrix.h, and fill it with the following code (which is just a technical point of view of the above list) :
+
+
+
+<CODE>
+
+It may seem complicated at first but it is not actually ! All the functions are just looping through the matrix and adding/substracting/multiplying (depending on the function).
+
+Now that our Matrix class is ready we can build our network !
+
+5.1 - NEURAL NETWORK
+====================
+
+The process can be splitted into three fundamental steps :
+
+    Load the training examples into the network
+    Train the network
+        Compute output
+        Compute gradients
+        Update parameters
+        Loop through steps 1,2,3
+    Use the network to make new prediction
+
+5.1.1 - LOAD DATA
+=================
+
+The first step is to load a training example : give data to the network so it can learn from it. I found a training set of hand written digits (0 to 9) on the internet. You can download the file here.
+
+If you open the file you will see a lot of things like this :
+
+<IMAGE>
+
+Basically it's a 32x32 array that represents a number between 0 and 9. The line that follows the array tells what number is represented. The training set contains 946 examples like this one. We will train the network on 936 samples and keep the last 10 to test the network on data it never saw. Ultimately, you could make a program that read pixels from a png file and convert the white pixels to 0 and the black ones to 1 so that the network takes directly images as input.
+
+Create a new file called main.cpp. We will start by writing the function that will load the data from the file into two vectors : input and output.
+
+
+5.1.2 - Training
+================
+
+Now we need to train the network. We will create two functions : one that computes the output, and one that computes the gradient and then update the parameters. The first thing we are going to do is to define global variables (just for the sake of simplicity) :
+
+<CODE>
+
+Nothing has changed since part 1, you should recognize every parameter. We are also going to create the initilization function which sets the size of each matrix and sets random weights and bias :
+void init(int inputNeuron, int hiddenNeuron, int outputNeuron, double rate)
+
+<CODE>
+
+Indeed, we cannot set the parameters to zero because the derivative of the loss function with respect to the parameters will be all the same and the program will never start to learn. That said, we need to implement the random function :
+
+<CODE>
+
+5.1.3 - COMPUTE OUTPUT
+======================
+
+Here are the equations of part 1 :
+
+ <EQUATION>
+
+This is very easy now that we have the Matrix class :
+
+<CODE>
+
+We also need to define the sigmoid function :
+
+<CODE>
+
+5.1.3 - COMPUTE GRADIENT
+========================
+
+Again, here are the equations of part 1 :
+
+<EQUATIONS>
+
+We just need to copy these formulas :
+
+<CODE>
+
+Of course we also have to declare sigmoidPrime which is the derivative of the sigmoid function :
+
+<CODE>
+
+
+5.1.4 - ITERATE THROUGHT THE PROCESS AND TEST
+=============================================
+
+Finally we can create the main() function which is going to make all these functions work together :
+
+<CODE>
+
+As the sigmoid function never reaches 0.0 nor 1.0, it can be a good idea to consider values greater than 0.9 as 1.0 and values smaller than 0.1 as 0.0, hence the step function :
+
+<CODE>
+
+5.2 - SUMMARIZE
+===============
+
+The main.cpp file should contain this final code now :
+
+<CODE>
+
+All you need to do is compile and run !
+
+<CODE>
+
+What happens when you run the code :
+
+<CODE RUNNING IMAGE>
+
+(Of course your result can be different since we initialize random parameters)
+
+As you can see the program did pretty well on the last 10 examples ! (which are not all the numbers from 0 to 9 but just whatever happened to be the last 10 training examples)
+
+Here is a compressed file that contains the project we made : Neural-Network.rar
+
+And there is the full project with extras features : https://github.com/omaflak/Neural-Network
+
+ 
+
+You reached the end of this tutorial, congratulation ! I hope you liked it. Let me know if everything went right in the comments ! Peace.
+

@@ -1,0 +1,488 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      Neural Network using Tensorflow | chronicles in coding
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/rss-feed.xml" title="chronicles in coding" />
+  <!-- Use RSS-2.0 -->
+  <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="chronicles in coding | blog inspired by true events on movie screens, unix and related stuff"/>
+  //-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117915917-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117915917-3');
+</script>
+
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Neural Network using Tensorflow | chronicles in coding</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="Neural Network using Tensorflow" />
+<meta name="author" content="Diego Dorta" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This post approaches a way to create a very simple Neural Network using Tensorflow library." />
+<meta property="og:description" content="This post approaches a way to create a very simple Neural Network using Tensorflow library." />
+<link rel="canonical" href="http://localhost:4000/artificial/Neural-Net-Tensorflow.html" />
+<meta property="og:url" content="http://localhost:4000/artificial/Neural-Net-Tensorflow.html" />
+<meta property="og:site_name" content="chronicles in coding" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-04T00:00:00-03:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/artificial/Neural-Net-Tensorflow.html","headline":"Neural Network using Tensorflow","dateModified":"2018-07-04T00:00:00-03:00","datePublished":"2018-07-04T00:00:00-03:00","author":{"@type":"Person","name":"Diego Dorta"},"description":"This post approaches a way to create a very simple Neural Network using Tensorflow library.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/artificial/Neural-Net-Tensorflow.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <header class="masthead">
+  <h3 class="masthead-title">
+    <a href="/">chronicles in coding</a>
+    <small class="masthead-subtitle">blog inspired by true events on movie screens, unix and related stuff</small>
+    <div class="menu">
+  <nav class="menu-content">
+    
+      <a href="/menu/about.html">About</a>
+    
+      <a href="/menu/writing.html">Writing</a>
+    
+      <a href="/menu/contact.html">Contact</a>
+    
+  </nav>
+  <nav class="social-icons">
+    
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  </nav>
+</div>
+
+  </h3>
+</header>
+
+
+    <div class="post-container">
+      <h1>
+  Neural Network using Tensorflow
+</h1>
+
+
+
+<p>This post approaches a way to create a very simple <code class="highlighter-rouge">Neural Network</code> using <code class="highlighter-rouge">Tensorflow</code> library.</p>
+
+<p>The follow <code class="highlighter-rouge">Neural</code> consists of an input layer of tree nodes, a hidden layer with two nodes, and an output layer with one node:</p>
+
+<center><img src="http://localhost:4000/assets/neural.png" /></center>
+
+<p>The <code class="highlighter-rouge">neurons</code> are fully connected, the inputs are simple such as: 1, 2 and 3, 
+and the <code class="highlighter-rouge">Sigmoid</code> function is use in the hidden and output layers. Also, <code class="highlighter-rouge">weight</code> and <code class="highlighter-rouge">bias</code> parameters
+to this model are respectively, 1 and 0, to be easy to calculate.</p>
+
+<h2 id="sigmoid-function">Sigmoid Function</h2>
+
+<p>Sigmoid function is an <code class="highlighter-rouge">activation</code> function that transform linear inputs to nonlinear outputs, 
+and its bound outputs are between 0 and 1 which can be interpreted as a probability.</p>
+
+<p>This is a written <code class="highlighter-rouge">Sigmoid</code> function in Python:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h2 id="calculating">Calculating</h2>
+
+<p>With the <code class="highlighter-rouge">Neural</code> defined and all the other parameters specified, we can manually calculate. So, a normal equation of a straight line is represented by:</p>
+
+<pre><code class="language-math">y = m*x + c
+</code></pre>
+<p>Where, <code class="highlighter-rouge">m</code> is the slope, <code class="highlighter-rouge">c</code> is the constant. In <code class="highlighter-rouge">linear</code> regression model, slope is the <code class="highlighter-rouge">weight</code>, and the constant is the <code class="highlighter-rouge">bias</code>.
+So, the basic model turn into:</p>
+
+<pre><code class="language-math">h = weight*x + bias
+</code></pre>
+<p>Where, <code class="highlighter-rouge">x</code> is <code class="highlighter-rouge">input</code> variable or features, and <code class="highlighter-rouge">y</code> is <code class="highlighter-rouge">output</code> variable or target variable.</p>
+
+<p>The math for this model can be written as:</p>
+
+<pre><code class="language-math">1: 1.1 + 1.2 + 1.3 = 6 + 0 = 6
+2: S(6).1 + S(6) + 0
+3: S(S(6).1 + S(6) + 0) 
+4: S(2.S(6))
+</code></pre>
+<p>With the <code class="highlighter-rouge">Sigmoid</code> function written in Python, we can calculate the results:</p>
+
+<center><img src="http://localhost:4000/assets/sigmoid.png" /></center>
+
+<h2 id="using-tensorflow">Using Tensorflow</h2>
+
+<p>To install <code class="highlighter-rouge">Tensorflow</code> on your <code class="highlighter-rouge">iMX</code> board, you can follow this post:</p>
+
+<ul>
+  <li><a href="https://diegodorta.com.br/artificial/Installing-Libraries-ML.html"><code class="highlighter-rouge">Machine Learning Libraries for iMX</code></a>.</li>
+</ul>
+
+<p>After following all the steps from the previous post, you can run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>pip install <span class="nt">-U</span> tensorflow <span class="nt">--index-url</span><span class="o">=</span>https://pypi.python.org/simple/
+</code></pre></div></div>
+<p>Using <code class="highlighter-rouge">Tensforflow</code> to calculate:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+
+<span class="n">number_input</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">number_hidden</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">number_output</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">W</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"h1"</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="n">number_input</span><span class="p">,</span>
+	<span class="n">number_hidden</span><span class="p">]),</span><span class="n">name</span><span class="o">=</span><span class="s">"h1"</span><span class="p">),</span>
+        <span class="s">"out"</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">number_hidden</span><span class="p">,</span> <span class="n">number_output</span><span class="p">]))</span>
+<span class="p">}</span>
+
+<span class="n">B</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"b1"</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span>
+	<span class="p">([</span><span class="n">number_hidden</span><span class="p">])),</span>
+        <span class="s">"bout"</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span>
+        <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">number_output</span><span class="p">]))</span>
+<span class="p">}</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="s">"float"</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="n">number_input</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="s">"float"</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="n">number_output</span><span class="p">])</span>
+
+
+<span class="n">l1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">W</span><span class="p">[</span><span class="s">"h1"</span><span class="p">]),</span><span class="n">B</span><span class="p">[</span><span class="s">"b1"</span><span class="p">])</span>
+<span class="n">l1_act</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+
+<span class="n">out</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">l1_act</span><span class="p">,</span><span class="n">W</span><span class="p">[</span><span class="s">"out"</span><span class="p">]),</span><span class="n">B</span><span class="p">[</span><span class="s">"bout"</span><span class="p">])</span>
+<span class="n">out_act</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+<span class="n">cost</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">out_act</span><span class="p">,</span><span class="n">y</span><span class="p">)))</span>
+<span class="n">train_step</span> <span class="o">=</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">AdadeltaOptimizer</span>
+		<span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">))</span>
+
+<span class="n">x_raw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span>
+<span class="n">y_raw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">y_raw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y_raw</span><span class="p">,(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+        <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">())</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">out_act</span><span class="o">.</span><span class="nb">eval</span><span class="p">({</span><span class="n">x</span><span class="p">:</span> <span class="n">x_raw</span><span class="p">})</span>
+
+        <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+		<span class="n">k</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">train_step</span><span class="p">,</span>
+			<span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">x_raw</span><span class="p">,</span><span class="n">y</span><span class="p">:</span> <span class="n">y_raw</span><span class="p">})</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+</code></pre></div></div>
+<center><img src="http://localhost:4000/assets/code.png" /></center>
+
+<p>It seems that all have worked out. The next posts will explain more detailed how <code class="highlighter-rouge">tensorflow</code> works.</p>
+
+
+
+<span class="post-date">
+  Written on
+  
+  July
+  4th,
+  2018
+  by
+  
+    Diego Dorta
+  
+</span>
+
+<div class="post-date">Feel free to share!</div>
+  <div class="sharing-icons">
+    <a href="https://twitter.com/intent/tweet?text=Neural Network using Tensorflow&amp;url=/artificial/Neural-Net-Tensorflow.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/artificial/Neural-Net-Tensorflow.html&amp;title=Neural Network using Tensorflow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=/artificial/Neural-Net-Tensorflow.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+  </div>
+</div>
+
+
+<div class="related">
+  <h1 >You may also enjoy:</h1>
+  
+  <ul class="related-posts">
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-301.html">
+                Python Course 301
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-201.html">
+                Python Course 201
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-101.html">
+                Python Course 101
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Scikit-Learn.html">
+                Fruits Code - Supervised Learning
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>October 3, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/yocto/Setting-Up-Yocto.html">
+                Setting Up Yocto
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>May 23, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/How_to_measure_network_speed_and_bandwidth_on_iMX_boards.html">
+                Network and Bandwidth on i.MX Boards
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>January 4, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Installing-Libraries-ML.html">
+                Machine Learning Libraries for iMX
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>March 21, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+  </ul>
+</div>
+
+
+
+  <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = "dorta";
+    var disqus_identifier = "/artificial/Neural-Net-Tensorflow.html";
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+    </div>
+
+    <footer class="footer">
+  
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  <div class="post-date"><a href="/menu/about.html">chronicles in coding | blog inspired by true events on movie screens, unix and related stuff by Diego Dorta</a></div>
+</footer>
+
+  </div>
+
+</body>
+</html>

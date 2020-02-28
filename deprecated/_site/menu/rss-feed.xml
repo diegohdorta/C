@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<channel>
+		<title>chronicles in coding</title>
+		<description>blog inspired by true events on movie screens, unix and related stuff</description>
+		<link></link>
+		<atom:link href="/menu/rss-feed.xml" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title>Python Course 301</title>
+				
+					<dc:creator>Diego Dorta</dc:creator>
+				
+				
+					<description>&lt;p&gt;Before jumping to &lt;code class=&quot;highlighter-rouge&quot;&gt;Machine Learning&lt;/code&gt; course, there are a few fundamental concepts
+of &lt;em&gt;Python&lt;/em&gt; that is desired to know and review it due its intensive use during the
+course. If you get &lt;em&gt;Python&lt;/em&gt; or it is already familiar, feel free to skip this &lt;code class=&quot;highlighter-rouge&quot;&gt;301&lt;/code&gt;
+section. If you still are a beginner it will be very helpful to learn the following
+examples before moving on.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Thu, 08 Nov 2018 00:00:00 -0200</pubDate>
+				<link>http://localhost:4000/artificial/Python-Course-301.html</link>
+				<guid isPermaLink="true">http://localhost:4000/artificial/Python-Course-301.html</guid>
+			</item>
+		
+			<item>
+				<title>Python Course 201</title>
+				
+					<dc:creator>Diego Dorta</dc:creator>
+				
+				
+					<description>&lt;p&gt;This section approaches the &lt;em&gt;list&lt;/em&gt; concept in &lt;em&gt;Python&lt;/em&gt; and jumps a head a little
+to demonstrate how &lt;code class=&quot;highlighter-rouge&quot;&gt;data structures&lt;/code&gt; are important while developing applications
+for &lt;code class=&quot;highlighter-rouge&quot;&gt;ML&lt;/code&gt; projects.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Thu, 08 Nov 2018 00:00:00 -0200</pubDate>
+				<link>http://localhost:4000/artificial/Python-Course-201.html</link>
+				<guid isPermaLink="true">http://localhost:4000/artificial/Python-Course-201.html</guid>
+			</item>
+		
+			<item>
+				<title>Python Course 101</title>
+				
+					<dc:creator>Diego Dorta</dc:creator>
+				
+				
+					<description>&lt;p&gt;In most of the programming languages a variable is a named location used to store
+data in the &lt;em&gt;memory&lt;/em&gt;. Each variable must have a unique name called &lt;em&gt;identifier&lt;/em&gt;.
+It is helpful to think of variables as container that hold data which can be
+changed later &lt;em&gt;throughout programming&lt;/em&gt;.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Thu, 08 Nov 2018 00:00:00 -0200</pubDate>
+				<link>http://localhost:4000/artificial/Python-Course-101.html</link>
+				<guid isPermaLink="true">http://localhost:4000/artificial/Python-Course-101.html</guid>
+			</item>
+		
+			<item>
+				<title>ML Course</title>
+				
+					<dc:creator>Diego Dorta</dc:creator>
+				
+				
+					<description>&lt;p&gt;This course has a purpose to provide an initial and also deeper contact with a practical
+view and details behind &lt;code class=&quot;highlighter-rouge&quot;&gt;Machine Learning&lt;/code&gt; methods. The &lt;em&gt;minimal requirements&lt;/em&gt; for this 
+course is to have a little &lt;em&gt;math background&lt;/em&gt; and &lt;em&gt;knowledge in programming languages&lt;/em&gt;.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Thu, 08 Nov 2018 00:00:00 -0200</pubDate>
+				<link>http://localhost:4000/artificial/ML-Course.html</link>
+				<guid isPermaLink="true">http://localhost:4000/artificial/ML-Course.html</guid>
+			</item>
+		
+			<item>
+				<title>Introductory Python Course for ML</title>
+				
+					<dc:creator>Diego Dorta</dc:creator>
+				
+				
+					<description>&lt;p&gt;This course was prepared to offer concepts/knowledge to be further used in the
+&lt;a href=&quot;https://diegodorta.com.br/artificial/ML-Course.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Machine Learning&lt;/code&gt;&lt;/a&gt; course.
+The acquired theoretical and practical understanding of this module can help
+getting a better comprehension of the next modules.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Wed, 31 Oct 2018 00:00:00 -0300</pubDate>
+				<link>http://localhost:4000/artificial/Python-Course.html</link>
+				<guid isPermaLink="true">http://localhost:4000/artificial/Python-Course.html</guid>
+			</item>
+		
+			<item>
+				<title>Fruits Code - Supervised Learning</title>
+				
+					<dc:creator>Diego Dorta</dc:creator>
+				
+				
+					<description>&lt;p&gt;This post consists to collect training data. For solving this problem, we are going to write a function to classify
+a piece of fruit. For starters, it will take a description of the fruit as input and predict whether it’s an &lt;strong&gt;apple&lt;/strong&gt;
+or an &lt;strong&gt;orange&lt;/strong&gt; as output, based on features like its weight and texture.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Wed, 03 Oct 2018 00:00:00 -0300</pubDate>
+				<link>http://localhost:4000/artificial/Scikit-Learn.html</link>
+				<guid isPermaLink="true">http://localhost:4000/artificial/Scikit-Learn.html</guid>
+			</item>
+		
+			<item>
+				<title>OpenCL Overview on iMX</title>
+				
+					<dc:creator>Diego Dorta</dc:creator>
+				
+				
+					<description>&lt;p&gt;&lt;strong&gt;Post under review: a few examples codes are being developed&lt;/strong&gt;&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Wed, 03 Oct 2018 00:00:00 -0300</pubDate>
+				<link>http://localhost:4000/gpu/OpenCL-Overview.html</link>
+				<guid isPermaLink="true">http://localhost:4000/gpu/OpenCL-Overview.html</guid>
+			</item>
+		
+			<item>
+				<title>From Auxerre to the World</title>
+				
+					<dc:creator>Diego Dorta</dc:creator>
+				
+				
+					<description>&lt;p&gt;This code was written for plotting the terms of Fourier series for a &lt;code class=&quot;highlighter-rouge&quot;&gt;Square Wave&lt;/code&gt;.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Tue, 07 Aug 2018 00:00:00 -0300</pubDate>
+				<link>http://localhost:4000/python/Fourier-Series.html</link>
+				<guid isPermaLink="true">http://localhost:4000/python/Fourier-Series.html</guid>
+			</item>
+		
+			<item>
+				<title>Building U-Boot for iMX8 QXP Board</title>
+				
+					<dc:creator>Diego Dorta</dc:creator>
+				
+				
+					<description>&lt;p&gt;The purpose behind this post consists in explaining a way to get started with &lt;code class=&quot;highlighter-rouge&quot;&gt;iMX8QXP MEK&lt;/code&gt; board from its source code. Due the constant maintenance this post may stop working eventually.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Tue, 17 Jul 2018 00:00:00 -0300</pubDate>
+				<link>http://localhost:4000/tutorial/Building-UBoot-for-iMX8QXP.html</link>
+				<guid isPermaLink="true">http://localhost:4000/tutorial/Building-UBoot-for-iMX8QXP.html</guid>
+			</item>
+		
+			<item>
+				<title>Setting up Yocto for i.MX BSP releases</title>
+				
+					<dc:creator>Diego Dorta</dc:creator>
+				
+				
+					<description>&lt;p&gt;This previous &lt;a href=&quot;https://diegodorta.com.br/yocto/Setting-Up-Yocto.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;post&lt;/code&gt;&lt;/a&gt; may not work all time due the constant maintenance.
+To solve this issue, this post intents to teach how to start using actual &lt;code class=&quot;highlighter-rouge&quot;&gt;i.MX BSP releases&lt;/code&gt; from &lt;a href=&quot;https://source.codeaurora.org/external/imx/imx-manifest&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;code aurora&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Mon, 16 Jul 2018 00:00:00 -0300</pubDate>
+				<link>http://localhost:4000/yocto/Seeting-Up-Yocto-for-iMX-BSP-releases.html</link>
+				<guid isPermaLink="true">http://localhost:4000/yocto/Seeting-Up-Yocto-for-iMX-BSP-releases.html</guid>
+			</item>
+		
+	</channel>
+</rss>

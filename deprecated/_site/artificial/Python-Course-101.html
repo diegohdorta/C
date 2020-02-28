@@ -1,0 +1,714 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      Python Course 101 | chronicles in coding
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/rss-feed.xml" title="chronicles in coding" />
+  <!-- Use RSS-2.0 -->
+  <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="chronicles in coding | blog inspired by true events on movie screens, unix and related stuff"/>
+  //-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117915917-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117915917-3');
+</script>
+
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Python Course 101 | chronicles in coding</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="Python Course 101" />
+<meta name="author" content="Diego Dorta" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In most of the programming languages a variable is a named location used to store data in the memory. Each variable must have a unique name called identifier. It is helpful to think of variables as container that hold data which can be changed later throughout programming." />
+<meta property="og:description" content="In most of the programming languages a variable is a named location used to store data in the memory. Each variable must have a unique name called identifier. It is helpful to think of variables as container that hold data which can be changed later throughout programming." />
+<link rel="canonical" href="http://localhost:4000/artificial/Python-Course-101.html" />
+<meta property="og:url" content="http://localhost:4000/artificial/Python-Course-101.html" />
+<meta property="og:site_name" content="chronicles in coding" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-11-08T00:00:00-02:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/artificial/Python-Course-101.html","headline":"Python Course 101","dateModified":"2018-11-08T00:00:00-02:00","datePublished":"2018-11-08T00:00:00-02:00","author":{"@type":"Person","name":"Diego Dorta"},"description":"In most of the programming languages a variable is a named location used to store data in the memory. Each variable must have a unique name called identifier. It is helpful to think of variables as container that hold data which can be changed later throughout programming.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/artificial/Python-Course-101.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <header class="masthead">
+  <h3 class="masthead-title">
+    <a href="/">chronicles in coding</a>
+    <small class="masthead-subtitle">blog inspired by true events on movie screens, unix and related stuff</small>
+    <div class="menu">
+  <nav class="menu-content">
+    
+      <a href="/menu/about.html">About</a>
+    
+      <a href="/menu/writing.html">Writing</a>
+    
+      <a href="/menu/contact.html">Contact</a>
+    
+  </nav>
+  <nav class="social-icons">
+    
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  </nav>
+</div>
+
+  </h3>
+</header>
+
+
+    <div class="post-container">
+      <h1>
+  Python Course 101
+</h1>
+
+
+
+<p>In most of the programming languages a variable is a named location used to store
+data in the <em>memory</em>. Each variable must have a unique name called <em>identifier</em>.
+It is helpful to think of variables as container that hold data which can be
+changed later <em>throughout programming</em>.</p>
+
+<p>Non technically, you can suppose variable as a bag to store books in it and those
+books can be replaced at anytime.</p>
+
+<p><strong>Note</strong>: In <em>Python</em> we don’t assign values to the variables, whereas <em>Python</em>
+gives the reference of the object (value) to the variable.</p>
+
+<p>In <em>Python</em>, variables do not need declaration to reserve memory space.
+The “variable declaration” or “variable initialization” happens automatically
+when we assign a value to a variable.¹</p>
+
+<p>[1] - <a href="https://www.programiz.com/">Reference</a></p>
+
+<h3 id="hello-world-example">Hello World Example</h3>
+
+<p>Follow the <code class="highlighter-rouge">Hello World</code> example in <em>C</em> language:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Hello World!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>To compile this example you just need to use <em>gcc</em>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gcc <span class="nt">-Wall</span> example.c <span class="nt">-o</span> helloworld
+</code></pre></div></div>
+<p>Run the generated binary code by:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./helloworld
+</code></pre></div></div>
+<p>The same example in <em>Python3</em>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env python3</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="p">)</span>
+</code></pre></div></div>
+<p><em>Python</em> is interpreted, so you have two ways for running this code. One way is
+using the <em>Python</em> in the terminal:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>python3 example.py
+</code></pre></div></div>
+<p>The other way and most appropriate one is to set <em><strong>shebang</strong></em> line that defines where
+the interpreter is located. A <em><strong>shebang</strong></em> line can be written in two forms:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/python3</span>
+</code></pre></div></div>
+<p>This case specifies that the <em>Python3</em> interpreter is located in <code class="highlighter-rouge">/usr/bin/python3</code>,
+and this can be used for <em><strong>bash</strong></em>, <em><strong>ruby</strong></em>, <em><strong>perl</strong></em> or any other <em>scripting languages interpreter</em>.</p>
+
+<p>The <em>OS</em> does not know it is a <em>Python</em> script if you do not set the execution <em>flag</em> in
+the script, give it permission to execute and run it like:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>chmod +x example.py
+<span class="nv">$ </span>./example.py
+</code></pre></div></div>
+<p>You can use <code class="highlighter-rouge">/usr/bin/env python3</code> for portability across different platforms.
+This can guarantee the execution even if the <code class="highlighter-rouge">language interpreter</code> is installed
+in different locations.</p>
+
+<p><em>Recommended</em>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env python3</span>
+</code></pre></div></div>
+
+<p>Even if the process for these two programming languages are different, the
+<code class="highlighter-rouge">Hello World</code> codes are equivalent and have the same output:</p>
+
+<pre><code class="language-output">Hello World
+</code></pre>
+
+<h3 id="data-types-in-python">Data types in Python</h3>
+
+<p>There are many data types in <em>Python</em>, and everything is an object in <em>Python</em>
+programming, data types are actually classes and variables are instance of these
+classes.</p>
+
+<p><em>Python</em> has <em>six</em> standard data types. Some of the important types are listed below:</p>
+
+<ul>
+  <li><a href="https://docs.python.org/2/library/numbers.html"><code class="highlighter-rouge">Numbers</code></a></li>
+</ul>
+
+<p><em>Python numbers</em> are integers, floating point numbers and complex numbers that
+falls under <em>Python</em> numbers category. They are defined as <code class="highlighter-rouge">int</code>, <code class="highlighter-rouge">float</code> and
+complex class in <em>Python</em>.</p>
+
+<p>We can use the <em>type()</em> function to know which class a variable or a value belongs to:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env python3</span>
+
+<span class="n">var</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">print</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+</code></pre></div></div>
+<p>The output:</p>
+
+<pre><code class="language-output">10
+&lt;class 'int'&gt;
+</code></pre>
+<ul>
+  <li><a href="https://docs.python.org/2/library/string.html#module-string"><code class="highlighter-rouge">String</code></a></li>
+</ul>
+
+<p><em>Python string</em> is a sequence of <code class="highlighter-rouge">Unicode</code> characters. We can use single quotes
+or double quotes to represent <em>strings</em>. Multi-line strings can be denoted using
+triple quotes, <code class="highlighter-rouge">'''</code> or <code class="highlighter-rouge">"""</code>. Index starts form <strong>0</strong> in <em>Python</em>. Follow an example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">var</span> <span class="o">=</span> <span class="s">'Hello world!'</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"var[4] = "</span><span class="p">,</span> <span class="n">var</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"var[6:11] = "</span><span class="p">,</span> <span class="n">var</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">11</span><span class="p">])</span>
+</code></pre></div></div>
+<p>The output:</p>
+
+<pre><code class="language-output">var[4] =  o
+var[6:11] =  world
+</code></pre>
+<p><em>Strings are</em> <em><strong>immutable</strong></em>. This means that you should think variable in <em>Python</em> as
+a <em>tag</em>. You can move the <em>tag</em> to different objects:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env python3</span>
+
+<span class="n">var</span> <span class="o">=</span> <span class="s">"course"</span>
+<span class="k">print</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+
+<span class="n">var</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">print</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+</code></pre></div></div>
+<p>The output:</p>
+
+<pre><code class="language-output">course
+&lt;class 'str'&gt;
+10
+&lt;class 'int'&gt;
+</code></pre>
+
+<p><em>var</em> can point to different objects, since all variables in <em>Python</em> are objects.
+However, immutability refers to the object, not the <em>tag</em>. If you try to
+<code class="highlighter-rouge">var[1] = "a"</code> to turn <code class="highlighter-rouge">Hello</code> into <code class="highlighter-rouge">Hallo</code> you would get the error:</p>
+
+<pre><code class="language-error">TypeError: 'str' object does not support item assignment"
+</code></pre>
+
+<p>This is because <em>strings</em> in <em>Python</em> does not support <em>item assignment</em>, thus
+they are <em><strong>immutable</strong></em>.</p>
+
+<ul>
+  <li><a href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists"><code class="highlighter-rouge">List</code></a></li>
+</ul>
+
+<p><em>Python list</em> is an ordered sequence of items. It is one of the most used <code class="highlighter-rouge">data type</code>
+in <em>Python</em> and is very <code class="highlighter-rouge">flexible</code>. All the items in a list do not need to be of
+the same type. Declaring a list is <strong>pretty straight forward</strong>. Items separated
+by <em>commas</em> are enclosed within <em>brackets</em> <code class="highlighter-rouge">[]</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="s">'python'</span><span class="p">]</span>
+</code></pre></div></div>
+<p>We can use the slicing operator <code class="highlighter-rouge">[]</code> to extract an item or a range of items
+from a list. Example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">var</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">40</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"var[2] = "</span><span class="p">,</span> <span class="n">var</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"var[0:3] = "</span><span class="p">,</span> <span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"var[5:] = "</span><span class="p">,</span> <span class="n">var</span><span class="p">[</span><span class="mi">5</span><span class="p">:])</span>
+</code></pre></div></div>
+
+<p>The output:</p>
+
+<pre><code class="language-output">var[2] =  15
+var[0:3] =  [5, 10, 15]
+var[5:] =  [30, 35, 40]
+</code></pre>
+<p><em>Lists are</em> <em><strong>mutable</strong></em>, meaning, value of elements of a list can be altered.</p>
+
+<ul>
+  <li><a href="https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences"><code class="highlighter-rouge">Tuple</code></a></li>
+</ul>
+
+<p><em>Python tuple</em> is an ordered sequence of items same as list. The only difference
+is that <em>tuples are</em> <em><strong>immutable</strong></em>. Tuples once created <strong>can not be modified</strong>.</p>
+
+<p>Tuples are used to <em>write-protect</em> data and are usually <code class="highlighter-rouge">faster</code> than list as it
+<strong>can not change dynamically</strong>.</p>
+
+<p>It is defined within parentheses <code class="highlighter-rouge">()</code> where items are separated by commas:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="s">'course'</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="mi">10</span><span class="n">j</span><span class="p">)</span>
+</code></pre></div></div>
+<p>We can use the slicing operator <code class="highlighter-rouge">[]</code> to extract items, but we can not change its
+<em>value</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="s">'course'</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="mi">10</span><span class="n">j</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"t[1] = "</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"t[0:3] = "</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+</code></pre></div></div>
+<p>The output:</p>
+
+<pre><code class="language-output">t[1] =  course
+t[0:3] =  (10, 'course', (1+10j))
+</code></pre>
+<ul>
+  <li><a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries"><code class="highlighter-rouge">Dictionary</code></a></li>
+</ul>
+
+<p><em>Python dictionary</em> is an unordered collection of <code class="highlighter-rouge">key-value pairs</code>. It is generally
+used when we have a huge <em>amount of data</em>. Dictionaries are optimized for <em>retrieving data</em>.
+We must know the key to retrieve the value.</p>
+
+<p>In <em>Python</em>, dictionaries are defined within braces <code class="highlighter-rouge">{}</code> with each item being a
+pair in the form <code class="highlighter-rouge">key:value</code>. Key and value can be of any type.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="s">'value'</span><span class="p">,</span><span class="s">'key'</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="k">class</span> <span class="err">'</span><span class="nc">dict</span><span class="s">'&gt;</span><span class="err">
+</span></code></pre></div></div>
+<p>We use <code class="highlighter-rouge">key</code> to retrieve the respective value, but <em><strong>not</strong></em> <em>the other way around</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="s">'value'</span><span class="p">,</span><span class="s">'key'</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
+
+<span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"d[1] = "</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"d['key'] = "</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s">'key'</span><span class="p">]);</span>
+</code></pre></div></div>
+<p>The output:</p>
+
+<pre><code class="language-output">&lt;class 'dict'&gt;
+d[1] =  value
+d['key'] =  2
+</code></pre>
+<ul>
+  <li><a href="https://docs.python.org/3/tutorial/datastructures.html#sets"><code class="highlighter-rouge">Set</code></a></li>
+</ul>
+
+<p><em>Python set</em> is an unordered collection of unique items. Set is defined by values
+separated by comma inside braces <code class="highlighter-rouge">{}</code>. Items in a set are not ordered.</p>
+
+<p>We can perform set operations like union, intersection on two sets. Set have
+unique values. They eliminate duplicates:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span>
+<span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span>
+</code></pre></div></div>
+<p>Set in <em>Python</em> are unordered collection, indexing has <strong>no meaning</strong>. Hence the
+slicing operator [] does not work:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s">"&lt;string&gt;"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">301</span><span class="p">,</span> <span class="ow">in</span> <span class="n">runcode</span>
+  <span class="n">File</span> <span class="s">"&lt;interactive input&gt;"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="nb">TypeError</span><span class="p">:</span> <span class="s">'set'</span> <span class="nb">object</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">support</span> <span class="n">indexing</span>
+</code></pre></div></div>
+
+<h3 id="rules-and-naming-convention">Rules and Naming Convention</h3>
+
+<p>Follow <strong>rules</strong> and <strong>naming</strong> convention for variables and constants:</p>
+
+<ul>
+  <li>Create a name that <strong>makes sense</strong>. Suppose, <em>vowel</em> makes more sense than <em>v</em>.</li>
+  <li>Use <a href="https://en.wikipedia.org/wiki/Camel_case"><code class="highlighter-rouge">camelCase</code></a> notation to declare
+a variable. It starts with <em>lowercase</em> letter. For example:</li>
+</ul>
+
+<pre><code class="language-output">myName
+myAge
+myAddress
+</code></pre>
+<ul>
+  <li>Use capital letters where possible to declare a constant. For example:</li>
+</ul>
+
+<pre><code class="language-output">PI
+G
+MASS
+TEMP
+</code></pre>
+<ul>
+  <li>Never use special symbols like <code class="highlighter-rouge">!, @, #, $, %</code>, etc.</li>
+  <li>Don’t start name with a digit.</li>
+  <li>Constants are put into <em>Python</em> modules and meant not be changed.</li>
+  <li>Constant and variable names should have combination of letters in lowercase
+<code class="highlighter-rouge">(a to z)</code> or uppercase <code class="highlighter-rouge">(A to Z)</code> or digits <code class="highlighter-rouge">(0 to 9)</code> or an underscore <code class="highlighter-rouge">(_)</code>.</li>
+</ul>
+
+<pre><code class="language-output">snake_case
+MACRO_CASE
+camelCase
+CapWords
+</code></pre>
+<h3 id="file-functions-exception">File, Functions, Exception</h3>
+
+<p>The following code shows a few concepts of a programming language. In this example,
+it is explore how to <em>open</em> a file, <em>writing</em> and <em>reading</em> it. <em>Python</em> has a <code class="highlighter-rouge">built-in</code>
+function <code class="highlighter-rouge">open()</code> to open a file. This function returns a <code class="highlighter-rouge">file object</code>, also called
+a handle, as it is used to read or modify the file accordingly:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span>  <span class="c">#!/usr/bin/env python3</span>
+<span class="mi">2</span>
+<span class="mi">3</span>  <span class="k">def</span> <span class="nf">open_file</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+<span class="mi">4</span>    <span class="k">try</span><span class="p">:</span>
+<span class="mi">5</span>      <span class="n">fd</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">"w"</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s">"utf-8"</span><span class="p">)</span>
+<span class="mi">6</span>      <span class="n">fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"Python Course</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+<span class="mi">7</span>    <span class="k">except</span><span class="p">:</span>
+<span class="mi">8</span>      <span class="k">raise</span> <span class="nb">ValueError</span>
+<span class="mi">9</span>    <span class="k">finally</span><span class="p">:</span>
+<span class="mi">10</span>      <span class="n">fd</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="mi">11</span>   <span class="k">return</span>
+<span class="mi">12</span>
+<span class="mi">13</span> <span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+<span class="mi">14</span>   <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">"r"</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="mi">15</span>     <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="mi">16</span>   <span class="k">return</span>
+<span class="mi">17</span>
+<span class="mi">18</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="mi">19</span>   <span class="k">print</span><span class="p">(</span><span class="s">"Calling open_file() function"</span><span class="p">)</span>
+<span class="mi">20</span>   <span class="n">open_file</span><span class="p">(</span><span class="s">"test.txt"</span><span class="p">)</span>
+<span class="mi">21</span>
+<span class="mi">22</span>   <span class="k">print</span><span class="p">(</span><span class="s">"Calling read_file() function"</span><span class="p">)</span>
+<span class="mi">23</span>   <span class="n">read_file</span><span class="p">(</span><span class="s">"test.txt"</span><span class="p">)</span>
+<span class="mi">24</span>
+<span class="mi">25</span> <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+<span class="mi">26</span>   <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<p>This code you can probably see <code class="highlighter-rouge">encoding = "utf-8"</code>, unlike other languages, the
+character <code class="highlighter-rouge">a</code> does not imply the number <code class="highlighter-rouge">97</code> until it is encoded using <code class="highlighter-rouge">ASCII</code>
+(or other equivalent encoding). Moreover, the default encoding is platform dependent.</p>
+
+<p>In <em>Windows</em>, it is used <code class="highlighter-rouge">cp1252</code>, but in <em>GNU/Linux</em> is <code class="highlighter-rouge">utf-8</code>. So, we must not
+rely on the default encoding or else our code will behave differently in different
+platforms.¹ Hence, when working with files in text mode, it is highly recommended
+to specify the encoding type.</p>
+
+<p>We need to properly close the file, closing a file will free up the resources that
+were tied with the file and is done using <em>Python</em> <code class="highlighter-rouge">close()</code> method as line <em>10</em>.</p>
+
+<p><em>Python</em> has a
+<a href="https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)"><code class="highlighter-rouge">garbage collector</code></a>
+to clean up <em>unreferenced objects</em>, but we must not rely on it to close the file.</p>
+
+<p>This method is not <em>entirely safe</em>. If an exception occurs when we are performing
+some operation with the file, the code exits without closing the file.</p>
+
+<p>A safer way is to use a <em>try</em> and <em>finally</em> block. This way, we are guaranteed that
+the file is properly closed even if an <code class="highlighter-rouge">exception</code> is raised, causing program flow
+to stop.</p>
+
+<p>The best way to do this is using the <code class="highlighter-rouge">with</code> statement as line <em>14</em>. This ensures
+that the file is closed when the block inside with is exited. We don’t need to
+explicitly call the <code class="highlighter-rouge">close()</code> method. It is done <em>internally</em>.</p>
+
+<ul>
+  <li><a href="https://diegodorta.com.br/artificial/Python-Course-201.html"><code class="highlighter-rouge">Python Course 201</code></a></li>
+</ul>
+
+
+
+<span class="post-date">
+  Written on
+  
+  November
+  8th,
+  2018
+  by
+  
+    Diego Dorta
+  
+</span>
+
+<div class="post-date">Feel free to share!</div>
+  <div class="sharing-icons">
+    <a href="https://twitter.com/intent/tweet?text=Python Course 101&amp;url=/artificial/Python-Course-101.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/artificial/Python-Course-101.html&amp;title=Python Course 101" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=/artificial/Python-Course-101.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+  </div>
+</div>
+
+
+<div class="related">
+  <h1 >You may also enjoy:</h1>
+  
+  <ul class="related-posts">
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-301.html">
+                Python Course 301
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-201.html">
+                Python Course 201
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/ML-Course.html">
+                ML Course
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+  </ul>
+</div>
+
+
+
+  <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = "dorta";
+    var disqus_identifier = "/artificial/Python-Course-101.html";
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+    </div>
+
+    <footer class="footer">
+  
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  <div class="post-date"><a href="/menu/about.html">chronicles in coding | blog inspired by true events on movie screens, unix and related stuff by Diego Dorta</a></div>
+</footer>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      Network and Bandwidth on i.MX Boards | chronicles in coding
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/rss-feed.xml" title="chronicles in coding" />
+  <!-- Use RSS-2.0 -->
+  <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="chronicles in coding | blog inspired by true events on movie screens, unix and related stuff"/>
+  //-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117915917-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117915917-3');
+</script>
+
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Network and Bandwidth on i.MX Boards | chronicles in coding</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="Network and Bandwidth on i.MX Boards" />
+<meta name="author" content="Diego Dorta" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This post is designated for those who want to test the network performance in terms of speed and bandwidth on iMX boards. The iperf tool is used for executing this test, it is very reliable and also an open source tool released under a three-clause BSD license." />
+<meta property="og:description" content="This post is designated for those who want to test the network performance in terms of speed and bandwidth on iMX boards. The iperf tool is used for executing this test, it is very reliable and also an open source tool released under a three-clause BSD license." />
+<link rel="canonical" href="http://localhost:4000/artificial/How_to_measure_network_speed_and_bandwidth_on_iMX_boards.html" />
+<meta property="og:url" content="http://localhost:4000/artificial/How_to_measure_network_speed_and_bandwidth_on_iMX_boards.html" />
+<meta property="og:site_name" content="chronicles in coding" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-01-04T00:00:00-02:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/artificial/How_to_measure_network_speed_and_bandwidth_on_iMX_boards.html","headline":"Network and Bandwidth on i.MX Boards","dateModified":"2018-01-04T00:00:00-02:00","datePublished":"2018-01-04T00:00:00-02:00","author":{"@type":"Person","name":"Diego Dorta"},"description":"This post is designated for those who want to test the network performance in terms of speed and bandwidth on iMX boards. The iperf tool is used for executing this test, it is very reliable and also an open source tool released under a three-clause BSD license.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/artificial/How_to_measure_network_speed_and_bandwidth_on_iMX_boards.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <header class="masthead">
+  <h3 class="masthead-title">
+    <a href="/">chronicles in coding</a>
+    <small class="masthead-subtitle">blog inspired by true events on movie screens, unix and related stuff</small>
+    <div class="menu">
+  <nav class="menu-content">
+    
+      <a href="/menu/about.html">About</a>
+    
+      <a href="/menu/writing.html">Writing</a>
+    
+      <a href="/menu/contact.html">Contact</a>
+    
+  </nav>
+  <nav class="social-icons">
+    
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  </nav>
+</div>
+
+  </h3>
+</header>
+
+
+    <div class="post-container">
+      <h1>
+  Network and Bandwidth on i.MX Boards
+</h1>
+
+
+
+<p>This post is designated for those who want to test the network performance in terms of speed and bandwidth on <code class="highlighter-rouge">iMX</code> boards.
+The <a href="https://iperf.fr/"><code class="highlighter-rouge">iperf</code></a> tool is used for executing this test, it is very reliable and also an open source tool released under a three-clause <code class="highlighter-rouge">BSD license</code>.</p>
+
+<p>The <code class="highlighter-rouge">iperf</code> works by the client side sending data to the server side, making it possible to measure the network throughput between them.
+The throughput is the transfer rate of data from one place to another in a period of time, it is also measured in <code class="highlighter-rouge">Kbps</code>, <code class="highlighter-rouge">Mbps</code>, and <code class="highlighter-rouge">Gbps</code>.</p>
+
+<p>The diagram shows the communication between machines:</p>
+
+<center><img src="http://localhost:4000/assets/iperf_connection.jpg" width="80%" /></center>
+
+<h2 id="iperf-on-host-machine">Iperf on Host Machine</h2>
+
+<p>For installing the iperf tool on your host machine, use the <code class="highlighter-rouge">apt-get</code> repository:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span> apt-get install iperf
+</code></pre></div></div>
+
+<h2 id="iperf-tool-binaries">Iperf tool binaries</h2>
+
+<p>This section describes how to add the iperf package to fsl-community-bsp. For this example it was used a <code class="highlighter-rouge">iMX6QSabre SD</code> Board:</p>
+
+<h3 id="yocto-project">Yocto Project</h3>
+
+<p>To install the FSL Community BSP, follow the steps describes <a href="http://freescale.github.io/#download">here</a>.</p>
+
+<p>For including <code class="highlighter-rouge">iperf</code> tool, add the following line inside <code class="highlighter-rouge">local.conf</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">CORE_IMAGE_EXTRA_INSTALL += " iperf3 "
+</span></code></pre></div></div>
+
+<p>Then, run the <em>bitbake</em> command:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span> bitbake core-image-base
+</code></pre></div></div>
+<p>Your image is prepared for running iperf tool.</p>
+
+<h2 id="iperf-test">Iperf test</h2>
+
+<p>Follow an example showing iperf where iMX board is a server, and the computer
+is a client for sending data to the server. With this test it will be possible
+to measure the iMX network performance:</p>
+
+<p>For running iMX as a server:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span> iperf <span class="nt">-s</span>
+<span class="go">------------------------------------------------------------
+Server listening on TCP port 5001
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+</span></code></pre></div></div>
+<ul>
+  <li>-s argument is used for specifying server</li>
+</ul>
+
+<p>The above command, starts iperf server on the iMX board, and it by default runs on the port 5001,
+it also reports that the default TCP Windows Size is <code class="highlighter-rouge">85.3KByte</code> (These configurations can be changed using the corresponding parameters).</p>
+
+<p>If your board does not get an ip, run the follow command: <strong>udhcp</strong></p>
+
+<p>For running the computer as a client:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp"> $</span> iperf <span class="nt">-c</span> &lt;imx_board_ip&gt;
+</code></pre></div></div>
+<ul>
+  <li>-c argument is used for specifying client</li>
+</ul>
+
+<h2 id="iperf-results">Iperf results</h2>
+
+<p>Running the above command, the connection will start transfer the data and show the results:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp"> $</span> iperf <span class="nt">-c</span> 10.29.244.45
+<span class="go"> ------------------------------------------------------------
+ Client connecting to 10.29.244.45, TCP port 5001
+ TCP window size: 85.0 KByte (default)
+ ------------------------------------------------------------
+ [  3] local 10.29.240.152 port 60642 connected with 10.29.244.45 port 5001
+ [ ID] Interval       Transfer     Bandwidth
+ [  3]  0.0-10.0 sec   522 MBytes   438 Mbits/sec
+</span></code></pre></div></div>
+
+<p>From the above output, you can see that the iMX board got a speed of <strong>438Mbits/sec</strong>.</p>
+
+<p>The output shows something more:</p>
+
+<ul>
+  <li>
+    <p><strong>Interval</strong>:
+Interval specifies the time duration for which the data is transferred.</p>
+  </li>
+  <li>
+    <p><strong>Transfer</strong>:
+All data transferred using iperf is through memory, and is flushed out after completing the test.
+So there is no need to clear the transferred file after the test. This column shows the transferred data size.</p>
+  </li>
+  <li>
+    <p><strong>Bandwidth</strong>:
+This shows the rate of speed with which the data is transferred.</p>
+  </li>
+</ul>
+
+<p>On the iMX server side, you also have the results:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> # iperf -s
+ ------------------------------------------------------------
+ Server listening on TCP port 5001
+ TCP window size: 85.3 KByte (default)
+ ------------------------------------------------------------
+ [  4] local 10.29.244.45 port 5001 connected with 10.29.240.152 port 60642
+ [ ID] Interval       Transfer     Bandwidth
+ [  4]  0.0-10.0 sec   522 MBytes   437 Mbits/sec
+</code></pre></div></div>
+
+<p>These results show the network throughput of the iMX6Sabre SD board.
+It is also possible to change the sides, by making the computer be a server and the iMX board a client.</p>
+
+
+<span class="post-date">
+  Written on
+  
+  January
+  4th,
+  2018
+  by
+  
+    Diego Dorta
+  
+</span>
+
+<div class="post-date">Feel free to share!</div>
+  <div class="sharing-icons">
+    <a href="https://twitter.com/intent/tweet?text=Network and Bandwidth on i.MX Boards&amp;url=/artificial/How_to_measure_network_speed_and_bandwidth_on_iMX_boards.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/artificial/How_to_measure_network_speed_and_bandwidth_on_iMX_boards.html&amp;title=Network and Bandwidth on i.MX Boards" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=/artificial/How_to_measure_network_speed_and_bandwidth_on_iMX_boards.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+  </div>
+</div>
+
+
+<div class="related">
+  <h1 >You may also enjoy:</h1>
+  
+  <ul class="related-posts">
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Neural-Net-Tensorflow.html">
+                Neural Network using Tensorflow
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>July 4, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+  </ul>
+</div>
+
+
+
+  <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = "dorta";
+    var disqus_identifier = "/artificial/How_to_measure_network_speed_and_bandwidth_on_iMX_boards.html";
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+    </div>
+
+    <footer class="footer">
+  
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  <div class="post-date"><a href="/menu/about.html">chronicles in coding | blog inspired by true events on movie screens, unix and related stuff by Diego Dorta</a></div>
+</footer>
+
+  </div>
+
+</body>
+</html>

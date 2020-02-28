@@ -1,0 +1,13 @@
+paginate:            5
+
+markdown:            kramdown
+highlighter:         rouge
+permalink:           none
+plugins:             [jekyll-paginate, jekyll-sitemap, jekyll-feed, jekyll-seo-tag]
+
+title:		           'chronicles in coding'
+description:	       'blog inspired by true events on movie screens, unix and related stuff'
+author:              'Diego Dorta'
+
+feed:
+  path: rss-feed.xml

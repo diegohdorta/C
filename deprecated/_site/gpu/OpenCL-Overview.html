@@ -1,0 +1,417 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      OpenCL Overview on iMX | chronicles in coding
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/rss-feed.xml" title="chronicles in coding" />
+  <!-- Use RSS-2.0 -->
+  <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="chronicles in coding | blog inspired by true events on movie screens, unix and related stuff"/>
+  //-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117915917-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117915917-3');
+</script>
+
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>OpenCL Overview on iMX | chronicles in coding</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="OpenCL Overview on iMX" />
+<meta name="author" content="Diego Dorta" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Post under review: a few examples codes are being developed" />
+<meta property="og:description" content="Post under review: a few examples codes are being developed" />
+<link rel="canonical" href="http://localhost:4000/gpu/OpenCL-Overview.html" />
+<meta property="og:url" content="http://localhost:4000/gpu/OpenCL-Overview.html" />
+<meta property="og:site_name" content="chronicles in coding" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-03T00:00:00-03:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/gpu/OpenCL-Overview.html","headline":"OpenCL Overview on iMX","dateModified":"2018-10-03T00:00:00-03:00","datePublished":"2018-10-03T00:00:00-03:00","author":{"@type":"Person","name":"Diego Dorta"},"description":"Post under review: a few examples codes are being developed","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/gpu/OpenCL-Overview.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <header class="masthead">
+  <h3 class="masthead-title">
+    <a href="/">chronicles in coding</a>
+    <small class="masthead-subtitle">blog inspired by true events on movie screens, unix and related stuff</small>
+    <div class="menu">
+  <nav class="menu-content">
+    
+      <a href="/menu/about.html">About</a>
+    
+      <a href="/menu/writing.html">Writing</a>
+    
+      <a href="/menu/contact.html">Contact</a>
+    
+  </nav>
+  <nav class="social-icons">
+    
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  </nav>
+</div>
+
+  </h3>
+</header>
+
+
+    <div class="post-container">
+      <h1>
+  OpenCL Overview on iMX
+</h1>
+
+
+
+<p><strong>Post under review: a few examples codes are being developed</strong></p>
+
+<p>A short statement can define OpenCL as a <code class="highlighter-rouge">low-level</code> language for <code class="highlighter-rouge">high-performance</code>
+heterogeneous data-parallel computation. <code class="highlighter-rouge">Low-level</code> means that as lower it gets the
+effort increases, and the user/developer is forced to handle the entire code by itself.
+For insuring a <code class="highlighter-rouge">high-performance</code> the code must be matched to the hardware, with that
+we can really get a strong performance leveraging the hardware into its maximum power
+processing.</p>
+
+<p><code class="highlighter-rouge">Heterogeneous</code> is an often concept to describe a system that supports (run across) multiples
+types of devices, currently we can compile identical codes using <code class="highlighter-rouge">OpenCL</code> to run on GPUs,
+and although it was developed for GPUs, it has found an use in CPUs, and even FPGAs.
+<code class="highlighter-rouge">Data-parallel</code> is a model of parallelism, and as GPUs are set for it, <code class="highlighter-rouge">OpenCL</code> has it at
+its best feature distributing data across different nodes, which operate on the data in
+parallel.</p>
+
+<p>This framework specifies programming languages based on <code class="highlighter-rouge">C99</code>, <code class="highlighter-rouge">C++11</code>, it means the code
+can be written in programming languages as C, C++ which are similar to this standards. It’s
+possible to write them and compile it at run-time, or get compiled binaries already to shorten
+the preparations. This typical way of coding has its issues, it is not very user friendly,
+and also it is not portable across devices.</p>
+
+<p>That’s the reason <code class="highlighter-rouge">OpenCL</code> offers a unified parallel programming model across heterogeneous
+devices while abstracting away many implementation details.</p>
+
+<p><code class="highlighter-rouge">OpenCL</code> and <code class="highlighter-rouge">CUDA</code> are basically the same, however <code class="highlighter-rouge">CUDA</code> is great as long you use its GPUs,
+it does not work at all on other ones. <code class="highlighter-rouge">CUDA</code> for sure has better tools, language and
+features, in turn <code class="highlighter-rouge">OpenCL</code> supports more devices. One good thing about these frameworks, it’s
+that the same algorithm runs well on both of them.</p>
+
+<p>An <code class="highlighter-rouge">OpenCL</code> program mainly consists of several parts:</p>
+
+<h3 id="setup">Setup</h3>
+
+<ul>
+  <li>Get the devices and platforms:</li>
+</ul>
+
+<p>For CPU:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">clGetDevicesIDs</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">CL_DEVICE_TYPE_CPU</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">devices</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+<p>For GPU:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">clGetDevicesIDs</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">CL_DEVICE_TYPE_GPU</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">devices</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+<ul>
+  <li>Create a context for sharing between devices:</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">context</span> <span class="o">=</span> <span class="n">clCreateContext</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">devices</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+<ul>
+  <li>Create command queues for submitting work:</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">queue</span> <span class="o">=</span> <span class="n">clCreateCommandQueue</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span>
+	         <span class="p">(</span><span class="n">cl_command_queue_properties</span><span class="p">)</span><span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="compilation">Compilation</h3>
+
+<ul>
+  <li>Creating a source to be part of the program</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="n">source</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="s">"kernel void calculateSin(global float *data) {</span><span class="se">\n</span><span class="s">"</span>
+        <span class="s">"  int id = get_global_id(0); </span><span class="se">\n</span><span class="s">"</span>
+        <span class="s">"  data[id] = sin(data[id]);</span><span class="se">\n</span><span class="s">"</span>
+        <span class="s">"}</span><span class="se">\n</span><span class="s">"</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<ul>
+  <li>Creating the program</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">program</span> <span class="o">=</span> <span class="n">clCreateProgramWithSource</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">**</span><span class="p">)</span><span class="o">&amp;</span><span class="n">source</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Building the program</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">clBuildProgram</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Create Kernels</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">clCreateKernel</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="s">"calculateSin"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="create-memory-objects">Create Memory Objects</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">buffer</span> <span class="o">=</span> <span class="n">clCreateBuffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_WRITE</span><span class="p">,</span> <span class="n">DATA_SIZE</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="enqueue-writes-to-copy-data-to-the-gpu">Enqueue writes to copy data to the GPU</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">clEnqueueWriterBuffer</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">CF_FALSE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">DATA_SIZE</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="set-the-kernel-arguments">Set the Kernel arguments</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">clSetKernelArg</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buffer</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">buffer</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="enquere-kernel-executions">Enquere Kernel Executions</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="n">global_dimensions</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="n">LENGTH</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+<span class="n">clEnqueueNDRangeKernel</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">global_dimensions</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="enqueue-reads-to-copy-data-back-from-the-gpu">Enqueue reads to copy data back from the GPU</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">clEnqueueReadBuffer</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">CL_FALSE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">cl_float</span><span class="p">)</span><span class="o">*</span><span class="n">LENGTH</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="wait-for-your-commands-to-finish">Wait for your commands to finish</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">clFinish</span><span class="p">(</span><span class="n">queue</span><span class="p">);</span>
+</code></pre></div></div>
+<p><strong>To be continued</strong></p>
+
+
+
+<span class="post-date">
+  Written on
+  
+  October
+  3rd
+    ,
+  2018
+  by
+  
+    Diego Dorta
+  
+</span>
+
+<div class="post-date">Feel free to share!</div>
+  <div class="sharing-icons">
+    <a href="https://twitter.com/intent/tweet?text=OpenCL Overview on iMX&amp;url=/gpu/OpenCL-Overview.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/gpu/OpenCL-Overview.html&amp;title=OpenCL Overview on iMX" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=/gpu/OpenCL-Overview.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+  </div>
+</div>
+
+
+<div class="related">
+  <h1 >You may also enjoy:</h1>
+  
+  <ul class="related-posts">
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/yocto/Seeting-Up-Yocto-for-iMX-BSP-releases.html">
+                Setting up Yocto for i.MX BSP releases
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>July 16, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/unix/POSIX-Serial-Terminal.html">
+                Creating POSIX Serial Terminal
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>July 12, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+  </ul>
+</div>
+
+
+
+  <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = "dorta";
+    var disqus_identifier = "/gpu/OpenCL-Overview.html";
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+    </div>
+
+    <footer class="footer">
+  
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  <div class="post-date"><a href="/menu/about.html">chronicles in coding | blog inspired by true events on movie screens, unix and related stuff by Diego Dorta</a></div>
+</footer>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,500 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      Fruits Code - Supervised Learning | chronicles in coding
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/rss-feed.xml" title="chronicles in coding" />
+  <!-- Use RSS-2.0 -->
+  <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="chronicles in coding | blog inspired by true events on movie screens, unix and related stuff"/>
+  //-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117915917-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117915917-3');
+</script>
+
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Fruits Code - Supervised Learning | chronicles in coding</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="Fruits Code - Supervised Learning" />
+<meta name="author" content="Diego Dorta" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This post consists to collect training data. For solving this problem, we are going to write a function to classify a piece of fruit. For starters, it will take a description of the fruit as input and predict whether it’s an apple or an orange as output, based on features like its weight and texture." />
+<meta property="og:description" content="This post consists to collect training data. For solving this problem, we are going to write a function to classify a piece of fruit. For starters, it will take a description of the fruit as input and predict whether it’s an apple or an orange as output, based on features like its weight and texture." />
+<link rel="canonical" href="http://localhost:4000/artificial/Scikit-Learn.html" />
+<meta property="og:url" content="http://localhost:4000/artificial/Scikit-Learn.html" />
+<meta property="og:site_name" content="chronicles in coding" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-03T00:00:00-03:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/artificial/Scikit-Learn.html","headline":"Fruits Code - Supervised Learning","dateModified":"2018-10-03T00:00:00-03:00","datePublished":"2018-10-03T00:00:00-03:00","author":{"@type":"Person","name":"Diego Dorta"},"description":"This post consists to collect training data. For solving this problem, we are going to write a function to classify a piece of fruit. For starters, it will take a description of the fruit as input and predict whether it’s an apple or an orange as output, based on features like its weight and texture.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/artificial/Scikit-Learn.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <header class="masthead">
+  <h3 class="masthead-title">
+    <a href="/">chronicles in coding</a>
+    <small class="masthead-subtitle">blog inspired by true events on movie screens, unix and related stuff</small>
+    <div class="menu">
+  <nav class="menu-content">
+    
+      <a href="/menu/about.html">About</a>
+    
+      <a href="/menu/writing.html">Writing</a>
+    
+      <a href="/menu/contact.html">Contact</a>
+    
+  </nav>
+  <nav class="social-icons">
+    
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  </nav>
+</div>
+
+  </h3>
+</header>
+
+
+    <div class="post-container">
+      <h1>
+  Fruits Code - Supervised Learning
+</h1>
+
+
+
+<p>This post consists to collect training data. For solving this problem, we are going to write a function to classify
+a piece of fruit. For starters, it will take a description of the fruit as input and predict whether it’s an <strong>apple</strong>
+or an <strong>orange</strong> as output, based on features like its weight and texture.</p>
+
+<p>Imagine you go to the mall and stop your car at the front door. Then, your car goes park by itself. When the car is parked, it keeps monitoring your steps by GPS. When you get to the front door of the mall again, your car goes where you are to pick up you. This examples can be implement using <em>ML</em> for training data, such as learning the way, obstacles, where is the front door and etc. To use the <em>supervised learning</em>, let’s follow a recipe with a few standard steps:</p>
+
+<h2 id="collect-training-data">Collect Training Data</h2>
+
+<p>This first step consists on collecting the training data, these are examples of the problem that needs to be solved. To collect this data, imagine an orchard, you look at different <strong>apples</strong> and <strong>oranges</strong>,
+and write down measurements that describe them in a table. In <em>ML</em> these measurements are called <em>features</em>.</p>
+
+<h3 id="features-as-training-data">Features as Training Data</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Weight</th>
+      <th style="text-align: center">Texture</th>
+      <th style="text-align: center">Label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">150g</td>
+      <td style="text-align: center">bumpy</td>
+      <td style="text-align: center">orange</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">170g</td>
+      <td style="text-align: center">bumpy</td>
+      <td style="text-align: center">orange</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">140g</td>
+      <td style="text-align: center">smooth</td>
+      <td style="text-align: center">apple</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">130g</td>
+      <td style="text-align: center">smooth</td>
+      <td style="text-align: center">apple</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This example must be simple, so let’s just use two types. A good feature makes it easy to discriminate between types of fruits, the features in this case are the weight and texture, and each row in the training data is an example describing a piece of fruit.
+How much does each fruit <strong>weights</strong> in grams? And about its <strong>texture</strong>? Is it be <strong>bumpy</strong> or <strong>smooth</strong>?</p>
+
+<p>The last column is called the label, that identifies what type of fruit is in each row, and there are just two possibilities - <strong>apple</strong> and <strong>orange</strong>.
+The entire table is the training data, think of these as all the examples we want the classifier to learn from. The more training data you have, the better a classifier you can create.</p>
+
+<h3 id="writing-the-code">Writing the code</h3>
+
+<p>Let’s write down our training data in code:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">import</span> <span class="nn">sklearn</span>
+ <span class="n">features</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">140</span><span class="p">,</span> <span class="s">"smooth"</span><span class="p">],</span> <span class="p">[</span><span class="mi">130</span><span class="p">,</span> <span class="s">"smooth"</span><span class="p">],</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="s">"bumpy"</span><span class="p">],</span> <span class="p">[</span><span class="mi">170</span><span class="p">,</span> <span class="s">"bumpy"</span><span class="p">]]</span>
+ <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">"apple"</span><span class="p">,</span><span class="s">"apple"</span><span class="p">,</span><span class="s">"orange"</span><span class="p">,</span><span class="s">"orange"</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Two variables <em>features</em> and <em>labels</em> were used, features contains the first two columns, and the labels contains the last. You can think of features as the input, and the classifier and labels as the output we want it.</p>
+
+<p><em>Scikit-learn</em> uses real-valued features, so let’s change the variable tupes of all features to <em>ints</em> types intead of <em>strings</em> types.
+Here let’s use <strong>0</strong> for <strong>bumpy</strong> and <strong>1</strong> for <strong>smooth</strong>. Doing the same for labels, we have <strong>0</strong> for <strong>apple</strong> and <strong>1</strong> for <strong>orange</strong>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">import</span> <span class="nn">sklearn</span>
+ <span class="n">features</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">140</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">130</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">170</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+ <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h2 id="training-a-classifier">Training a classifier</h2>
+
+<p>This second step uses the written features to train a classifier. This particular case, the type of classifier that will be used is called <em>decision tree</em>.</p>
+
+<h3 id="decision-tree">Decision tree</h3>
+
+<p>More details about the mechanism of this <em>Decision tree</em> will be explain on the next section. For now, think of a classifier as a <strong>box of rules</strong>. That’s because there are many different types of classifier, but the input and ouput are always the same.</p>
+
+<h3 id="importing-the-tree">Importing the tree</h3>
+
+<p>To import this <em>decision tree</em>, change the <em>import</em> line in the code, and call the function as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
+ <span class="n">features</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">140</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">130</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">170</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+ <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+ <span class="n">clf</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>At this point, it’s just an empty box of rules. It does not know anything about <strong>apples</strong> and <strong>oranges</strong> yet. To train it, we will need to use a learning algorithm. If the classifier is a box of rules, you can think of learning algorithm as the <strong>procedure that creates them</strong>. It does that just by finding patterns in the training data. For example, it might notice <em>oranges</em> tend to weight more, so it will create a rule saying that the <strong>heavier</strong> fruits are more likely to be an <strong>orange</strong>.</p>
+
+<h3 id="fit-function">Fit Function</h3>
+
+<p>In this <em>scikit</em> library, the training algorithm is included in the classifier object, and it’s called <em>Fit</em>, as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
+ <span class="n">features</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">140</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">130</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">170</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+ <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+ <span class="n">clf</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+ <span class="n">clf</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>You can think of <em>Fit</em> as being a synonym for “find patterns in data”. The next section get into the details of how this happens under the hood.</p>
+
+<p>At this point, the classifier is trained. So let’s take it for a spin and use it to classify a new fruit. The input to the classifier is the features for a new example, let’s also
+pass the <em>argument variables</em> to make it easier, for measuring how much time the board took for training the data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">import</span> <span class="nn">sys</span><span class="p">,</span> <span class="n">time</span>
+ <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
+ <span class="n">features</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">140</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">130</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">170</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+ <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+ <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+ <span class="n">clf</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+ <span class="n">clf</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+ <span class="n">weight</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+ <span class="n">texture</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+ <span class="k">print</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">([[</span><span class="n">weight</span><span class="p">,</span> <span class="n">texture</span><span class="p">]])</span>
+ <span class="k">print</span> <span class="p">(</span><span class="s">"Time for training data: </span><span class="si">%</span><span class="s">s seconds"</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h2 id="output-fruit">Output fruit</h2>
+
+<p>Let’s say the fruit we want to classify is <strong>160 grams</strong> and <strong>bumpy</strong>, the output will be <strong>0</strong> if it’s an <strong>apple</strong> or <strong>1</strong> it’s an <strong>orange</strong>. Before hiting enter and see what the classifier predicts, let’s think for a second.</p>
+
+<p>If you had to guess, what would you say the output should be? To figure that out, compare this fruit to our training data. It looks like it’s similiar to an orange, because it’s heavy and bumpy. That is what I’d guess anyway, and if we hit enter:</p>
+
+<center><img src="http://localhost:4000/assets/result.png" /></center>
+
+<p>The result is <strong>[1]</strong>. It’s what our classifier predicts as well (recall we used <strong>0</strong> for <strong>apple</strong>, and <strong>1</strong> for <strong>orange</strong>).
+The first <em>Machine Learning</em> program is created. It is possible to create a new classifier for a new program, just by changing the training data. That makes this approach more reusable than writing new rules for each problem.</p>
+
+<p>This fruit example uses a table of features instead of pictures to be simple. It is possible to use pictures as training data. It would be something like:</p>
+
+<h3 id="picture-as-training-data">Picture as Training Data</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Picture</th>
+      <th style="text-align: center">Label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">orange_image.jpg</td>
+      <td style="text-align: center">orange</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">orange_image.jpg</td>
+      <td style="text-align: center">orange</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">apple_image.jpg</td>
+      <td style="text-align: center">apple</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">apple_image.jpg</td>
+      <td style="text-align: center">apple</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This training data will be approchead on further examples. This code is more general, the neat thing is that programming for <em>Machine Learning</em> is not hard, but to get it right, you need to understand a few important concepts on the next section.</p>
+
+<p>The next document will contain examples for: unsupervised learning, semi supervised learning and reinforcement.</p>
+
+
+<span class="post-date">
+  Written on
+  
+  October
+  3rd
+    ,
+  2018
+  by
+  
+    Diego Dorta
+  
+</span>
+
+<div class="post-date">Feel free to share!</div>
+  <div class="sharing-icons">
+    <a href="https://twitter.com/intent/tweet?text=Fruits Code - Supervised Learning&amp;url=/artificial/Scikit-Learn.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/artificial/Scikit-Learn.html&amp;title=Fruits Code - Supervised Learning" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=/artificial/Scikit-Learn.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+  </div>
+</div>
+
+
+<div class="related">
+  <h1 >You may also enjoy:</h1>
+  
+  <ul class="related-posts">
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-301.html">
+                Python Course 301
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-201.html">
+                Python Course 201
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-101.html">
+                Python Course 101
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Neural-Net-Tensorflow.html">
+                Neural Network using Tensorflow
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>July 4, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/yocto/Setting-Up-Yocto.html">
+                Setting Up Yocto
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>May 23, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+  </ul>
+</div>
+
+
+
+  <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = "dorta";
+    var disqus_identifier = "/artificial/Scikit-Learn.html";
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+    </div>
+
+    <footer class="footer">
+  
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  <div class="post-date"><a href="/menu/about.html">chronicles in coding | blog inspired by true events on movie screens, unix and related stuff by Diego Dorta</a></div>
+</footer>
+
+  </div>
+
+</body>
+</html>

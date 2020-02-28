@@ -1,0 +1,515 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      Machine Learning Libraries for iMX | chronicles in coding
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/rss-feed.xml" title="chronicles in coding" />
+  <!-- Use RSS-2.0 -->
+  <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="chronicles in coding | blog inspired by true events on movie screens, unix and related stuff"/>
+  //-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117915917-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117915917-3');
+</script>
+
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Machine Learning Libraries for iMX | chronicles in coding</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="Machine Learning Libraries for iMX" />
+<meta name="author" content="Diego Dorta" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Working with Machine Learning on i.MX boards requires to have installed Python language, and its package installer pip along with a few libraries which are basically numpy and scipy." />
+<meta property="og:description" content="Working with Machine Learning on i.MX boards requires to have installed Python language, and its package installer pip along with a few libraries which are basically numpy and scipy." />
+<link rel="canonical" href="http://localhost:4000/artificial/Installing-Libraries-ML.html" />
+<meta property="og:url" content="http://localhost:4000/artificial/Installing-Libraries-ML.html" />
+<meta property="og:site_name" content="chronicles in coding" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-03-21T00:00:00-03:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/artificial/Installing-Libraries-ML.html","headline":"Machine Learning Libraries for iMX","dateModified":"2018-03-21T00:00:00-03:00","datePublished":"2018-03-21T00:00:00-03:00","author":{"@type":"Person","name":"Diego Dorta"},"description":"Working with Machine Learning on i.MX boards requires to have installed Python language, and its package installer pip along with a few libraries which are basically numpy and scipy.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/artificial/Installing-Libraries-ML.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <header class="masthead">
+  <h3 class="masthead-title">
+    <a href="/">chronicles in coding</a>
+    <small class="masthead-subtitle">blog inspired by true events on movie screens, unix and related stuff</small>
+    <div class="menu">
+  <nav class="menu-content">
+    
+      <a href="/menu/about.html">About</a>
+    
+      <a href="/menu/writing.html">Writing</a>
+    
+      <a href="/menu/contact.html">Contact</a>
+    
+  </nav>
+  <nav class="social-icons">
+    
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  </nav>
+</div>
+
+  </h3>
+</header>
+
+
+    <div class="post-container">
+      <h1>
+  Machine Learning Libraries for iMX
+</h1>
+
+
+
+<p>Working with <code class="highlighter-rouge">Machine Learning</code> on <code class="highlighter-rouge">i.MX</code> boards requires to have installed <em>Python language</em>,
+and its package installer <em>pip</em> along with a few libraries which are basically <a href="http://www.numpy.org/"><code class="highlighter-rouge">numpy</code></a> and <a href="https://www.scipy.org/"><code class="highlighter-rouge">scipy</code></a>.</p>
+
+<p>Yocto has recipes for <em>Python</em>, <em>pip</em> and <em>numpy</em>. However, it does not have a recipe support for including <em>scipy</em> and its dependencies <em>libatlas-base-dev</em> (libraries etc. for ATLAS/BLAS) and <em>gfortran</em> (GNU Fortran compiler).</p>
+
+<p>Instead of struggling for awhile to create these recipes, a <em>Debian file system</em> is used momentarily. The <em>meta-machinelearning</em> layer will be created when these dependencies have recipes on Yocto.</p>
+
+<p>For making it easy to develop codes using <em>ML</em>, a <em>Python</em> library called <a href="http://scikit-learn.org/"><code class="highlighter-rouge">scikit learn</code></a> can help us to get solutions.</p>
+
+<h2 id="creating-an-image">Creating an image</h2>
+
+<p>This section assumes you have a basic knowledge on <em>i.MX</em> systems. The first step consists on creating a image using Yocto:</p>
+
+<p>Create your <em>core-image-base</em> using <a href="http://freescale.github.io/#download"><code class="highlighter-rouge">meta-fsl-arm</code></a>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ MACHINE</span><span class="o">=</span>imx6qsabresd <span class="nv">DISTRO</span><span class="o">=</span>fslc-framebuffer <span class="nb">source </span>setup-environment build
+</code></pre></div></div>
+<p>Add the following line in the <em>bb.layers</em> of your project:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">${</span><span class="nv">BSPDIR</span><span class="k">}</span>/sources/meta-openembedded/meta-python/
+</code></pre></div></div>
+
+<p>Add the following line which contains the packages to be installed in the <em>local.conf</em> file:</p>
+
+<pre><code class="language-basg">CORE_IMAGE_EXTRA_INSTALL += " python python-pip python-core python-numpy python-distutils "
+</code></pre>
+<p>Start the building:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>bitbake core-image-base
+</code></pre></div></div>
+<p>This can take several hours depending on your machine and network speed connection.</p>
+
+<p>Flash the image located on <em>tmp/deploy/images</em> folder into the SD card:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gunzip <span class="nt">-f</span> core-image-base-imx6qsabresd.sdcard.gz
+<span class="nv">$ </span>dd <span class="k">if</span><span class="o">=</span>core-image-base-imx6qsabresd.sdcard <span class="nv">of</span><span class="o">=</span>/dev/sdX <span class="nv">status</span><span class="o">=</span>progress <span class="o">&amp;&amp;</span> sync
+</code></pre></div></div>
+<p>If it had recipes for all the dependencies, then the normal procedure would end here. However a <em>uglyhack</em> can solve our problem momentarily. 
+The next section changes the <em>rootfs</em> for a <em>Debian</em> one, including a <em>package manager</em> which allows us to install the requires packages for <em>scikit-learn</em>.</p>
+
+<h2 id="debian-file-system">Debian File System</h2>
+
+<p><em>This section is a temporary</em>. It uses the SD card fully burned from the previoulys step.
+The next steps were copied from the post <a href="https://imxdev.gitlab.io/tutorial/How_to_create_a_Debian_image_to_iMX_6Quad_SABRE-SD/">How to create a Debian image to i.MX</a>.</p>
+
+<p>Start by installing the required packages to create the file system:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>apt-get install debootstrap qemu-user-static
+</code></pre></div></div>
+<p>Create a folder to mount your SD card and start the installation:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>mkdir mounting
+<span class="nv">$ </span>mount /dev/sd&lt;device&gt;C mounting/
+<span class="nv">$ </span>debootstrap <span class="nt">--foreign</span> <span class="nt">--arch</span><span class="o">=</span>armhf wheezy mounting/
+</code></pre></div></div>
+<p>In <code class="highlighter-rouge">/dev/sd&lt;device&gt;C</code> should be your <code class="highlighter-rouge">root</code> partition, for instance: <em>/dev/sdb2</em>.</p>
+
+<p>Enable <em>QEMU ARM</em> and <em>second stage</em>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cp /usr/bin/qemu-arm-static mounting/usr/bin/
+<span class="nv">$ </span>chroot mounting/ /debootstrap/debootstrap <span class="nt">--second-stage</span>
+</code></pre></div></div>
+<p>Add the following line in the file <code class="highlighter-rouge">mounting/etc/inittab</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T0:23:respawn:/sbin/getty <span class="nt">-L</span> ttymxc0 115200 vt100
+</code></pre></div></div>
+
+<p>Add the <code class="highlighter-rouge">eth0</code> configuration above in the file <code class="highlighter-rouge">mounting/etc/network/interfaces</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>auto eth0
+iface eth0 inet dhcp
+</code></pre></div></div>
+<p>To enable the system to allow login as root, edit the file <code class="highlighter-rouge">mounting/etc/shadow</code> changing the first line to be like the following (remove the *):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s2">"root:*:15880:0:99999:7:::"</span>
+</code></pre></div></div>
+<p>Unmount the partition and boot the board:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>umount mounting/
+</code></pre></div></div>
+<p>The following image will show what the above steps have done with the image generated by Yocto.</p>
+
+<center><img src="http://localhost:4000/assets/image.png" /></center>
+
+<h2 id="imx-board">i.MX Board</h2>
+
+<p>Run the following commands for installing the required packages:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>apt-get update
+<span class="nv">$ </span>apt-get install gfortran libatlas-base-dev
+<span class="nv">$ </span>apt-get install python python-pip python-dev
+</code></pre></div></div>
+<p>Install the packages required by <em>Machine Learning</em>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>pip install <span class="nt">-U</span> numpy <span class="nt">--index-url</span><span class="o">=</span>https://pypi.python.org/simple/
+</code></pre></div></div>
+<center><img src="http://localhost:4000/assets/numpy.png" /></center>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>pip install <span class="nt">-U</span> scipy <span class="nt">--index-url</span><span class="o">=</span>https://pypi.python.org/simple/
+</code></pre></div></div>
+<center><img src="http://localhost:4000/assets/scipy.png" /></center>
+
+<p>Then, install the <em>scikit-learn</em> library:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>pip install <span class="nt">-U</span> scikit-learn <span class="nt">--index-url</span><span class="o">=</span>https://pypi.python.org/simple/
+</code></pre></div></div>
+<center><img src="http://localhost:4000/assets/sklearn.png" /></center>
+
+<p>Your board is configured for running applications using <em>Machine Learning</em> libraries.</p>
+
+<h2 id="compressing">Compressing</h2>
+
+<p>To compress the image, just run the following command (<code class="highlighter-rouge">root privileges</code>):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>dd <span class="k">if</span><span class="o">=</span>/dev/sd&lt;device&gt; <span class="nv">count</span><span class="o">=</span>800 <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">status</span><span class="o">=</span>progress | gzip <span class="o">&gt;</span> ml.gz
+</code></pre></div></div>
+<p>To uncompress the image, just run the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gzip <span class="nt">-dc</span> ml.gz | dd <span class="nv">of</span><span class="o">=</span>/dev/sdX <span class="nv">status</span><span class="o">=</span>progress <span class="o">&amp;&amp;</span> sync
+</code></pre></div></div>
+
+<h2 id="image">Image</h2>
+
+<p>These steps take a few hours, if you do not have time you can download <a href="https://nxp1.sharepoint.com/:u:/s/machinelearningonimxai/EYLlDuJYhf9Gkmhzw-Ze5NgBCbd5BDH7ZsMygNCjR4jstg?e=5HWOO5">here</a>, and burn it into the SD card as follows:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gzip <span class="nt">-dc</span> ml.gz | dd <span class="nv">of</span><span class="o">=</span>/dev/sdX <span class="nv">status</span><span class="o">=</span>progress <span class="o">&amp;&amp;</span> sync
+</code></pre></div></div>
+
+
+<span class="post-date">
+  Written on
+  
+  March
+  21st
+    ,
+  2018
+  by
+  
+    Diego Dorta
+  
+</span>
+
+<div class="post-date">Feel free to share!</div>
+  <div class="sharing-icons">
+    <a href="https://twitter.com/intent/tweet?text=Machine Learning Libraries for iMX&amp;url=/artificial/Installing-Libraries-ML.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/artificial/Installing-Libraries-ML.html&amp;title=Machine Learning Libraries for iMX" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=/artificial/Installing-Libraries-ML.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+  </div>
+</div>
+
+
+<div class="related">
+  <h1 >You may also enjoy:</h1>
+  
+  <ul class="related-posts">
+    
+      
+        
+        
+      
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-201.html">
+                Python Course 201
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-101.html">
+                Python Course 101
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/ML-Course.html">
+                ML Course
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-301.html">
+                Python Course 301
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/tutorial/Building-UBoot-for-iMX8QXP.html">
+                Building U-Boot for iMX8 QXP Board
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>July 17, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/tutorial/Getting-Started-iMX8-Source-Code.html">
+                Getting Started with i.MX8 Source Code
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>December 18, 2017</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Neural-Net-Tensorflow.html">
+                Neural Network using Tensorflow
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>July 4, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+  </ul>
+</div>
+
+
+
+  <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = "dorta";
+    var disqus_identifier = "/artificial/Installing-Libraries-ML.html";
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+    </div>
+
+    <footer class="footer">
+  
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  <div class="post-date"><a href="/menu/about.html">chronicles in coding | blog inspired by true events on movie screens, unix and related stuff by Diego Dorta</a></div>
+</footer>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      Creating POSIX Serial Terminal | chronicles in coding
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/rss-feed.xml" title="chronicles in coding" />
+  <!-- Use RSS-2.0 -->
+  <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="chronicles in coding | blog inspired by true events on movie screens, unix and related stuff"/>
+  //-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117915917-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117915917-3');
+</script>
+
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Creating POSIX Serial Terminal | chronicles in coding</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="Creating POSIX Serial Terminal" />
+<meta name="author" content="Diego Dorta" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The following code was written intending to provide a very simple tool to use it as a serial terminal for iMX, it works similar as a minicom. The code was developed using POSIX and C language. To compile the following code just use regular instruction:" />
+<meta property="og:description" content="The following code was written intending to provide a very simple tool to use it as a serial terminal for iMX, it works similar as a minicom. The code was developed using POSIX and C language. To compile the following code just use regular instruction:" />
+<link rel="canonical" href="http://localhost:4000/unix/POSIX-Serial-Terminal.html" />
+<meta property="og:url" content="http://localhost:4000/unix/POSIX-Serial-Terminal.html" />
+<meta property="og:site_name" content="chronicles in coding" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-12T00:00:00-03:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/unix/POSIX-Serial-Terminal.html","headline":"Creating POSIX Serial Terminal","dateModified":"2018-07-12T00:00:00-03:00","datePublished":"2018-07-12T00:00:00-03:00","author":{"@type":"Person","name":"Diego Dorta"},"description":"The following code was written intending to provide a very simple tool to use it as a serial terminal for iMX, it works similar as a minicom. The code was developed using POSIX and C language. To compile the following code just use regular instruction:","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/unix/POSIX-Serial-Terminal.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <header class="masthead">
+  <h3 class="masthead-title">
+    <a href="/">chronicles in coding</a>
+    <small class="masthead-subtitle">blog inspired by true events on movie screens, unix and related stuff</small>
+    <div class="menu">
+  <nav class="menu-content">
+    
+      <a href="/menu/about.html">About</a>
+    
+      <a href="/menu/writing.html">Writing</a>
+    
+      <a href="/menu/contact.html">Contact</a>
+    
+  </nav>
+  <nav class="social-icons">
+    
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  </nav>
+</div>
+
+  </h3>
+</header>
+
+
+    <div class="post-container">
+      <h1>
+  Creating POSIX Serial Terminal
+</h1>
+
+
+
+<p>The following code was written intending to provide a very simple tool to use it as a <code class="highlighter-rouge">serial terminal</code> for <code class="highlighter-rouge">iMX</code>, it works similar as a <code class="highlighter-rouge">minicom</code>.
+The <a href="https://github.com/diegohdorta/feynman/blob/master/serial/serial.c">code</a> was developed using <em>POSIX</em> and <em>C</em> language.
+To compile the following code just use regular instruction:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gcc code.c <span class="nt">-o</span> serial
+</code></pre></div></div>
+<p>Then, just run the executable file passing the <code class="highlighter-rouge">device</code> as an argument:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./serial /dev/ttyUSB0
+</code></pre></div></div>
+<p>If not specified, the default will be: <code class="highlighter-rouge">/dev/ttyS0</code>.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define _XOPEN_SOURCE
+#include &lt;errno.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;stdbool.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/ioctl.h&gt;
+#include &lt;sys/select.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/time.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;termios.h&gt;
+#include &lt;unistd.h&gt;
+</span>
+<span class="k">static</span> <span class="k">const</span> <span class="n">tcflag_t</span> <span class="n">lflags</span> <span class="o">=</span> <span class="n">ISIG</span> <span class="o">|</span> <span class="n">ICANON</span> <span class="o">|</span> <span class="n">IEXTEN</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">const</span> <span class="n">tcflag_t</span> <span class="n">oflags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">const</span> <span class="n">tcflag_t</span> <span class="n">iflags</span> <span class="o">=</span> <span class="n">BRKINT</span> <span class="o">|</span> <span class="n">ICRNL</span> <span class="o">|</span> <span class="n">IXON</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">termios</span> <span class="n">old_terminal</span><span class="p">;</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">tty</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">restore_terminal</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">tcsetattr</span><span class="p">(</span><span class="n">tty</span><span class="p">,</span> <span class="n">TCSANOW</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">old_terminal</span><span class="p">);</span>
+	<span class="n">tcdrain</span><span class="p">(</span><span class="n">tty</span><span class="p">);</span>
+	<span class="n">close</span><span class="p">(</span><span class="n">tty</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/* stty flag "onlret" is not working, so translate manually */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">translate</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">,</span> <span class="kt">ssize_t</span> <span class="n">count</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="kt">ssize_t</span> <span class="n">i</span><span class="p">;</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'\n'</span><span class="p">)</span>
+                        <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\r'</span><span class="p">;</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">print_tty_bits</span><span class="p">(</span><span class="kt">int</span> <span class="n">status</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">static</span> <span class="kt">int</span> <span class="n">old</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="n">old</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">&amp;</span> <span class="n">TIOCM_LE</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"DSR "</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">&amp;</span> <span class="n">TIOCM_DTR</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"DTR "</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">&amp;</span> <span class="n">TIOCM_RTS</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"RTS "</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">&amp;</span> <span class="n">TIOCM_ST</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"STXD "</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">&amp;</span> <span class="n">TIOCM_SR</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"SRXD "</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">&amp;</span> <span class="n">TIOCM_CTS</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"CTS "</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">&amp;</span> <span class="n">TIOCM_CAR</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"DCD "</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">&amp;</span> <span class="n">TIOCM_RNG</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"RNG "</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">&amp;</span> <span class="n">TIOCM_DSR</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"DSR "</span><span class="p">);</span>
+
+    <span class="n">puts</span><span class="p">(</span><span class="s">""</span><span class="p">);</span>
+    
+    <span class="n">old</span> <span class="o">=</span> <span class="n">status</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">device</span><span class="p">,</span> <span class="o">*</span><span class="n">pts</span><span class="p">;</span>
+	<span class="n">fd_set</span> <span class="n">set</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">ready</span><span class="p">;</span>
+	<span class="kt">ssize_t</span> <span class="n">count</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">timeval</span> <span class="n">update</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">termios</span> <span class="n">new_terminal</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">status</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+		<span class="n">device</span> <span class="o">=</span> <span class="s">"/dev/ttyS0"</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">device</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+
+	<span class="n">tty</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">O_RDWR</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">tty</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"open"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">grantpt</span><span class="p">(</span><span class="n">tty</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">errno</span> <span class="o">==</span> <span class="n">EINVAL</span><span class="p">)</span>
+			<span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"Opened %s...</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">device</span><span class="p">);</span>
+		<span class="k">else</span> <span class="p">{</span>
+			<span class="n">perror</span><span class="p">(</span><span class="s">"grantpt"</span><span class="p">);</span>
+			<span class="n">close</span><span class="p">(</span><span class="n">tty</span><span class="p">);</span>
+			<span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">else</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">unlockpt</span><span class="p">(</span><span class="n">tty</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">perror</span><span class="p">(</span><span class="s">"unlockpt"</span><span class="p">);</span>
+			<span class="n">close</span><span class="p">(</span><span class="n">tty</span><span class="p">);</span>
+			<span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">pts</span> <span class="o">=</span> <span class="n">ptsname</span><span class="p">(</span><span class="n">tty</span><span class="p">);</span>
+		<span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"Created new pts %s...</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">pts</span><span class="p">);</span>
+	<span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">tcgetattr</span><span class="p">(</span><span class="n">tty</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">old_terminal</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">"tcgetattr"</span><span class="p">);</span>
+        <span class="n">close</span><span class="p">(</span><span class="n">tty</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">atexit</span><span class="p">(</span><span class="n">restore_terminal</span><span class="p">);</span>
+
+    <span class="n">memmove</span><span class="p">(</span><span class="o">&amp;</span><span class="n">new_terminal</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">old_terminal</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">termios</span><span class="p">));</span>
+    <span class="n">new_terminal</span><span class="p">.</span><span class="n">c_iflag</span> <span class="o">=</span> <span class="n">iflags</span><span class="p">;</span>
+    <span class="n">new_terminal</span><span class="p">.</span><span class="n">c_oflag</span> <span class="o">=</span> <span class="n">oflags</span><span class="p">;</span>
+    <span class="n">new_terminal</span><span class="p">.</span><span class="n">c_lflag</span> <span class="o">=</span> <span class="n">lflags</span><span class="p">;</span>
+    <span class="n">tcsetattr</span><span class="p">(</span><span class="n">tty</span><span class="p">,</span> <span class="n">TCSANOW</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">new_terminal</span><span class="p">);</span>
+
+	<span class="n">FD_ZERO</span><span class="p">(</span><span class="o">&amp;</span><span class="n">set</span><span class="p">);</span>
+
+	<span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">FD_SET</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">set</span><span class="p">);</span>
+		<span class="n">FD_SET</span><span class="p">(</span><span class="n">tty</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">set</span><span class="p">);</span>
+		<span class="n">update</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="n">update</span><span class="p">.</span><span class="n">tv_usec</span> <span class="o">=</span> <span class="mi">20000</span><span class="p">;</span>
+		<span class="n">ready</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">tty</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">set</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">update</span><span class="p">);</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">ready</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">errno</span> <span class="o">==</span> <span class="n">EINTR</span><span class="p">)</span>
+				<span class="k">continue</span><span class="p">;</span>
+			<span class="n">perror</span><span class="p">(</span><span class="s">"select"</span><span class="p">);</span>
+			<span class="n">close</span><span class="p">(</span><span class="n">tty</span><span class="p">);</span>
+			<span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">tty</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">set</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">count</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">tty</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buffer</span><span class="p">));</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+				<span class="k">break</span><span class="p">;</span>
+			<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">errno</span> <span class="o">==</span> <span class="n">EIO</span><span class="p">)</span>
+					<span class="k">break</span><span class="p">;</span>
+				<span class="n">perror</span><span class="p">(</span><span class="s">"read from tty"</span><span class="p">);</span>
+			<span class="p">}</span>
+			<span class="k">else</span> <span class="p">{</span>
+				<span class="n">write</span><span class="p">(</span><span class="n">STDOUT_FILENO</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">);</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">set</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">count</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buffer</span><span class="p">));</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+				<span class="n">perror</span><span class="p">(</span><span class="s">"read from stdin"</span><span class="p">);</span>
+			<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		        <span class="n">translate</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">);</span>
+				<span class="n">write</span><span class="p">(</span><span class="n">tty</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">);</span>
+			<span class="p">}</span>
+			<span class="k">else</span>
+				<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+		
+		<span class="k">if</span> <span class="p">(</span><span class="n">ioctl</span><span class="p">(</span><span class="n">tty</span><span class="p">,</span> <span class="n">TIOCMGET</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">status</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		    <span class="n">perror</span><span class="p">(</span><span class="s">"ioctl"</span><span class="p">);</span>
+		    <span class="n">close</span><span class="p">(</span><span class="n">tty</span><span class="p">);</span>
+		    <span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+	    <span class="p">}</span>
+        
+        <span class="n">print_tty_bits</span><span class="p">(</span><span class="n">status</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+
+<span class="post-date">
+  Written on
+  
+  July
+  12th,
+  2018
+  by
+  
+    Diego Dorta
+  
+</span>
+
+<div class="post-date">Feel free to share!</div>
+  <div class="sharing-icons">
+    <a href="https://twitter.com/intent/tweet?text=Creating POSIX Serial Terminal&amp;url=/unix/POSIX-Serial-Terminal.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/unix/POSIX-Serial-Terminal.html&amp;title=Creating POSIX Serial Terminal" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=/unix/POSIX-Serial-Terminal.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+  </div>
+</div>
+
+
+<div class="related">
+  <h1 >You may also enjoy:</h1>
+  
+  <ul class="related-posts">
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/gpu/OpenCL-Overview.html">
+                OpenCL Overview on iMX
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>October 3, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/yocto/Seeting-Up-Yocto-for-iMX-BSP-releases.html">
+                Setting up Yocto for i.MX BSP releases
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>July 16, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+        
+      
+    
+  </ul>
+</div>
+
+
+
+  <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = "dorta";
+    var disqus_identifier = "/unix/POSIX-Serial-Terminal.html";
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+    </div>
+
+    <footer class="footer">
+  
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  <div class="post-date"><a href="/menu/about.html">chronicles in coding | blog inspired by true events on movie screens, unix and related stuff by Diego Dorta</a></div>
+</footer>
+
+  </div>
+
+</body>
+</html>

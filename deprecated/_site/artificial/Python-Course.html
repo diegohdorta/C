@@ -1,0 +1,658 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      Introductory Python Course for ML | chronicles in coding
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/rss-feed.xml" title="chronicles in coding" />
+  <!-- Use RSS-2.0 -->
+  <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="chronicles in coding | blog inspired by true events on movie screens, unix and related stuff"/>
+  //-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117915917-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117915917-3');
+</script>
+
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Introductory Python Course for ML | chronicles in coding</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="Introductory Python Course for ML" />
+<meta name="author" content="Diego Dorta" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This course was prepared to offer concepts/knowledge to be further used in the Machine Learning course. The acquired theoretical and practical understanding of this module can help getting a better comprehension of the next modules." />
+<meta property="og:description" content="This course was prepared to offer concepts/knowledge to be further used in the Machine Learning course. The acquired theoretical and practical understanding of this module can help getting a better comprehension of the next modules." />
+<link rel="canonical" href="http://localhost:4000/artificial/Python-Course.html" />
+<meta property="og:url" content="http://localhost:4000/artificial/Python-Course.html" />
+<meta property="og:site_name" content="chronicles in coding" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-31T00:00:00-03:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/artificial/Python-Course.html","headline":"Introductory Python Course for ML","dateModified":"2018-10-31T00:00:00-03:00","datePublished":"2018-10-31T00:00:00-03:00","author":{"@type":"Person","name":"Diego Dorta"},"description":"This course was prepared to offer concepts/knowledge to be further used in the Machine Learning course. The acquired theoretical and practical understanding of this module can help getting a better comprehension of the next modules.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/artificial/Python-Course.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <header class="masthead">
+  <h3 class="masthead-title">
+    <a href="/">chronicles in coding</a>
+    <small class="masthead-subtitle">blog inspired by true events on movie screens, unix and related stuff</small>
+    <div class="menu">
+  <nav class="menu-content">
+    
+      <a href="/menu/about.html">About</a>
+    
+      <a href="/menu/writing.html">Writing</a>
+    
+      <a href="/menu/contact.html">Contact</a>
+    
+  </nav>
+  <nav class="social-icons">
+    
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  </nav>
+</div>
+
+  </h3>
+</header>
+
+
+    <div class="post-container">
+      <h1>
+  Introductory Python Course for ML
+</h1>
+
+
+
+<p>This course was prepared to offer concepts/knowledge to be further used in the
+<a href="https://diegodorta.com.br/artificial/ML-Course.html"><code class="highlighter-rouge">Machine Learning</code></a> course.
+The acquired theoretical and practical understanding of this module can help
+getting a better comprehension of the next modules.</p>
+
+<center><img src="http://localhost:4000/assets/python.png" /></center>
+
+<p>The <em>Python</em> programming language is probably one of the <em>most popular in the world</em>.
+From smaller companies as well as large ones use this language, many universities
+also include <em>Python</em> as the introductory programming language in their computer
+science courses. <em>Python</em> is very easy to learn and its natural quality of having
+a very simple syntax offers simplicity for writing codes.
+<em>Python</em> is an open-source project and having a general purpose can also be used
+as scripting roles. It is a multi-paradigm programming language supporting
+object-oriented, procedural, and its powerfuls features are:</p>
+
+<ul>
+  <li><a href="https://wiki.python.org/moin/Why%20is%20Python%20a%20dynamic%20language%20and%20also%20a%20strongly%20typed%20language"><code class="highlighter-rouge">Dynamic typing</code></a>;</li>
+  <li><a href="https://docs.python.org/3/library/stdtypes.html"><code class="highlighter-rouge">Built-in types and tools</code></a>;</li>
+  <li><a href="https://docs.python.org/3/c-api/utilities.html"><code class="highlighter-rouge">Library utilities</code></a>;</li>
+  <li><a href="https://wiki.python.org/moin/UsefulModules"><code class="highlighter-rouge">Third party utilities</code></a> (e.g. <a href="http://www.numpy.org/">Numpy</a>, <a href="https://www.scipy.org/">Scipy</a>);</li>
+  <li><a href="https://docs.python.org/3/c-api/memory.html"><code class="highlighter-rouge">Automatic memory management</code></a>.</li>
+</ul>
+
+<p><em>Python</em> runs <em>virtually</em> in every major platform used today, as long as have a compatible
+<em>Python</em> interpreter installed, <em>Python</em> programs can run in exactly same manner,
+irrespective of platform. This feature makes of <em>Python</em> an extremely portable language.</p>
+
+<p><em>Python</em> was developed by <a href="https://gvanrossum.github.io/"><code class="highlighter-rouge">Guido van Rossum</code></a> at
+<a href="https://en.wikipedia.org/wiki/Centrum_Wiskunde_&amp;_Informatica"><code class="highlighter-rouge">CWI</code></a> in Netherlands.</p>
+
+<h3 id="python-applications">Python Applications</h3>
+
+<p>You can use <a href="https://en.wikipedia.org/wiki/List_of_Python_software"><code class="highlighter-rouge">Python</code></a> for
+the following applications:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">Web and Internet Development</code>;</li>
+  <li><code class="highlighter-rouge">Desktop GUI Applications</code>;</li>
+  <li><code class="highlighter-rouge">Scientific and Numeric</code>;</li>
+  <li><code class="highlighter-rouge">Software Development</code>;</li>
+  <li><code class="highlighter-rouge">Education</code>;</li>
+  <li><code class="highlighter-rouge">Business Applications</code>;</li>
+  <li><code class="highlighter-rouge">Games and 3D Graphics</code>;</li>
+  <li><code class="highlighter-rouge">Network Programming</code>;</li>
+  <li><code class="highlighter-rouge">Database Access</code>.</li>
+</ul>
+
+<h3 id="python-and-c-language">Python and C Language</h3>
+
+<p>The following table is describing the main differences between these two programming
+languages in several aspects:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th style="text-align: center">Python</th>
+      <th style="text-align: center">C Language</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Paradigm</strong></td>
+      <td style="text-align: center"><em>Multi-paradigm</em></td>
+      <td style="text-align: center"><em>Structured</em></td>
+    </tr>
+    <tr>
+      <td><strong>Language Type</strong></td>
+      <td style="text-align: center"><em>Interpreter based language, reads the code line by line</em></td>
+      <td style="text-align: center"><em>Compiled language, the source code is converted into machine language</em></td>
+    </tr>
+    <tr>
+      <td><strong>Memory Management</strong></td>
+      <td style="text-align: center"><em>Use automatic garbage collector for memory management</em></td>
+      <td style="text-align: center"><em>Needs to handle memory management manually</em></td>
+    </tr>
+    <tr>
+      <td><strong>Applications</strong></td>
+      <td style="text-align: center"><em>General-Purpose programming language</em></td>
+      <td style="text-align: center"><em>Mainly used for hardware related applications</em></td>
+    </tr>
+    <tr>
+      <td><strong>Speed</strong></td>
+      <td style="text-align: center"><em>Slow</em></td>
+      <td style="text-align: center"><em>Fast</em></td>
+    </tr>
+    <tr>
+      <td><strong>Variable Declaration</strong></td>
+      <td style="text-align: center"><em>No need to declare variable type</em></td>
+      <td style="text-align: center"><em>Compulsory to declare variable type</em></td>
+    </tr>
+    <tr>
+      <td><strong>Complexity</strong></td>
+      <td style="text-align: center"><em>Easy to learn, write and read</em></td>
+      <td style="text-align: center"><em>Harder than Python</em></td>
+    </tr>
+    <tr>
+      <td><strong>Testing and Debugging</strong></td>
+      <td style="text-align: center"><em>Easy</em></td>
+      <td style="text-align: center"><em>Harder than Python</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="brief-summary-of-ml-course">Brief Summary of ML Course</h3>
+
+<p>This section explains briefly why <em>Python</em> is important for 
+<a href="https://diegodorta.com.br/artificial/ML-Course.html"><code class="highlighter-rouge">Machine Learning</code></a> course. Most
+of the framework/libraries for <code class="highlighter-rouge">ML</code> were written in <em>Python</em>, even some of those that
+were written in <em>C</em> and <em>C++</em> and not <em>Python</em>, they still have a <code class="highlighter-rouge">sophisticated</code>
+front-end for <em>Python</em> so it can be easy to develop an application.</p>
+
+<p>You can check the following posts to learn more about <code class="highlighter-rouge">Machine Learning</code>:</p>
+
+<ul>
+  <li>1 - <a href="https://diegodorta.com.br/artificial/Overview.html"><code class="highlighter-rouge">Overview of AI/ML</code></a></li>
+  <li>2 - <a href="https://diegodorta.com.br/artificial/Machine-Learning-Rules.html"><code class="highlighter-rouge">ML Rules</code></a></li>
+  <li>3 - <a href="https://diegodorta.com.br/artificial/Scikit-Learn.html"><code class="highlighter-rouge">Supervised Learning</code></a></li>
+</ul>
+
+<p>You can check the following posts to learn how to install the <code class="highlighter-rouge">Machine Learning</code>
+libraries/frameworks on <code class="highlighter-rouge">iMX6/7/8</code> boards:</p>
+
+<ul>
+  <li>1 - <a href="https://diegodorta.com.br/artificial/Installing-Libraries-ML.html"><code class="highlighter-rouge">Installing ML Libraries on iMX (Debian system)</code></a></li>
+  <li>2 - <a href=""><code class="highlighter-rouge">Installing ML Libraries on iMX (Yocto BSP)</code></a>
+<em>no date to release.</em></li>
+  <li>3 - <a href=""><code class="highlighter-rouge">Installing ML Libraries on iMX (Buildroot)</code></a>
+<em>will be released in Jan/2019.</em></li>
+</ul>
+
+<p>Briefly, <code class="highlighter-rouge">ML</code> is the art and science of giving computers the ability to learn and
+make decisions from data without being explicitly programmed. For instance, use
+<code class="highlighter-rouge">ML</code> to predict whether and e-mail is <em>spam</em> or not, and use the same code to predict
+if a fruit is an <em>apple</em> or an <em>orange</em>.</p>
+
+<p>The <a href="https://diegodorta.com.br/artificial/ML-Course.html"><code class="highlighter-rouge">ML</code></a> course has more details
+about these technologies, for now follow a list of the most used <code class="highlighter-rouge">ML</code> frameworks
+and a quickly description:</p>
+
+<ul>
+  <li><a href="http://scikit-learn.org/stable/"><code class="highlighter-rouge">Scikit-learn</code></a></li>
+</ul>
+
+<p><em>Scikit-learn is a Python module integrating a wide range of state-of-the-art machine
+learning algorithms for medium-scale supervised and unsupervised problems.</em></p>
+
+<ul>
+  <li><a href="https://www.tensorflow.org/"><code class="highlighter-rouge">Tensorflow</code></a></li>
+</ul>
+
+<p><em>Tensorflow is just a computational framework for expressing algorithms
+involving large number of Tensor operations, since Neural networks can be expressed
+as computational graphs they can be implemented using Tensorflow as a series of
+operations on Tensors.</em></p>
+
+<ul>
+  <li><a href="http://www.numpy.org/"><code class="highlighter-rouge">Numpy</code></a></li>
+</ul>
+
+<p><em>Knowledge of Numpy is very much important for Machine Learning and Data Science.</em></p>
+
+<ul>
+  <li><a href="https://keras.io/"><code class="highlighter-rouge">Keras</code></a></li>
+</ul>
+
+<p><em>It provides an easy way to express Neural networks. It also provides some of the
+utilities for processing data sets, compiling models, evaluating results,
+visualization of graphs and many more.</em></p>
+
+<ul>
+  <li><a href="http://deeplearning.net/software/theano/tutorial/"><code class="highlighter-rouge">Theano</code></a></li>
+</ul>
+
+<p><em>Theano is a computational framework for computing multidimensional arrays. Theano
+is similar to Tensorflow , but Theano is not as efficient as Tensorflow because
+of its inability to suit into production environments. Theano can be used on a
+parallel or distributed environments just like Tensorflow.</em></p>
+
+<h3 id="issues">Issues</h3>
+
+<p>At the moment we are struggling a bit to run these frameworks in an <code class="highlighter-rouge">embedded system</code>,
+the support behind these libraries has several dependencies and porting it to
+<code class="highlighter-rouge">Yocto Project</code> has been quite of a hard work.</p>
+
+<p>Having a full environment to start developing may take a while, but in the meanwhile
+these courses can provide an overview of <code class="highlighter-rouge">ML</code>.</p>
+
+<h3 id="hardware-acceleration-using-gpu">Hardware Acceleration using GPU</h3>
+
+<p>To run and accelerate <code class="highlighter-rouge">ML</code> on <code class="highlighter-rouge">iMX</code> is necessary to use
+<a href="https://www.khronos.org/opencl/"><code class="highlighter-rouge">OpenCL</code></a>, the following post can explain how
+to get there (still under constrution):</p>
+
+<ul>
+  <li><a href="https://diegodorta.com.br/gpu/OpenCL-Overview.html"><code class="highlighter-rouge">OpenCL on iMX processors</code></a>.</li>
+</ul>
+
+<h2 id="installing-python">Installing Python</h2>
+
+<p>This module uses <em>Python3</em> and <em>GNU/Linux</em> as its platform. <em>Python</em> is very easy
+to be installed that the installation will be briefly approached in this module.
+Just by using the <code class="highlighter-rouge"><span class="k">package</span> <span class="n">manager</span></code> from your host machine or following the
+instructions on <a href="https://www.python.org/download/releases/3.0/"><code class="highlighter-rouge">Python3 Webite</code></a>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>&lt;your_package_manager&gt; install python3
+</code></pre></div></div>
+<p>If you are using <code class="highlighter-rouge">Yocto Project</code> to deploy images into your <code class="highlighter-rouge">iMX</code>, include the next
+line into your <code class="highlighter-rouge">local.conf</code> file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CORE_IMAGE_EXTRA_INSTALL <span class="o">=</span> <span class="s2">"python3 python3-pip"</span>
+</code></pre></div></div>
+<p>If you are wondering what is <code class="highlighter-rouge">pip</code>, see <a href="https://en.wikipedia.org/wiki/Pip_(package_manager)"><code class="highlighter-rouge">this</code></a>.</p>
+
+<p>Further information about <code class="highlighter-rouge">Yocto iMX BSP releases</code> follow the post:</p>
+
+<ul>
+  <li><a href="https://diegodorta.com.br/yocto/Seeting-Up-Yocto-for-iMX-BSP-releases.html"><code class="highlighter-rouge">Setting Up Yocto</code></a></li>
+</ul>
+
+<h2 id="python-ide">Python IDE</h2>
+
+<p>People frequently use <code class="highlighter-rouge">IDE</code> (<em>Integrated Development Environment</em>) for writing
+and testing their codes. You can get a debugger also and make your life easier.
+If you have preference for IDE, the recommendation for <em><code class="highlighter-rouge">Python</code></em> is <code class="highlighter-rouge">PyCharm</code>.
+You can download from:</p>
+
+<ul>
+  <li><a href="https://www.jetbrains.com/pycharm/"><code class="highlighter-rouge">PyCharm Community Edition</code></a></li>
+</ul>
+
+<p>This course is based in short codes, then it was used
+<a href="https://wiki.gnome.org/Apps/Gedit"><code class="highlighter-rouge">gedit</code></a> editor.</p>
+
+<h3 id="python-shell-and-python-interpreter">Python Shell and Python Interpreter</h3>
+
+<p>Before starting, you need to know that you can use the <em>Python</em> <em>shell</em> to write
+and run your <em>scripts</em> or write the code in a <em>file</em> and run it by executing it.</p>
+
+<p><em>Python</em> <em>interpreter</em> is more of a program that goes through your <code class="highlighter-rouge">.py</code> code or
+statements written in <em>Python Shell</em> line by line and produces appropriate output.</p>
+
+<p><em>Python</em> <em>shell</em> works exactly like <em>OS</em> shells like <em>bash shell</em>, but in this
+case, it acts as a medium between you and <em>Python</em> <em>interpreter</em> by submitting your
+code to the <em>interpreter</em>.</p>
+
+<h3 id="indentation">Indentation</h3>
+
+<p>You do not need to use <code class="highlighter-rouge">[]</code> or <code class="highlighter-rouge">{}</code> to denote blocks in <em>Python</em>, but you must
+use the right <a href="https://docs.python.org/2.0/ref/indentation.html"><code class="highlighter-rouge">indentation</code></a>,
+see the following examples:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span>    <span class="n">name</span> <span class="o">=</span> <span class="s">"Python Course"</span>
+<span class="mi">2</span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="mi">3</span>        <span class="n">new_message</span> <span class="o">=</span> <span class="s">"Yay! Cool course!"</span>
+<span class="mi">4</span>        <span class="k">print</span> <span class="n">new_message</span>
+</code></pre></div></div>
+<p>The action above are the two lines of code or block of code after the colon “:”.
+<em>Python</em> was told that the two statements or block of code should be run only if
+length of name is greater than 0.</p>
+
+<p>However, how does python get to know what all lines of code are to be executed?</p>
+
+<p>One typical way to do it in other languages is this:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span>   <span class="k">if</span> <span class="n">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+<span class="mi">2</span>       <span class="n">new_message</span> <span class="o">=</span> <span class="s">"Yay! Cool course"</span>
+<span class="mi">3</span>       <span class="n">print</span> <span class="n">new_message</span>
+<span class="mi">4</span>   <span class="p">}</span>
+</code></pre></div></div>
+<p>Python relies on <code class="highlighter-rouge">indentation</code> for this. To know which lines or block of code is
+contained under the <code class="highlighter-rouge">if</code> condition. How is the <code class="highlighter-rouge">indentation</code> created?</p>
+
+<ul>
+  <li>4 spaces to the right of the condition statement.</li>
+  <li>Why 4 spaces? Convention, just the preferred number of spaces.</li>
+  <li>Will my code work if <code class="highlighter-rouge">indentation</code> is not given? No!</li>
+</ul>
+
+<p>In fact one of the most common error in python is the:</p>
+
+<pre><code class="language-output">Indentation Error: Unexpected Indent
+</code></pre>
+<p>Why did python make this choice of forced <code class="highlighter-rouge">indentation</code>? Remember that <em>Python</em>
+lays a lot of stress on <em>beauty</em> and <em>readability</em>? 
+(<a href="https://www.python.org/dev/peps/pep-0020/"><em>Zen of Python</em></a>)</p>
+
+<h3 id="python-course-modules">Python Course Modules</h3>
+
+<p>Follow the sequence of <code class="highlighter-rouge">Python Course</code>:</p>
+
+<ul>
+  <li><a href="https://diegodorta.com.br/artificial/Python-Course-101.html"><code class="highlighter-rouge">Python Course 101</code></a></li>
+  <li><a href="https://diegodorta.com.br/artificial/Python-Course-201.html"><code class="highlighter-rouge">Python Course 201</code></a></li>
+  <li><a href="https://diegodorta.com.br/artificial/Python-Course-301.html"><code class="highlighter-rouge">Python Course 301</code></a></li>
+  <li><a href="https://diegodorta.com.br/artificial/ML-Course.html"><code class="highlighter-rouge">ML Course</code></a></li>
+</ul>
+
+
+
+<span class="post-date">
+  Written on
+  
+  October
+  31st
+    ,
+  2018
+  by
+  
+    Diego Dorta
+  
+</span>
+
+<div class="post-date">Feel free to share!</div>
+  <div class="sharing-icons">
+    <a href="https://twitter.com/intent/tweet?text=Introductory Python Course for ML&amp;url=/artificial/Python-Course.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/artificial/Python-Course.html&amp;title=Introductory Python Course for ML" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=/artificial/Python-Course.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+  </div>
+</div>
+
+
+<div class="related">
+  <h1 >You may also enjoy:</h1>
+  
+  <ul class="related-posts">
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-301.html">
+                Python Course 301
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-201.html">
+                Python Course 201
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-101.html">
+                Python Course 101
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/ML-Course.html">
+                ML Course
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+  </ul>
+</div>
+
+
+
+  <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = "dorta";
+    var disqus_identifier = "/artificial/Python-Course.html";
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+    </div>
+
+    <footer class="footer">
+  
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  <div class="post-date"><a href="/menu/about.html">chronicles in coding | blog inspired by true events on movie screens, unix and related stuff by Diego Dorta</a></div>
+</footer>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,573 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      Python Course 201 | chronicles in coding
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/rss-feed.xml" title="chronicles in coding" />
+  <!-- Use RSS-2.0 -->
+  <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="chronicles in coding | blog inspired by true events on movie screens, unix and related stuff"/>
+  //-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117915917-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117915917-3');
+</script>
+
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Python Course 201 | chronicles in coding</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="Python Course 201" />
+<meta name="author" content="Diego Dorta" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This section approaches the list concept in Python and jumps a head a little to demonstrate how data structures are important while developing applications for ML projects." />
+<meta property="og:description" content="This section approaches the list concept in Python and jumps a head a little to demonstrate how data structures are important while developing applications for ML projects." />
+<link rel="canonical" href="http://localhost:4000/artificial/Python-Course-201.html" />
+<meta property="og:url" content="http://localhost:4000/artificial/Python-Course-201.html" />
+<meta property="og:site_name" content="chronicles in coding" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-11-08T00:00:00-02:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/artificial/Python-Course-201.html","headline":"Python Course 201","dateModified":"2018-11-08T00:00:00-02:00","datePublished":"2018-11-08T00:00:00-02:00","author":{"@type":"Person","name":"Diego Dorta"},"description":"This section approaches the list concept in Python and jumps a head a little to demonstrate how data structures are important while developing applications for ML projects.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/artificial/Python-Course-201.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <header class="masthead">
+  <h3 class="masthead-title">
+    <a href="/">chronicles in coding</a>
+    <small class="masthead-subtitle">blog inspired by true events on movie screens, unix and related stuff</small>
+    <div class="menu">
+  <nav class="menu-content">
+    
+      <a href="/menu/about.html">About</a>
+    
+      <a href="/menu/writing.html">Writing</a>
+    
+      <a href="/menu/contact.html">Contact</a>
+    
+  </nav>
+  <nav class="social-icons">
+    
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  </nav>
+</div>
+
+  </h3>
+</header>
+
+
+    <div class="post-container">
+      <h1>
+  Python Course 201
+</h1>
+
+
+
+<p>This section approaches the <em>list</em> concept in <em>Python</em> and jumps a head a little
+to demonstrate how <code class="highlighter-rouge">data structures</code> are important while developing applications
+for <code class="highlighter-rouge">ML</code> projects.</p>
+
+<p>A <em>list</em> in <em>Python</em> can be written as a <em>list</em> of <code class="highlighter-rouge">comma-separated</code> values (<em>items</em>)
+between <em>square brackets</em>. In <em>Python</em> a <em>list</em> does not need to be of the same type.</p>
+
+<p>The following examples demonstrate how to handle <em>lists</em>, and how you use <em>list</em>
+in a simple <code class="highlighter-rouge">ML</code> code example.</p>
+
+<h3 id="example-1">Example 1</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env python3</span>
+
+<span class="n">team</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Breno"</span><span class="p">,</span> <span class="s">"Daiane"</span><span class="p">,</span> <span class="s">"Diego"</span><span class="p">,</span> <span class="s">"Fabio"</span><span class="p">,</span> <span class="s">"Marcelo"</span><span class="p">,</span>
+	<span class="s">"Marco"</span><span class="p">,</span> <span class="s">"Renato"</span><span class="p">,</span> <span class="s">"Rogerio"</span><span class="p">,</span> <span class="s">"Vanessa"</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">team</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">team</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">team</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">team</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">team</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Running the above code the result is:</p>
+
+<pre><code class="language-output">9
+
+['Breno', 'Daiane', 'Diego', 'Fabio', 'Marcelo', 'Marco', 'Renato', 'Rogerio', 'Vanessa']
+
+Marcelo
+
+['Breno', 'Daiane', 'Diego', 'Fabio']
+
+Breno
+Daiane
+Diego
+Fabio
+Marcelo
+Marco
+Renato
+Rogerio
+Vanessa
+</code></pre>
+<h3 id="example-2">Example 2</h3>
+
+<p>This code shows how can you put a <em>list</em> inside of a <em>list</em>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env python3</span>
+
+<span class="n">team</span> <span class="o">=</span> <span class="p">[[</span><span class="s">"Breno"</span><span class="p">,</span> <span class="s">"Security"</span><span class="p">],</span>
+	<span class="p">[</span><span class="s">"Daiane"</span><span class="p">,</span> <span class="s">"Yocto"</span><span class="p">],</span>
+	<span class="p">[</span><span class="s">"Diego"</span><span class="p">,</span> <span class="s">"ML"</span><span class="p">],</span>
+	<span class="p">[</span><span class="s">"Fabio"</span><span class="p">,</span> <span class="s">"UBoot"</span><span class="p">],</span>
+	<span class="p">[</span><span class="s">"Marcelo"</span><span class="p">,</span> <span class="s">"Pico"</span><span class="p">],</span>
+	<span class="p">[</span><span class="s">"Marco"</span><span class="p">,</span> <span class="s">"Gstreamer"</span><span class="p">],</span>
+	<span class="p">[</span><span class="s">"Renato"</span><span class="p">,</span> <span class="s">"KDE"</span><span class="p">],</span>
+	<span class="p">[</span><span class="s">"Rogerio"</span><span class="p">,</span> <span class="s">"VPU"</span><span class="p">],</span>
+	<span class="p">[</span><span class="s">"Vanessa"</span><span class="p">,</span> <span class="s">"Hardware"</span><span class="p">]]</span>
+	
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">team</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Name: "</span> <span class="o">+</span> <span class="n">member</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">team</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Job description: "</span> <span class="o">+</span> <span class="n">member</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</code></pre></div></div>
+<p>Output:</p>
+
+<pre><code class="language-output">Name: Breno
+Name: Daiane
+Name: Diego
+Name: Fabio
+Name: Marcelo
+Name: Marco
+Name: Renato
+Name: Rogerio
+Name: Vanessa
+
+
+Job description: Security
+Job description: Yocto
+Job description: ML
+Job description: UBoot
+Job description: Pico
+Job description: Gstreamer
+Job description: KDE
+Job description: VPU
+Job description: Hardware
+</code></pre>
+<h3 id="example-3">Example 3</h3>
+
+<p>With the <em>list</em> concept explained above, we can run a simple <code class="highlighter-rouge">ML</code> program. This program
+is just to tell the difference between a <code class="highlighter-rouge">Border Collie</code> and a <code class="highlighter-rouge">Gold Retriever</code>.
+It is the same example from <code class="highlighter-rouge">types of fruits</code>, so to learn more about
+<code class="highlighter-rouge">Supervised Learning</code> read this <a href="https://diegodorta.com.br/artificial/Scikit-Learn.html"><code class="highlighter-rouge">post</code></a>.</p>
+
+<p>The <code class="highlighter-rouge">UCI</code> has a <a href="http://archive.ics.uci.edu/ml/index.php"><code class="highlighter-rouge">Machine Learning Repository</code></a>
+that you can download data sets from their community. It is done to use in your code.</p>
+
+<p>Well, we need to create a model to be used to predict whether is a <code class="highlighter-rouge">Border Collie</code>
+or a <code class="highlighter-rouge">Golden Retriever</code>. Collecting data like its weight and color can probably be
+enough to train a model:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sklearn</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="p">[[</span><span class="s">"yellow"</span><span class="p">,</span> <span class="mi">55</span><span class="p">],</span>
+	    <span class="p">[</span><span class="s">"yellow"</span><span class="p">,</span> <span class="mi">66</span><span class="p">],</span>
+	    <span class="p">[</span><span class="s">"yellow"</span><span class="p">,</span> <span class="mi">75</span><span class="p">],</span>
+	    <span class="p">[</span><span class="s">"yellow"</span><span class="p">,</span> <span class="mi">69</span><span class="p">],</span>
+	    <span class="p">[</span><span class="s">"black"</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
+	    <span class="p">[</span><span class="s">"black"</span><span class="p">,</span> <span class="mi">36</span><span class="p">],</span>
+	    <span class="p">[</span><span class="s">"black"</span><span class="p">,</span> <span class="mi">38</span><span class="p">],</span>
+	    <span class="p">[</span><span class="s">"black"</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+	    <span class="p">[</span><span class="s">"white"</span><span class="p">,</span> <span class="mi">41</span><span class="p">],</span>
+	    <span class="p">[</span><span class="s">"white"</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+	    <span class="p">[</span><span class="s">"white"</span><span class="p">,</span> <span class="mi">35</span><span class="p">],</span>
+	    <span class="p">[</span><span class="s">"white"</span><span class="p">,</span> <span class="mi">45</span><span class="p">]]</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Golden Retriever"</span><span class="p">,</span>
+          <span class="s">"Golden Retriever"</span><span class="p">,</span>
+          <span class="s">"Golden Retriever"</span><span class="p">,</span>
+          <span class="s">"Golden Retriever"</span><span class="p">,</span>
+          <span class="s">"Border Collie"</span><span class="p">,</span>
+          <span class="s">"Border Collie"</span><span class="p">,</span>
+          <span class="s">"Border Collie"</span><span class="p">,</span>
+          <span class="s">"Border Collie"</span><span class="p">,</span>
+          <span class="s">"Border Collie"</span><span class="p">,</span>
+          <span class="s">"Border Collie"</span><span class="p">,</span>
+          <span class="s">"Border Collie"</span><span class="p">,</span>
+          <span class="s">"Border Collie"</span><span class="p">]</span>
+</code></pre></div></div>
+<p>This <em>framework</em> <code class="highlighter-rouge">Scikit-learn</code> uses real-valued features, it is required to change
+the variable types of all features to <code class="highlighter-rouge">ints</code> types instead of <code class="highlighter-rouge">strings</code> types.
+The <em>yellow</em> color for <code class="highlighter-rouge">Golden Retriever</code> is <code class="highlighter-rouge">0</code>, and <em>black</em> or <em>white</em> for
+<code class="highlighter-rouge">Border Collie</code> is <code class="highlighter-rouge">1</code>. Also, <code class="highlighter-rouge">0</code> defines a <code class="highlighter-rouge">Golden Retriever</code> and <code class="highlighter-rouge">1</code> defines
+a <code class="highlighter-rouge">Border Collie</code>. The <em>weight</em> is given in <code class="highlighter-rouge">pounds</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sklearn</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">55</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">66</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">75</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">69</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">36</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">38</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">41</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">35</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">45</span><span class="p">]]</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</code></pre></div></div>
+<p>An <code class="highlighter-rouge">embedded systems</code> most of the time does not have a high performance like a
+<code class="highlighter-rouge">cloud server</code>. This statement goes over our mind of how can a small system
+train a <code class="highlighter-rouge">model</code> for <code class="highlighter-rouge">Machine Learning</code>?</p>
+
+<p>The answer is that <strong>we should not train the model</strong> in the <code class="highlighter-rouge">embedded system</code> we
+just need to use it. Think in a car example:</p>
+
+<p><em>The model must not be trained in a car, it needs to train this model in a 
+<code class="highlighter-rouge">Cloud Server</code>. The only thing the car must do is to collect <code class="highlighter-rouge">data</code> while driving
+on the streets, and when it gets home upload all the collected data to the
+<code class="highlighter-rouge">Cloud Server</code> so it can be trained during the night, once it was re-trained
+the car download this new model and it is done to go on the streets again.</em></p>
+
+<p>The following code trains a <em>classifier</em> using a <em>decision tree</em> and a <em>fit</em>
+function. Then, it saves the trained model to be further used.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env python3</span>
+
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="n">pk</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">55</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">66</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">75</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">69</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">36</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">38</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">41</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">35</span><span class="p">],</span>
+	    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">45</span><span class="p">]]</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+<span class="n">pk</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s">"trained_model.sav"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">))</span>
+</code></pre></div></div>
+<p>The next code opens the <code class="highlighter-rouge">pre-built model</code> and use it to predict which <code class="highlighter-rouge">dog</code> is:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env python3</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="n">pk</span>
+
+<span class="n">colour</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">weight</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="n">loaded_model</span> <span class="o">=</span> <span class="n">pk</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"trained_model.sav"</span><span class="p">,</span> <span class="s">'rb'</span><span class="p">))</span>
+
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">loaded_model</span><span class="o">.</span><span class="n">predict</span><span class="p">([[</span><span class="n">colour</span><span class="p">,</span> <span class="n">weight</span><span class="p">]])</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">prediction</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"[</span><span class="si">%</span><span class="s">d], so it is Golden Retriever.</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">prediction</span><span class="p">)</span>
+<span class="k">elif</span><span class="p">(</span><span class="n">prediction</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"[</span><span class="si">%</span><span class="s">d], so it is Border Collie.</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">prediction</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Executing this code and passing <code class="highlighter-rouge">0</code> (<em>Yellow</em>) and any weight <code class="highlighter-rouge">60</code> pounds,
+this is probably a <code class="highlighter-rouge">Golden Retriever</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">$</span> <span class="o">./</span><span class="n">example</span><span class="o">.</span><span class="n">py</span> <span class="mi">0</span> <span class="mi">60</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">so</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">Golden</span> <span class="n">Retriever</span><span class="o">.</span>
+</code></pre></div></div>
+<ul>
+  <li><a href="https://diegodorta.com.br/artificial/Python-Course-301.html"><code class="highlighter-rouge">Python Course 301</code></a></li>
+</ul>
+
+
+<span class="post-date">
+  Written on
+  
+  November
+  8th,
+  2018
+  by
+  
+    Diego Dorta
+  
+</span>
+
+<div class="post-date">Feel free to share!</div>
+  <div class="sharing-icons">
+    <a href="https://twitter.com/intent/tweet?text=Python Course 201&amp;url=/artificial/Python-Course-201.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/artificial/Python-Course-201.html&amp;title=Python Course 201" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=/artificial/Python-Course-201.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+  </div>
+</div>
+
+
+<div class="related">
+  <h1 >You may also enjoy:</h1>
+  
+  <ul class="related-posts">
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-301.html">
+                Python Course 301
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-101.html">
+                Python Course 101
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/ML-Course.html">
+                ML Course
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+  </ul>
+</div>
+
+
+
+  <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = "dorta";
+    var disqus_identifier = "/artificial/Python-Course-201.html";
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+    </div>
+
+    <footer class="footer">
+  
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  <div class="post-date"><a href="/menu/about.html">chronicles in coding | blog inspired by true events on movie screens, unix and related stuff by Diego Dorta</a></div>
+</footer>
+
+  </div>
+
+</body>
+</html>

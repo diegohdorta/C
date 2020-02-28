@@ -1,0 +1,463 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      Setting Up Yocto | chronicles in coding
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/rss-feed.xml" title="chronicles in coding" />
+  <!-- Use RSS-2.0 -->
+  <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="chronicles in coding | blog inspired by true events on movie screens, unix and related stuff"/>
+  //-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117915917-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117915917-3');
+</script>
+
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Setting Up Yocto | chronicles in coding</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="Setting Up Yocto" />
+<meta name="author" content="Diego Dorta" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The recommended and most appropriate way to guarantee determinism on development is to use Yocto. This post approaches the fsl-arm-yocto-bsp, for community go to fsl-community-bsp." />
+<meta property="og:description" content="The recommended and most appropriate way to guarantee determinism on development is to use Yocto. This post approaches the fsl-arm-yocto-bsp, for community go to fsl-community-bsp." />
+<link rel="canonical" href="http://localhost:4000/yocto/Setting-Up-Yocto.html" />
+<meta property="og:url" content="http://localhost:4000/yocto/Setting-Up-Yocto.html" />
+<meta property="og:site_name" content="chronicles in coding" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-23T00:00:00-03:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/yocto/Setting-Up-Yocto.html","headline":"Setting Up Yocto","dateModified":"2018-05-23T00:00:00-03:00","datePublished":"2018-05-23T00:00:00-03:00","author":{"@type":"Person","name":"Diego Dorta"},"description":"The recommended and most appropriate way to guarantee determinism on development is to use Yocto. This post approaches the fsl-arm-yocto-bsp, for community go to fsl-community-bsp.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/yocto/Setting-Up-Yocto.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <header class="masthead">
+  <h3 class="masthead-title">
+    <a href="/">chronicles in coding</a>
+    <small class="masthead-subtitle">blog inspired by true events on movie screens, unix and related stuff</small>
+    <div class="menu">
+  <nav class="menu-content">
+    
+      <a href="/menu/about.html">About</a>
+    
+      <a href="/menu/writing.html">Writing</a>
+    
+      <a href="/menu/contact.html">Contact</a>
+    
+  </nav>
+  <nav class="social-icons">
+    
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  </nav>
+</div>
+
+  </h3>
+</header>
+
+
+    <div class="post-container">
+      <h1>
+  Setting Up Yocto
+</h1>
+
+
+
+<p>The recommended and most appropriate way to guarantee determinism on development is to use <em>Yocto</em>. This post approaches the <code class="highlighter-rouge">fsl-arm-yocto-bsp</code>, for community go to <a href="http://freescale.github.io/#download"><code class="highlighter-rouge">fsl-community-bsp</code></a>.</p>
+
+<p>If you never set up on your machine the <code class="highlighter-rouge">prerequisites</code> for configuring and running <em>Yocto</em>, follow the next steps:</p>
+
+<h2 id="software-requirements"><strong>Software Requirements</strong></h2>
+
+<ul>
+  <li>Host OS: Tested on <em>Ubuntu 18.04 LTS</em>.</li>
+  <li>Host packages:</li>
+</ul>
+
+<p>You may need <code class="highlighter-rouge">root provigilies</code> to install the following essential packages:</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev
+</code></pre></div></div>
+<p>You will also need to install a few more packages required for <code class="highlighter-rouge">i.MX layers</code>:</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ apt-get install libsdl1.2-dev xterm sed cvs subversion coreutils texi2html docbook-utils python-pysqlite2 help2man gcc g++ make desktop-file-utils libgl1-mesa-dev libglu1-mesa-dev mercurial autoconf automake groff curl lzop asciidoc u-boot-tools
+</code></pre></div></div>
+
+<h2 id="repo-utility"><strong>Repo Utility</strong></h2>
+
+<p>You probably need to install <code class="highlighter-rouge">repo</code> utility once:</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ mkdir ~/bin
+$ curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/bin/repo
+$ chmod a+x ~/bin/repo
+$ PATH=${PATH}:~/bin
+</code></pre></div></div>
+<h2 id="yocto-project-environment">Yocto Project Environment</h2>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ mkdir fsl-arm-yocto-bsp
+$ cd fsl-arm-yocto-bsp
+$ repo init -u https://source.codeaurora.org/external/imx/imx-manifest -b <span class="nt">&lt;branch&gt;</span> -m <span class="nt">&lt;manifest&gt;</span>
+$ repo sync
+</code></pre></div></div>
+<p>Choose a branch:</p>
+
+<ul>
+  <li><a href="https://source.codeaurora.org/external/imx/imx-manifest/tree/?h=imx-linux-morty">imx-linux-morty</a></li>
+  <li><a href="https://source.codeaurora.org/external/imx/imx-manifest/tree/?h=imx-linux-rocko">imx-linux-rocko</a></li>
+</ul>
+
+<p>Then, choose a manifest <code class="highlighter-rouge">imx-linux-morty</code>:</p>
+
+<p><strong>i.MX8M Scale</strong>:</p>
+
+<ul>
+  <li>imx-4.9.51-8mq_beta.xml</li>
+  <li>imx-4.9.51-8mq_ga-optee-demo.xml</li>
+  <li>imx-4.9.51-8mq_ga.xml</li>
+</ul>
+
+<p><strong>i.MX8QM</strong>:</p>
+
+<ul>
+  <li>imx-4.9.51-8qm_beta1-agl-demo.xml</li>
+  <li>imx-4.9.51-8qm_beta1.xml</li>
+  <li>imx-4.9.51-8qm_beta2.xml</li>
+</ul>
+
+<p><strong>i.MX8QXP</strong>:</p>
+
+<ul>
+  <li>imx-4.9.51-8qxp_alpha.xml</li>
+</ul>
+
+<p>For <code class="highlighter-rouge">imx-linux-rocko</code> manifests you can look <a href="https://source.codeaurora.org/external/imx/imx-manifest/tree/?h=imx-linux-rocko">here</a>.</p>
+
+<h2 id="examples">Examples</h2>
+
+<p>For <code class="highlighter-rouge">repo</code> tool, you can use as an example the following line for <code class="highlighter-rouge">i.MX8QM</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>repo init <span class="nt">-u</span> https://source.codeaurora.org/external/imx/imx-manifest <span class="nt">-b</span> local_imx-linux-morty <span class="nt">-m</span> imx-4.9.51-8qm_beta2.xml
+<span class="nv">$ </span>repo sync
+</code></pre></div></div>
+<p>For building an image for <code class="highlighter-rouge">i.MX8QM</code> use the following line:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ EULA</span><span class="o">=</span>1 <span class="nv">MACHINE</span><span class="o">=</span>imx8qmmek <span class="nv">DISTRO</span><span class="o">=</span>fsl-imx-xwayland <span class="nb">source</span> ./fsl-setup-release.sh <span class="nt">-b</span> bld-xwayland
+</code></pre></div></div>
+<p>Then, inside <code class="highlighter-rouge">bld-xwayland</code> folder just run the <code class="highlighter-rouge">bitbake</code> command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>bitbake core-image-base
+</code></pre></div></div>
+<p>This command can take several hours, but it can guarantee you will have a full environment to create images and test them.</p>
+
+<h2 id="flashing-sd-card">Flashing SD card</h2>
+
+<p>The output files can be found in <code class="highlighter-rouge">tmp/deply/image/&lt;board_name&gt;/</code>.</p>
+
+<ul>
+  <li>Uncompressed the image using <code class="highlighter-rouge">bzunzip2</code> tool:</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>bunzip2 <span class="nt">-f</span> core-image-base-imx8qmmek.rootfs.sdcard.bz2
+</code></pre></div></div>
+
+<ul>
+  <li>Flash the uncompressed image into your SD card:</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>dd <span class="k">if</span><span class="o">=</span>core-image-base-imx8qmmek.rootfs.sdcard <span class="nv">of</span><span class="o">=</span>/dev/sd&lt;x&gt; <span class="nv">status</span><span class="o">=</span>progress <span class="o">&amp;&amp;</span> sync
+</code></pre></div></div>
+
+
+
+<span class="post-date">
+  Written on
+  
+  May
+  23rd
+    ,
+  2018
+  by
+  
+    Diego Dorta
+  
+</span>
+
+<div class="post-date">Feel free to share!</div>
+  <div class="sharing-icons">
+    <a href="https://twitter.com/intent/tweet?text=Setting Up Yocto&amp;url=/yocto/Setting-Up-Yocto.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/yocto/Setting-Up-Yocto.html&amp;title=Setting Up Yocto" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=/yocto/Setting-Up-Yocto.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+  </div>
+</div>
+
+
+<div class="related">
+  <h1 >You may also enjoy:</h1>
+  
+  <ul class="related-posts">
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-301.html">
+                Python Course 301
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-201.html">
+                Python Course 201
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Python-Course-101.html">
+                Python Course 101
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>November 8, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Scikit-Learn.html">
+                Fruits Code - Supervised Learning
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>October 3, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+          <li>
+            <h3>
+              <a href="/artificial/Neural-Net-Tensorflow.html">
+                Neural Network using Tensorflow
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>July 4, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
+    
+      
+        
+          <li>
+            <h3>
+              <a href="/yocto/Seeting-Up-Yocto-for-iMX-BSP-releases.html">
+                Setting up Yocto for i.MX BSP releases
+                <!--<img src="http://localhost:4000/images/">-->
+                <!--<small>July 16, 2018</small>-->
+              </a>
+            </h3>
+          </li>
+          
+        
+      
+        
+        
+      
+    
+      
+        
+        
+      
+    
+  </ul>
+</div>
+
+
+
+  <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = "dorta";
+    var disqus_identifier = "/yocto/Setting-Up-Yocto.html";
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+    </div>
+
+    <footer class="footer">
+  
+  
+  
+    <a href="https://www.github.com/diegohdorta" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.linkedin.com/in/diego-dorta-059465131/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:diego.dorta@nxp.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="https://www.instagram.com/diegohdorta/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="spotify:user:diegohdorta:playlist:25pUm8SDTIPBRFdB8QbXmv" target="_blank"><i class="fa fa-spotify" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="rss-feed.xml" target="_blank"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  <div class="post-date"><a href="/menu/about.html">chronicles in coding | blog inspired by true events on movie screens, unix and related stuff by Diego Dorta</a></div>
+</footer>
+
+  </div>
+
+</body>
+</html>

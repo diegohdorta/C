@@ -1,0 +1,22 @@
+Additional Options:                                                             
+  +i                                    Set user specified inference model name.
+                                        If not set, default name is used.     
+  +o                                    Set user specified output tensor name.
+                                        If not set, default name is used.
+
+                   
+Additional Options:                                                             
+  +i                                    Set user specified inference model name.
+                                        If not set, default name is used.     
+  +o                                    Set user specified output tensor name.
+                                        If not set, default name is used.
+               
+ArmNN v20180800
+                               
+= Prediction values for test #0                   
+Top(1) prediction is 777 with confidence: 13.4057%
+Top(2) prediction is 860 with confidence: 6.12405%
+Top(3) prediction is 422 with confidence: 4.66327%
+Top(4) prediction is 621 with confidence: 3.77781%
+Top(5) prediction is 714 with confidence: 2.7394%            
+Prediction for test case 0 (777) is incorrect (should be 209)

@@ -1,0 +1,1 @@
+/usr/bin/cc   -rdynamic CMakeFiles/imxeditor.dir/editor.c.o CMakeFiles/imxeditor.dir/extra.c.o CMakeFiles/imxeditor.dir/fileselect.c.o CMakeFiles/imxeditor.dir/find.c.o CMakeFiles/imxeditor.dir/findreplace.c.o CMakeFiles/imxeditor.dir/menu.c.o  -o imxeditor 

@@ -1,0 +1,16 @@
+/* default coloring of widgets */
+* {
+    background-color: #404040;    
+}
+
+button {
+    color: white;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.font_bet {
+color: red;
+font-size: 100px;
+font-weight:bold;
+}

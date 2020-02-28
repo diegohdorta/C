@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkWindow" id="gtk3ImxExperienceMainWindow">
+    <property name="width_request">1280</property>
+    <property name="height_request">720</property>
+    <property name="can_focus">False</property>
+    <property name="window_position">center</property>
+    <property name="gravity">center</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkEventBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
+  <template class="gtk3ImxExperienceSplash" parent="GtkWindow">
+    <property name="width_request">640</property>
+    <property name="height_request">480</property>
+    <property name="can_focus">False</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="gravity">center</property>
+    <property name="transient_for">gtk3ImxExperienceMainWindow</property>
+    <property name="has_resize_grip">True</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkImage">
+        <property name="width_request">640</property>
+        <property name="height_request">480</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="pixbuf">../media/splash/nxp_logo.png</property>
+      </object>
+    </child>
+  </template>
+</interface>

@@ -1,0 +1,97 @@
+
+
+
+
+
+
+ComboBoxApplications
+
+ComboBoxInferenceEngine
+
+ComboBoxFramework
+
+
+
+
+nt main( int argc, char *argv[] )
+{
+    GString *s;
+    GString gs;
+    GArray *a;
+    int i;
+
+    a = g_array_sized_new( FALSE, FALSE, sizeof(GString *), 100 );
+    for( i=0; i<100; i++ )
+    {
+        s = g_string_new( "element" );
+        g_string_append_printf( s, ",%d", i );
+        g_array_append_val( a, s );
+        printf( "inserting %s\n", s->str );
+    }
+    s = g_array_index( a, GString *, 40 );
+    printf( "retrieving %s\n", s->str );
+}
+
+
+
+Examples from eIQ latest release
+
+OpenCV DNN demos
+- Image classification
+- YOLO object detection
+- Image segmentation
+- Image colorization
+- Human pose estimation
+- Object detection
+- CNN image classification
+- Text detection
+
+OpenCV standard machine learning demos
+- Introduction to SVM
+- SVM for non-linearly separable data
+- Introduction to PCA
+- Logistic regression
+
+Arm Compute Library
+- DNN with random weight and inputs
+- AlexNet using graph API
+
+TensorFlow
+- Benchmark application
+
+TensorFlow Lite
+- Benchmark application
+- Image classification
+
+ONNX
+- Runtime test
+
+Arm NN - Caffe
+- CaffeAlexNet
+- CaffeInception_BN
+- CaffeMnist
+- CaffeResNet
+- CaffeVGG
+
+Arm NN - TensorFlow
+- TfInceptionV3
+- TfMnist
+- TfMobileNet
+
+Arm NN - TensorFlow Lite
+- TfLiteInceptionV3Quantized
+- TfLiteMnasNet
+- TfLiteMobilenetQuantized
+- TfLiteMobilenetV2Quantized
+
+Arm NN - ONNX
+- OnnxMnist
+- OnnxMobileNet
+
+============================================
+
+SE demos
+- Face detection
+- Gesture recognition
+- Mood recognition
+- Object classification

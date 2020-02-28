@@ -1,0 +1,25 @@
+/* default coloring of widgets */
+* {
+    background-color: #404040;    
+}
+
+#red-widget {
+    color: red;
+    background-color: red;
+}
+
+
+#myGrid {
+    background-color: red;
+    border-style: solid;
+    border-color: red;
+    border-width: 20px;
+}
+
+button {
+    color: red;
+    font-style: normal;
+    font-weight: normal;
+    border-radius: 1px;
+}
+

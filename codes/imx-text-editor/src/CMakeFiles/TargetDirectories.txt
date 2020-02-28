@@ -1,0 +1,3 @@
+/home/diego/codes/github/imx-text-editor/src/CMakeFiles/rebuild_cache.dir
+/home/diego/codes/github/imx-text-editor/src/CMakeFiles/imxeditor.dir
+/home/diego/codes/github/imx-text-editor/src/CMakeFiles/edit_cache.dir
